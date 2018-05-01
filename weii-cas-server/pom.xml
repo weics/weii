@@ -11,15 +11,43 @@
 
     <artifactId>weii-cas-server</artifactId>
 
+    <!--<dependencies>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apereo.cas</groupId>-->
+            <!--<artifactId>cas-server-webapp-tomcat</artifactId>-->
+            <!--<version>${cas.version}</version>-->
+            <!--<type>war</type>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+    <!--</dependencies>-->
+    <!--<dependencyManagement>-->
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apereo.cas</groupId>-->
+                <!--<artifactId>cas-server-support-bom</artifactId>-->
+                <!--<version>${cas.version}</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>import</scope>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
+    <!--</dependencyManagement>-->
+
     <dependencies>
         <dependency>
             <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-webapp-tomcat</artifactId>
+            <artifactId>cas-server-support-json-service-registry</artifactId>
             <version>${cas.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+
+
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -31,6 +59,137 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.rimerosolutions.maven.plugins</groupId>
+                <artifactId>wrapper-maven-plugin</artifactId>
+                <version>0.0.5</version>
+                <configuration>
+                    <verifyDownload>true</verifyDownload>
+                    <checksumAlgorithm>MD5</checksumAlgorithm>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+                <configuration>
+                    <mainClass>org.springframework.boot.loader.WarLauncher</mainClass>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <warName>cas</warName>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <recompressZippedFiles>false</recompressZippedFiles>
+                    <archive>
+                        <compress>false</compress>
+                        <manifestFile>${project.build.directory}/war/work/org.apereo.cas/cas-server-webapp-tomcat/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.apereo.cas</groupId>
+                            <artifactId>cas-server-webapp-tomcat</artifactId>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+            </plugin>
+        </plugins>
+        <finalName>cas</finalName>
+    </build>
+
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>com.rimerosolutions.maven.plugins</groupId>-->
+                <!--<artifactId>wrapper-maven-plugin</artifactId>-->
+                <!--<version>0.0.4</version>-->
+                <!--<configuration>-->
+                    <!--<verifyDownload>true</verifyDownload>-->
+                    <!--<checksumAlgorithm>MD5</checksumAlgorithm>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>${springboot.version}</version>-->
+                <!--<configuration>-->
+                    <!--<mainClass>org.springframework.boot.loader.WarLauncher</mainClass>-->
+                    <!--<addResources>true</addResources>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>3.1.0</version>-->
+                <!--<configuration>-->
+                    <!--<warName>cas</warName>-->
+                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
+                    <!--<recompressZippedFiles>false</recompressZippedFiles>-->
+                    <!--<archive>-->
+                        <!--<compress>false</compress>-->
+                        <!--<manifestFile>${project.build.directory}/war/work/org.apereo.cas/cas-server-webapp-tomcat/META-INF/MANIFEST.MF</manifestFile>-->
+                    <!--</archive>-->
+                    <!--<overlays>-->
+                        <!--<overlay>-->
+                            <!--<groupId>org.apereo.cas</groupId>-->
+                            <!--<artifactId>cas-server-webapp-tomcat</artifactId>-->
+                        <!--</overlay>-->
+                    <!--</overlays>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>3.3</version>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+        <!--<finalName>cas</finalName>-->
+    <!--</build>-->
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<activation>-->
+                <!--<activeByDefault>false</activeByDefault>-->
+            <!--</activation>-->
+            <!--<id>pgp</id>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>com.github.s4u.plugins</groupId>-->
+                        <!--<artifactId>pgpverify-maven-plugin</artifactId>-->
+                        <!--<version>1.1.0</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<goals>-->
+                                    <!--<goal>check</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                        <!--<configuration>-->
+                            <!--<pgpKeyServer>hkp://pool.sks-keyservers.net</pgpKeyServer>-->
+                            <!--<pgpKeysCachePath>${settings.localRepository}/pgpkeys-cache</pgpKeysCachePath>-->
+                            <!--<scope>test</scope>-->
+                            <!--<verifyPomFiles>true</verifyPomFiles>-->
+                            <!--<failNoSignature>false</failNoSignature>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 
 
 </project>
