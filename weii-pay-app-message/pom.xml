@@ -10,18 +10,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>weii-pay-service-message-api</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>weii-pay-app-message</artifactId>
+
 
     <dependencies>
+
         <dependency>
             <groupId>com.weics.weii</groupId>
-            <artifactId>weii-pay-common-core</artifactId>
+            <artifactId>weii-pay-service-message-api</artifactId>
             <version>1.0-SNAPSHOT</version>
+
         </dependency>
 
     </dependencies>
-
 
 
 </project>

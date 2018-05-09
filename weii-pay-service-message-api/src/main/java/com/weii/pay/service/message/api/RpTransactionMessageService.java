@@ -8,7 +8,10 @@ import com.weii.pay.service.message.exception.MessageBizException;
 import java.util.Map;
 
 /**
- * Created by weics on 2018/5/1.
+ * @Author: weics
+ * @Date: Created in 17:32 2018/5/6
+ * @Description: message状态枚举.
+ * @Modified By:
  */
 public interface RpTransactionMessageService {
 

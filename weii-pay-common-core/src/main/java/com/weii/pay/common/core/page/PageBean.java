@@ -49,10 +49,10 @@ public class PageBean<T> implements Serializable {
     }
 
     /**
-     * 校验当前页数currentPage.<br/>
-     * 1、先根据总记录数totalCount和每页记录数numPerPage，计算出总页数totalPage.<br/>
-     * 2、判断页面提交过来的当前页数currentPage是否大于总页数totalPage，大于则返回totalPage.<br/>
-     * 3、判断currentPage是否小于1，小于则返回1.<br/>
+     * 校验当前页数currentPage.
+     * 1、先根据总记录数totalCount和每页记录数numPerPage，计算出总页数totalPage.
+     * 2、判断页面提交过来的当前页数currentPage是否大于总页数totalPage，大于则返回totalPage.
+     * 3、判断currentPage是否小于1，小于则返回1
      * 4、其它则直接返回currentPage .
      *
      * @param totalCount
@@ -81,7 +81,7 @@ public class PageBean<T> implements Serializable {
     }
 
     /**
-     * 校验页面输入的每页记录数numPerPage是否合法 .<br/>
+     * 校验页面输入的每页记录数numPerPage是否合法
      * 1、当页面输入的每页记录数numPerPage大于允许的最大每页记录数MAX_PAGE_SIZE时，返回MAX_PAGE_SIZE.
      * 2、如果numPerPage小于1，则返回默认的每页记录数DEFAULT_PAGE_SIZE.
      *
