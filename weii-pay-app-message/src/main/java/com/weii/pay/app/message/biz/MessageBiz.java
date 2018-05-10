@@ -36,7 +36,7 @@ public class MessageBiz {
      * 处理[waiting_confirm]状态的消息
      * @param messageMap
      */
-    private void handleWaitingConfirmTimeOutMessage(Map<String,RpTransactionMessage> messageMap){
+    public void handleWaitingConfirmTimeOutMessage(Map<String,RpTransactionMessage> messageMap){
         // 单条消息处理（目前该状态的消息，消费队列全部是accounting，如果后期有业务扩充，需做队列判断，做对应的业务处理。）
         for (Map.Entry<String,RpTransactionMessage> entry : messageMap.entrySet()){
             RpTransactionMessage message = entry.getValue();
