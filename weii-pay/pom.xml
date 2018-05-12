@@ -12,21 +12,22 @@
     <artifactId>weii-pay</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>../weii-pay-common-core</module>
-        <module>../weii-pay-service-message-api</module>
-        <module>../weii-pay-service-message</module>
-        <module>../weii-pay-app-message</module>
-        <module>../weii-pay-service-trade-api</module>
-        <module>../weii-pay-app-queue</module>
-        <module>../weii-pay-service-accounting-api</module>
-        <module>../weii-pay-service-trade</module>
-        <module>../weii-pay-service-user-api</module>
-        <module>../weii-pay-service-user</module>
-        <module>../weii-pay-service-account-api</module>
-        <module>../weii-pay-service-account</module>
-        <module>../weii-pay-service-accounting</module>
-        <module>../weii-pay-service-notify-api</module>
+        <module>weii-pay-common-core</module>
+        <module>weii-pay-service-message-api</module>
+        <module>weii-pay-service-message</module>
+        <module>weii-pay-app-message</module>
+        <module>weii-pay-service-trade-api</module>
+        <module>weii-pay-app-queue</module>
+        <module>weii-pay-service-accounting-api</module>
+        <module>weii-pay-service-trade</module>
+        <module>weii-pay-service-user-api</module>
+        <module>weii-pay-service-user</module>
+        <module>weii-pay-service-account-api</module>
+        <module>weii-pay-service-account</module>
+        <module>weii-pay-service-accounting</module>
+        <module>weii-pay-service-notify-api</module>
         <module>weii-pay-service-notify</module>
+        <module>weii-pay-web-message</module>
     </modules>
 
     <properties>
