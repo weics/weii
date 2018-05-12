@@ -29,6 +29,7 @@
         <module>weii-pay-service-notify</module>
         <module>weii-pay-web-message</module>
         <module>weii-pay-web-gateway</module>
+        <module>weii-pay-web-boss</module>
     </modules>
 
     <properties>
