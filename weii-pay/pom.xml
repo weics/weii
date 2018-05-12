@@ -21,6 +21,12 @@
         <module>../weii-pay-service-accounting-api</module>
         <module>../weii-pay-service-trade</module>
         <module>../weii-pay-service-user-api</module>
+        <module>../weii-pay-service-user</module>
+        <module>../weii-pay-service-account-api</module>
+        <module>../weii-pay-service-account</module>
+        <module>../weii-pay-service-accounting</module>
+        <module>../weii-pay-service-notify-api</module>
+        <module>weii-pay-service-notify</module>
     </modules>
 
     <properties>
