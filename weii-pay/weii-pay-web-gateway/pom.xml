@@ -9,16 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>weii-pay-service-trade</artifactId>
+    <artifactId>weii-pay-web-gateway</artifactId>
 
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.weics.weii</groupId>
-            <artifactId>weii-pay-service-trade-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
 
         <dependency>
@@ -33,13 +27,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.weics.weii</groupId>
-            <artifactId>weii-pay-service-account-api</artifactId>
+            <artifactId>weii-pay-service-trade-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.weics.weii</groupId>
@@ -47,26 +39,32 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>com.weics.weii</groupId>
-            <artifactId>weii-pay-service-notify-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
         <dependency>
-            <groupId>com.weics.weii</groupId>
-            <artifactId>weii-pay-service-accounting-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.40</version>
-        </dependency>
+
+
 
     </dependencies>
 

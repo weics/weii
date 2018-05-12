@@ -140,6 +140,14 @@ public interface RpTradePaymentManagerService {
 
 
 
+    /**
+     *
+     * @param payWayCode
+     * @param resultMap
+     * @return
+     */
+    public OrderPayResultVo completeScanPayByResult(String payWayCode , Map<String , String> resultMap) throws TradeBizException;
+
 
 
 
