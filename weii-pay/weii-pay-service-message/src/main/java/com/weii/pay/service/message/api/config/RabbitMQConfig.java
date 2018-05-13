@@ -18,7 +18,7 @@ import java.util.Queue;
  * @Modified By:
  */
 @Configuration
-public class RabbitMQConfig implements InitializingBean {
+public class RabbitMQConfig {
     /**
      * 交换器名字
      */
@@ -47,24 +47,29 @@ public class RabbitMQConfig implements InitializingBean {
      * 路由Key
      */
     public static final String ROUTING_KEY_ERROR = "error.*";
-    /**
-     * MQ管理代理
-     */
-    @Autowired
-    private AmqpAdmin amqpAdmin;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        DirectExchange exchange = new DirectExchange(EXCHANGE_NAME);
-        //Queue queueLog = new Queue(QUEUE_NAME_LOG);
-        Queue queueMsg = new Queue(QUEUE_NAME_MSG);
-        //Queue queueError = new Queue(QUEUE_NAME_ERROR);
-        amqpAdmin.declareExchange(exchange);
-        //amqpAdmin.declareQueue(queueLog);
-        amqpAdmin.declareQueue(queueMsg);
-        //amqpAdmin.declareQueue(queueError);
-        //amqpAdmin.declareBinding(BindingBuilder.bind(queueLog).to(exchange).with(ROUTING_KEY_LOG));
-        amqpAdmin.declareBinding(BindingBuilder.bind(queueMsg).to(exchange).with(ROUTING_KEY_MSG));
-        //amqpAdmin.declareBinding(BindingBuilder.bind(queueError).to(exchange).with(ROUTING_KEY_ERROR));
-    }
+
+    public static final String EXCHANGE   = "spring-boot-exchange";
+    public static final String ROUTINGKEY = "spring-boot-routingKey";
+
+//    /**
+//     * MQ管理代理
+//     */
+//    @Autowired
+//    private AmqpAdmin amqpAdmin;
+//
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//        DirectExchange exchange = new DirectExchange(EXCHANGE_NAME);
+//        //Queue queueLog = new Queue(QUEUE_NAME_LOG);
+//        Queue queueMsg = new Queue(QUEUE_NAME_MSG);
+//        //Queue queueError = new Queue(QUEUE_NAME_ERROR);
+//        amqpAdmin.declareExchange(exchange);
+//        //amqpAdmin.declareQueue(queueLog);
+//        amqpAdmin.declareQueue(queueMsg);
+//        //amqpAdmin.declareQueue(queueError);
+//        //amqpAdmin.declareBinding(BindingBuilder.bind(queueLog).to(exchange).with(ROUTING_KEY_LOG));
+//        amqpAdmin.declareBinding(BindingBuilder.bind(queueMsg).to(exchange).with(ROUTING_KEY_MSG));
+//        //amqpAdmin.declareBinding(BindingBuilder.bind(queueError).to(exchange).with(ROUTING_KEY_ERROR));
+//    }
 }

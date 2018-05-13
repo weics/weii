@@ -30,6 +30,7 @@
         <module>weii-pay-web-message</module>
         <module>weii-pay-web-gateway</module>
         <module>weii-pay-web-boss</module>
+        <module>weii-pay-app-notify</module>
     </modules>
 
     <properties>

@@ -6,15 +6,13 @@ import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.PublicConfigUtil;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.message.api.config.RabbitMQConfig;
+import com.weii.pay.service.message.api.config.RabbitSender;
 import com.weii.pay.service.message.dao.RpTransactionMessageDao;
 import com.weii.pay.service.message.entity.RpTransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import com.weii.pay.service.message.exception.MessageBizException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +33,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     private RpTransactionMessageDao rpTransactionMessageDao;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private RabbitSender rabbitSender;
 
 
 
@@ -64,14 +62,9 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         }
         message.setStatus(MessageStatusEnum.SENDING.name());
         message.setEditTime(new Date());
-//        rpTransactionMessageDao.update(message);
-//        rabbitTemplate.send(new Message);
-
+        rpTransactionMessageDao.update(message);
         //rabbitmq 发送消息
-
-        String uuid = UUID.randomUUID().toString();
-        CorrelationData correlationId = new CorrelationData(uuid);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
+        rabbitSender.sendMsg(message);
 
 
     }
@@ -92,11 +85,11 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         message.setEditTime(new Date());
         int result = rpTransactionMessageDao.insert(message);
 
-        String uuid = UUID.randomUUID().toString();
-        CorrelationData correlationId = new CorrelationData(uuid);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
+//        String uuid = UUID.randomUUID().toString();
+//        CorrelationData correlationId = new CorrelationData(uuid);
+//        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
 
-
+        rabbitSender.sendMsg(message);
         return result;
     }
 
@@ -110,11 +103,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
             throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,"消息的消费队列不能为空");
         }
 
-        String uuid = UUID.randomUUID().toString();
-        CorrelationData correlationId = new CorrelationData(uuid);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
-
-
+        rabbitSender.sendMsg(message);
 
     }
 
@@ -132,10 +121,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         message.setEditTime(new Date());
         rpTransactionMessageDao.update(message);
 
-        String uuid = UUID.randomUUID().toString();
-        CorrelationData correlationId = new CorrelationData(uuid);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
-
+        rabbitSender.sendMsg(message);
     }
 
     @Override
@@ -156,11 +142,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         rpTransactionMessageDao.update(message);
 
 
-        String uuid = UUID.randomUUID().toString();
-        CorrelationData correlationId = new CorrelationData(uuid);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
-
-
+        rabbitSender.sendMsg(message);
 
     }
 
@@ -238,14 +220,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
             message.setEditTime(new Date());
             message.setMessageSendTimes(message.getMessageSendTimes()+1);
             rpTransactionMessageDao.update(message);
-
-
-
-            String uuid = UUID.randomUUID().toString();
-            CorrelationData correlationId = new CorrelationData(uuid);
-            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
-
-
+            rabbitSender.sendMsg(message);
         }
 
 
