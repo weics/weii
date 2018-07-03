@@ -1,5 +1,6 @@
 package com.weii.pay.service.message.dao.impl;
 
+import org.springframework.stereotype.Component;
 import com.weii.pay.common.core.dao.impl.BaseDaoImpl;
 import com.weii.pay.service.message.dao.RpTransactionMessageDao;
 import com.weii.pay.service.message.entity.RpTransactionMessage;
@@ -10,5 +11,6 @@ import com.weii.pay.service.message.entity.RpTransactionMessage;
  * @Description:
  * @Modified By:
  */
+@Component
 public class RpTransactionMessageDaoImpl extends BaseDaoImpl<RpTransactionMessage> implements RpTransactionMessageDao {
 }

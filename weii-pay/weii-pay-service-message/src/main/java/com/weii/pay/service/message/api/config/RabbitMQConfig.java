@@ -1,14 +1,12 @@
 package com.weii.pay.service.message.api.config;
 
-
-import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Queue;
 
 
 /**
@@ -19,57 +17,50 @@ import java.util.Queue;
  */
 @Configuration
 public class RabbitMQConfig {
-    /**
-     * 交换器名字
-     */
-    public static final String EXCHANGE_NAME = "exchange.log";
-    /**
-     * 队列名字
-     */
-    public static final String QUEUE_NAME_LOG = "queue.log";
-    /**
-     * 队列名字
-     */
-    public static final String QUEUE_NAME_MSG = "queue.msg";
-    /**
-     * 队列名字
-     */
-    public static final String QUEUE_NAME_ERROR = "queue.error";
-    /**
-     * 路由Key
-     */
-    public static final String ROUTING_KEY_LOG = "routing.*";
-    /**
-     * 路由Key
-     */
-    public static final String ROUTING_KEY_MSG = "routing.msg.*";
-    /**
-     * 路由Key
-     */
-    public static final String ROUTING_KEY_ERROR = "error.*";
+
+    // 队列名称
+    public final static String SPRING_BOOT_QUEUE = "spring-boot-queue-1";
+    // 交换机名称
+    public final static String SPRING_BOOT_EXCHANGE = "spring-boot-exchange-1";
+    // 绑定的值
+    public static final String SPRING_BOOT_BIND_KEY = "spring-boot-bind-key-1";
 
 
-    public static final String EXCHANGE   = "spring-boot-exchange";
-    public static final String ROUTINGKEY = "spring-boot-routingKey";
+    // === 在RabbitMQ上创建queue,exchange,binding 方法一：通过@Bean实现 begin ===
+    /**
+     * 定义队列：
+     * @return
+     */
+    @Bean
+    Queue queue() {
+        return new Queue(SPRING_BOOT_QUEUE, false);
+    }
 
-//    /**
-//     * MQ管理代理
-//     */
-//    @Autowired
-//    private AmqpAdmin amqpAdmin;
-//
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        DirectExchange exchange = new DirectExchange(EXCHANGE_NAME);
-//        //Queue queueLog = new Queue(QUEUE_NAME_LOG);
-//        Queue queueMsg = new Queue(QUEUE_NAME_MSG);
-//        //Queue queueError = new Queue(QUEUE_NAME_ERROR);
-//        amqpAdmin.declareExchange(exchange);
-//        //amqpAdmin.declareQueue(queueLog);
-//        amqpAdmin.declareQueue(queueMsg);
-//        //amqpAdmin.declareQueue(queueError);
-//        //amqpAdmin.declareBinding(BindingBuilder.bind(queueLog).to(exchange).with(ROUTING_KEY_LOG));
-//        amqpAdmin.declareBinding(BindingBuilder.bind(queueMsg).to(exchange).with(ROUTING_KEY_MSG));
-//        //amqpAdmin.declareBinding(BindingBuilder.bind(queueError).to(exchange).with(ROUTING_KEY_ERROR));
-//    }
+    /**
+     * 定义交换机
+     * @return
+     */
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(SPRING_BOOT_EXCHANGE);
+    }
+
+    /**
+     * 定义绑定
+     * @param queue
+     * @param exchange
+     * @return
+     */
+    @Bean
+    Binding binding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(SPRING_BOOT_BIND_KEY );
+    }
+
+    @Bean
+
+    public Queue helloQueue() {
+
+        return new Queue("hello");
+
+    }
 }

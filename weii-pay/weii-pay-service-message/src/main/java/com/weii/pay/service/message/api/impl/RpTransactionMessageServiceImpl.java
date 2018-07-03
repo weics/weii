@@ -1,12 +1,23 @@
 package com.weii.pay.service.message.api.impl;
 
+//import com.weii.pay.common.core.enums.PublicEnum;
+//import com.weii.pay.common.core.page.PageBean;
+//import com.weii.pay.common.core.page.PageParam;
+//import com.weii.pay.common.core.utils.PublicConfigUtil;
+//import com.weii.pay.common.core.utils.StringUtil;
+//import com.weii.pay.service.message.api.RpTransactionMessageService;
+//import com.weii.pay.service.message.api.config.MQSender;
+//import com.weii.pay.service.message.dao.RpTransactionMessageDao;
+//import com.weii.pay.service.message.entity.RpTransactionMessage;
+//import com.weii.pay.service.message.enums.MessageStatusEnum;
+//import com.weii.pay.service.message.exception.MessageBizException;
 import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.PublicConfigUtil;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.message.api.config.RabbitSender;
+import com.weii.pay.service.message.api.config.MQSender;
 import com.weii.pay.service.message.dao.RpTransactionMessageDao;
 import com.weii.pay.service.message.entity.RpTransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
@@ -24,7 +35,7 @@ import java.util.*;
  * @Description:
  * @Modified By:
  */
-@Service
+//@Service
 public class RpTransactionMessageServiceImpl implements RpTransactionMessageService {
 
     private static final Log log = LogFactory.getLog(RpTransactionMessageServiceImpl.class);
@@ -33,8 +44,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     private RpTransactionMessageDao rpTransactionMessageDao;
 
     @Autowired
-    private RabbitSender rabbitSender;
-
+    private MQSender mqSender;
 
 
     @Override
@@ -64,9 +74,9 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         message.setEditTime(new Date());
         rpTransactionMessageDao.update(message);
         //rabbitmq 发送消息
-        rabbitSender.sendMsg(message);
+//        rabbitSender.sendMsg(message);
 
-
+        mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
     }
 
     @Override
@@ -89,7 +99,17 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 //        CorrelationData correlationId = new CorrelationData(uuid);
 //        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTINGKEY1, message,correlationId);
 
-        rabbitSender.sendMsg(message);
+
+
+//        amqpTemplate.setDefaultDestinationName(message.getConsumerQueue());
+//        notifyJmsTemplate.send(new MessageCreator() {
+//            public Message createMessage(Session session) throws JMSException {
+//                return session.createTextMessage(message.getMessageBody());
+//            }
+//        });
+
+//        rabbitSender.sendMsg(message);
+        mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
         return result;
     }
 
@@ -103,8 +123,8 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
             throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,"消息的消费队列不能为空");
         }
 
-        rabbitSender.sendMsg(message);
-
+//        rabbitSender.sendMsg(message);
+        mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
     }
 
     @Override
@@ -121,7 +141,8 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         message.setEditTime(new Date());
         rpTransactionMessageDao.update(message);
 
-        rabbitSender.sendMsg(message);
+//        rabbitSender.sendMsg(message);
+        mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
     }
 
     @Override
@@ -142,7 +163,8 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         rpTransactionMessageDao.update(message);
 
 
-        rabbitSender.sendMsg(message);
+//        rabbitSender.sendMsg(message);
+        mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
 
     }
 
@@ -220,7 +242,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
             message.setEditTime(new Date());
             message.setMessageSendTimes(message.getMessageSendTimes()+1);
             rpTransactionMessageDao.update(message);
-            rabbitSender.sendMsg(message);
+            mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
         }
 
 

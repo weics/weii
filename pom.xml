@@ -15,6 +15,7 @@
         <module>weii-domain</module>
         <module>weii-cas-server</module>
         <module>weii-pay</module>
+        <module>weii-admin</module>
     </modules>
 
 
