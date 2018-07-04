@@ -36,6 +36,7 @@ import java.util.Map;
  * @Description:
  * @Modified By:
  */
+@Configuration
 public class ShiroConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
@@ -73,12 +74,12 @@ public class ShiroConfiguration {
     /**
      * 不指定名字的话，自动创建一个方法名第一个字母小写的bean
      */
-/*    @Bean
-    public SecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userRealm());
-        return securityManager;
-    }*/
+//    @Bean
+//    public SecurityManager securityManager() {
+//        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+//        securityManager.setRealm(userRealm());
+//        return securityManager;
+//    }
 
     //配置核心安全事务管理器
     @Bean(name = "securityManager")
