@@ -3,8 +3,13 @@ package com.weii.admin.web.redis;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @Author: weics
@@ -14,7 +19,7 @@ import java.io.Serializable;
  */
 public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
 
-    private Log log = LogFactory.getLog(RedisSessionDAO.class);
+    private Logger log = LoggerFactory.getLogger(RedisSessionDAO.class);
 
     @Autowired
     private MyRedisUtils redisUtils;

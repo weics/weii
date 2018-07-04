@@ -1,7 +1,11 @@
 package com.weii.admin.web.redis;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
 import javax.annotation.Resource;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: weics
