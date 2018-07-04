@@ -1,4 +1,4 @@
-package com.weii.admin.dao.entity;
+package com.weii.domain.admin.entity;
 
 import java.util.ArrayList;
 import java.util.Date;

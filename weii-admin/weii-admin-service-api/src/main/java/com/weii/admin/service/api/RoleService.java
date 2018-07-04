@@ -1,7 +1,7 @@
 package com.weii.admin.service.api;
 
 
-import com.weii.admin.domain.Role;
+import com.weii.domain.admin.entity.Role;
 
 import java.util.List;
 

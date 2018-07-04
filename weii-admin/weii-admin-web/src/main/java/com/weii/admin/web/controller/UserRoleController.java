@@ -1,8 +1,8 @@
 package com.weii.admin.web.controller;
 
-import com.weii.admin.domain.User;
 import com.weii.admin.service.api.UserRoleService;
 import com.weii.common.pojo.WeiiResult;
+import com.weii.domain.admin.entity.User;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

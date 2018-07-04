@@ -1,11 +1,9 @@
 package com.weii.admin.web.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.weii.admin.domain.User;
 import com.weii.admin.service.api.UserService;
 import com.weii.admin.web.jwt.JwtUtil;
 import com.weii.common.pojo.WeiiResult;
+import com.weii.domain.admin.entity.User;
 import netscape.security.Principal;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -85,7 +83,7 @@ public class UserController {
     public WeiiResult login(@RequestBody final User user) {
         // {"username":"admin", "password":"admin123"}
         // {"email":"admin@qq.com", "password":"admin123"}
-        if (user.getUsername() == null && user.getEmail() == null) {
+        if (user.getUserName() == null) {
             return WeiiResult.ok("username or email empty");
         }
         if (user.getPassword() == null) {

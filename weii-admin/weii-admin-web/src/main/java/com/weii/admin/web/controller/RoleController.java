@@ -2,10 +2,10 @@ package com.weii.admin.web.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.weii.admin.domain.Role;
 import com.weii.admin.service.api.RoleService;
 
 import com.weii.common.pojo.WeiiResult;
+import com.weii.domain.admin.entity.Role;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import org.apache.shiro.authz.annotation.RequiresRoles;

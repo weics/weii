@@ -1,6 +1,5 @@
 package com.weii.admin.service.api.iml;
 
-import com.weii.admin.domain.Role;
 import com.weii.admin.service.api.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 

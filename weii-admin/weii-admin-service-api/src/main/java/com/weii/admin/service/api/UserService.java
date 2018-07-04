@@ -1,8 +1,8 @@
 package com.weii.admin.service.api;
 
 
-import com.weii.admin.domain.User;
 import com.weii.common.pojo.WeiiResult;
+import com.weii.domain.admin.entity.User;
 
 /**
  * @Author: weics
@@ -14,5 +14,5 @@ public interface UserService {
 
 
 
-    WeiiResult authLogin(String username,String pwd);
+    User authLogin(String username, String pwd);
 }

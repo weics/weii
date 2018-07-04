@@ -3,6 +3,8 @@ package com.weii.admin.web.shiro;
 import com.alibaba.fastjson.JSONObject;
 import com.weii.admin.service.api.UserService;
 import com.weii.admin.web.utils.constants.Constants;
+import com.weii.common.pojo.WeiiResult;
+import com.weii.domain.admin.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -47,23 +49,28 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+
+        logger.info("开始执行shiro的doGetAuthenticationInfo---方法");
+
         String loginName = (String) authcToken.getPrincipal();
         // 获取用户密码
         String password = new String((char[]) authcToken.getCredentials());
-        JSONObject user = userService.getUser(loginName, password);
+        User user = userService.authLogin(loginName, password);
         if (user == null) {
             //没找到帐号
             throw new UnknownAccountException();
         }
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getString("username"),
-                user.getString("password"),
+                user.getUserName(),
+                user.getPassword(),
                 //ByteSource.Util.bytes("salt"), salt=username+salt,采用明文访问时，不需要此句
                 getName()
         );
         //session中不需要保存密码
-        user.remove("password");
+//        user.remove("password");
+        user.setPassword("");
+
         //将用户信息放入session中
         SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_USER_INFO, user);
         return authenticationInfo;

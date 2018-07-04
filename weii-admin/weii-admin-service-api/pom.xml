@@ -14,10 +14,14 @@
     <dependencies>
         <dependency>
             <groupId>com.weics.weii</groupId>
-            <artifactId>weii-admin-domain</artifactId>
+            <artifactId>weii-domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.weics.weii</groupId>
+            <artifactId>weii-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

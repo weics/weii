@@ -1,6 +1,6 @@
 package com.weii.admin.service.api;
 
-import com.weii.admin.domain.User;
+import com.weii.domain.admin.entity.User;
 
 /**
  * @Author: weics
