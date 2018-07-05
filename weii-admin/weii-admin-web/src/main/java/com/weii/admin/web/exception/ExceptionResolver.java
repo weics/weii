@@ -1,12 +1,9 @@
 package com.weii.admin.web.exception;
 
 import com.weii.common.pojo.WeiiResult;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -50,13 +48,13 @@ public class ExceptionResolver {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
+    @ExceptionHandler({ AuthenticationException.class})
     public WeiiResult handle401(final Throwable e) {
         return WeiiResult.ok(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler({AccessDeniedException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({AccessDeniedException.class})
     public WeiiResult handle403(final Throwable e) {
         return WeiiResult.ok(e.getMessage());
     }

@@ -5,6 +5,10 @@ import com.weii.admin.web.jwt.JwtUtil;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import netscape.security.Principal;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
@@ -121,10 +125,18 @@ public class UserController {
          */
 
 //            CommonUtil.hasAllRequired(requestJson, "username,password");
-            return userService.authLogin("cheng","123456");
 
+        String username = user.getUserName();
+        String password = user.getPassword();
 
-
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        try {
+            currentUser.login(token);
+            return WeiiResult.ok();
+        } catch (AuthenticationException e) {
+            return WeiiResult.build(400,"用户或者密码错误");
+        }
     }
 
     @GetMapping("/logout")

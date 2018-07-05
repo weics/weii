@@ -19,23 +19,23 @@ import java.util.List;
 @Configurable
 public class WebMvcConfig {
 
-    /**
-     * 阿里 FastJson 作JSON MessageConverter
-     */
-    @Override
-    public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
-        final FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        final FastJsonConfig config = new FastJsonConfig();
-        config.setSerializerFeatures(
-                // 保留空的字段
-                //SerializerFeature.WriteMapNullValue,
-                // String null -> ""
-                SerializerFeature.WriteNullStringAsEmpty,
-                // Number null -> 0
-                SerializerFeature.WriteNullNumberAsZero
-        );
-        converter.setFastJsonConfig(config);
-        converter.setDefaultCharset(Charset.forName("UTF-8"));
-        converters.add(converter);
-    }
+//    /**
+//     * 阿里 FastJson 作JSON MessageConverter
+//     */
+//    @Override
+//    public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
+//        final FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+//        final FastJsonConfig config = new FastJsonConfig();
+//        config.setSerializerFeatures(
+//                // 保留空的字段
+//                //SerializerFeature.WriteMapNullValue,
+//                // String null -> ""
+//                SerializerFeature.WriteNullStringAsEmpty,
+//                // Number null -> 0
+//                SerializerFeature.WriteNullNumberAsZero
+//        );
+//        converter.setFastJsonConfig(config);
+//        converter.setDefaultCharset(Charset.forName("UTF-8"));
+//        converters.add(converter);
+//    }
 }
