@@ -19,6 +19,7 @@ import javax.annotation.Resource;
  * @Description:
  * @Modified By:
  */
+@RestController
 public class UserController {
     @Resource
     private UserService userService;

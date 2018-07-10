@@ -1,13 +1,5 @@
 package com.weii.admin.web.config;
 
-import org.hibernate.validator.HibernateValidator;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.annotation.Bean;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
 
 
 /**
@@ -16,7 +8,6 @@ import javax.validation.ValidatorFactory;
  * @Description:
  * @Modified By:
  */
-@Configurable
 public class ValidatorConfig {
 //    @Bean
 //    public MethodValidationPostProcessor methodValidationPostProcessor() {

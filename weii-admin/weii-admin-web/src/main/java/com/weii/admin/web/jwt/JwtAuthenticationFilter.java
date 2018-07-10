@@ -1,18 +1,5 @@
 package com.weii.admin.web.jwt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Resource;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 身份认证过滤器
@@ -20,7 +7,7 @@ import java.io.IOException;
  * @author Zoctan
  * @date 2018/06/09
  */
-@Component
+
 public class JwtAuthenticationFilter {
 //    private final static Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 //    @Resource

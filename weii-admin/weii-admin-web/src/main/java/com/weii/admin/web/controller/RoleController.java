@@ -20,6 +20,7 @@ import java.util.List;
  * @Description: 超级管理员添加角色控制
  * @Modified By:
  */
+@RestController
 public class RoleController {
 
     @Resource

@@ -1,7 +1,6 @@
 package com.weii.admin.web.jwt;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+
 
 /**
  * Json web token配置
@@ -9,8 +8,7 @@ import org.springframework.stereotype.Component;
  * @author Zoctan
  * @date 2018/06/09
  */
-@Component
-@ConfigurationProperties(prefix = "jwt")
+
 public class JWTSetting {
     private String authoritiesKey;
     /**

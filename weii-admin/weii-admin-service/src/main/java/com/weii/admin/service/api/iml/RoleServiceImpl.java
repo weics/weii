@@ -1,7 +1,10 @@
 package com.weii.admin.service.api.iml;
 
+import com.weii.admin.dao.mapper.RoleMapper;
 import com.weii.admin.service.api.RoleService;
+import com.weii.domain.admin.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,10 +14,11 @@ import java.util.List;
  * @Description:
  * @Modified By:
  */
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private RoleDao roleDao;
+    private RoleMapper roleMapper;
 
     @Override
     public void save(Role role) {

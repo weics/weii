@@ -1,14 +1,7 @@
 package com.weii.admin.web.jwt;
 
 
-import com.weii.admin.web.utils.RSAUtil;
-import io.jsonwebtoken.*;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 
 /**
@@ -18,13 +11,13 @@ import javax.annotation.Resource;
  * @author Zoctan
  * @date 2018/06/09
  */
-@Component
+//@Component
 public class JwtUtil {
-    private final static Logger log = LoggerFactory.getLogger(JwtUtil.class);
-    @Resource
-    private RSAUtil rsaUtil;
-    @Resource
-    private JWTSetting jwtSetting;
+//    private final static Logger log = LoggerFactory.getLogger(JwtUtil.class);
+////    @Resource
+////    private RSAUtil rsaUtil;
+////    @Resource
+////    private JWTSetting jwtSetting;
 
 //    private Claims getClaims(final String token) {
 //        final Jws<Claims> jws = this.parseToken(token);
