@@ -1,7 +1,10 @@
 package com.weii.admin.web;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 
 /**
  * @Author: weics
@@ -9,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  * @Modified By:
  */
-@SpringBootApplication(scanBasePackages = "com.weii.admin")
+
+@SpringBootApplication(exclude ={ DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class }, scanBasePackages = "com.weii.admin.service")
+@MapperScan("com.weii.admin.dao.mapper")
 public class WeiiAdminWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(WeiiAdminWebApplication.class,args);
