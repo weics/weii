@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.User;
 import com.weii.domain.admin.entity.UserExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+@Mapper
 @Repository
 public interface UserMapper {
     /**

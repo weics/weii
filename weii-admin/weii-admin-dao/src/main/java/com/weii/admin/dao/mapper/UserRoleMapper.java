@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.UserRole;
 import com.weii.domain.admin.entity.UserRoleExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+@Mapper
 @Repository
 public interface UserRoleMapper {
     /**

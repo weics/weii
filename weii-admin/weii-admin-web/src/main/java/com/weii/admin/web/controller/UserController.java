@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
@@ -20,12 +21,13 @@ import javax.annotation.Resource;
  * @Modified By:
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
     @Resource
     private UserService userService;
 
-    @Resource
-    private JwtUtil jwtUtil;
+//    @Resource
+//    private JwtUtil jwtUtil;
 
 //    @PostMapping
 //    public WeiiResult register(@RequestBody @Valid final User user,
@@ -84,60 +86,38 @@ public class UserController {
 //        return WeiiResult.ok(pageInfo);
 //    }
 
-    @PostMapping("/login")
-    public WeiiResult login(@RequestBody final User user) {
+    @RequestMapping("/login")
+    @ResponseBody
+    public WeiiResult login(String username ,String password) {
+//
+
+
         // {"username":"admin", "password":"admin123"}
         // {"email":"admin@qq.com", "password":"admin123"}
-        if (user.getUserName() == null) {
-            return WeiiResult.ok("username or email empty");
-        }
-        if (user.getPassword() == null) {
-            return WeiiResult.ok("password empty");
-        }
-        // 用户名登录
-//        User dbUser = null;
-//        if (user.getUsername() != null) {
-//            dbUser = this.userService.findBy("username", user.getUsername());
-//            if (dbUser == null) {
-//                return WeiiResult.ok("username error");
-//            }
+//        if (user.getUserName() == null) {
+//            return WeiiResult.ok("username or email empty");
 //        }
-//        // 邮箱登录
-//        if (user.getEmail() != null) {
-//            dbUser = this.userService.findBy("email", user.getEmail());
-//            if (dbUser == null) {
-//                return WeiiResult.ok("email error");
-//            }
-//            user.setUsername(dbUser.getUsername());
+//        if (user.getPassword() == null) {
+//            return WeiiResult.ok("password empty");
 //        }
-        // 验证密码
-        //noinspection ConstantConditions
-//        if (!this.userService.verifyPassword(user.getPassword(), dbUser.getPassword())) {
-//            return WeiiResult.ok("password error");
+
+////        return WeiiResult.ok("123123123");
+//        String username = user.getUserName();
+//        String password = user.getPassword();
+
+//        Subject currentUser = SecurityUtils.getSubject();
+//        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+//        try {
+//            currentUser.login(token);
+//            return WeiiResult.ok();
+//        } catch (AuthenticationException e) {
+//            return WeiiResult.build(400,"用户或者密码错误");
 //        }
-        // 更新登录时间
-//        this.userService.updateLoginTimeByUsername(user.getUsername());
-//        return this.getToken(user);
-        /**
-         * 登录
-         *
-         * @param requestJson
-         * @return
-         */
 
-//            CommonUtil.hasAllRequired(requestJson, "username,password");
+        final User user = userService.authLogin(username, password);
+        return WeiiResult.ok(user);
 
-        String username = user.getUserName();
-        String password = user.getPassword();
 
-        Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            currentUser.login(token);
-            return WeiiResult.ok();
-        } catch (AuthenticationException e) {
-            return WeiiResult.build(400,"用户或者密码错误");
-        }
     }
 
     @GetMapping("/logout")

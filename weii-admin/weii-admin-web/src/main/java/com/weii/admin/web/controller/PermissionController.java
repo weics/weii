@@ -7,6 +7,7 @@ import com.weii.admin.service.api.PermissionService;
 import com.weii.common.pojo.WeiiResult;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @Modified By:
  */
 @RestController
+@RequestMapping("permission")
 public class PermissionController {
 
     @Resource

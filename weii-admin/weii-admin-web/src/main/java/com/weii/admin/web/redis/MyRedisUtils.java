@@ -2,6 +2,7 @@ package com.weii.admin.web.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @Description:
  * @Modified By:
  */
+@Component
 public class MyRedisUtils {
     @Resource(name="objectRedis")
     private RedisTemplate<String,Object> redisTemplate;

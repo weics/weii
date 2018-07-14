@@ -54,6 +54,8 @@ public class UserRealm extends AuthorizingRealm {
 
         logger.info("开始执行shiro的doGetAuthenticationInfo---方法");
 
+        System.out.println("开始执行shiro的doGetAuthenticationInfo---方法");
+
         String loginName = (String) authcToken.getPrincipal();
         // 获取用户密码
         String password = new String((char[]) authcToken.getCredentials());

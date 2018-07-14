@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.Permission;
 import com.weii.domain.admin.entity.PermissionExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+@Mapper
 @Repository
 public interface PermissionMapper {
     /**

@@ -21,6 +21,7 @@ import java.util.List;
  * @Modified By:
  */
 @RestController
+@RequestMapping("role")
 public class RoleController {
 
     @Resource
@@ -29,7 +30,7 @@ public class RoleController {
     @RequiresPermissions("role:add")
     @PostMapping
     public WeiiResult add(@RequestBody final Role role) {
-        this.roleService.save(role);
+//        this.roleService.save(role);
         return WeiiResult.ok();
     }
 

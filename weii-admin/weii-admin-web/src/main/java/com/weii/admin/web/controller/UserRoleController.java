@@ -5,6 +5,7 @@ import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  * @Modified By:
  */
 @RestController
+@RequestMapping("userrole")
 public class UserRoleController {
 
     @Resource
