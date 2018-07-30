@@ -2,6 +2,7 @@ package com.weii.admin.service.api.iml;
 
 import com.weii.admin.dao.mapper.UserMapper;
 import com.weii.admin.service.api.UserService;
+import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import com.weii.domain.admin.entity.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class UserServiceImpl implements UserService {
             return users.get(0);
         }
         return null;
+    }
+
+    @Override
+    public WeiiResult getInfo() {
+        return WeiiResult.ok();
     }
 }

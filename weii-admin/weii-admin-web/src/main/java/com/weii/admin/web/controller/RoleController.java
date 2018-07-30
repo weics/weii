@@ -29,8 +29,8 @@ public class RoleController {
 
     @RequiresPermissions("role:add")
     @PostMapping
-    public WeiiResult add(@RequestBody final Role role) {
-//        this.roleService.save(role);
+    public WeiiResult add() {
+//        this.roleService.save(role);  @RequestBody final Role role
         return WeiiResult.ok();
     }
 
@@ -50,7 +50,7 @@ public class RoleController {
 
     @RequiresPermissions("role:list")
     @RequiresRoles("role")
-    @GetMapping
+    @GetMapping("/list")
     public WeiiResult list(@RequestParam(defaultValue = "0") final Integer page,
                        @RequestParam(defaultValue = "0") final Integer size) {
         PageHelper.startPage(page, size);

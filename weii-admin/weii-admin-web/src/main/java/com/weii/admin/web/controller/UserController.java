@@ -1,17 +1,23 @@
 package com.weii.admin.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.weii.admin.service.api.PermissionService;
 import com.weii.admin.service.api.UserService;
-import com.weii.admin.web.jwt.JwtUtil;
+import com.weii.admin.web.utils.constants.Constants;
+import com.weii.common.enums.ErrorEnum;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import netscape.security.Principal;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.xml.ws.Action;
 
 
 /**
@@ -25,6 +31,9 @@ import javax.annotation.Resource;
 public class UserController {
     @Resource
     private UserService userService;
+
+    @Autowired
+    private PermissionService permissionService;
 
 //    @Resource
 //    private JwtUtil jwtUtil;
@@ -105,20 +114,49 @@ public class UserController {
 //        String username = user.getUserName();
 //        String password = user.getPassword();
 
-//        Subject currentUser = SecurityUtils.getSubject();
-//        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//        try {
-//            currentUser.login(token);
-//            return WeiiResult.ok();
-//        } catch (AuthenticationException e) {
-//            return WeiiResult.build(400,"用户或者密码错误");
-//        }
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        try {
+            currentUser.login(token);
+            return WeiiResult.ok();
+        } catch (AuthenticationException e) {
+            return WeiiResult.build(400,"用户或者密码错误");
+        }
 
-        final User user = userService.authLogin(username, password);
-        return WeiiResult.ok(user);
+//        final User user = userService.authLogin(username, password);
+//        return WeiiResult.ok(user);
 
 
     }
+
+
+    /**
+     * 查询当前登录用户的信息
+     *
+     * @return
+     */
+    @PostMapping("/getInfo")
+    public WeiiResult getInfo() {
+        Session session = SecurityUtils.getSubject().getSession();
+        try {
+            //从session获取用户信息
+            JSONObject userInfo = (JSONObject) session.getAttribute(Constants.SESSION_USER_INFO);
+            String username = userInfo.getString("username");
+            JSONObject data = new JSONObject();
+            JSONObject userPermission = permissionService.getUserPermission(username);
+            session.setAttribute(Constants.SESSION_USER_PERMISSION, userPermission);
+
+
+            data.put("userPermission", userPermission);
+            return WeiiResult.ok(data);
+        } catch (Exception e) {
+//            logger.error(e.getMessage());
+
+        }
+        return  WeiiResult.build(ErrorEnum.E_400);
+
+    }
+
 
     @GetMapping("/logout")
     public WeiiResult logout(final Principal user) {

@@ -1,10 +1,8 @@
 package com.weii.admin.web.shiro;
 
-import com.weii.admin.web.utils.ErrorEnum;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weii.common.enums.ErrorEnum;
 
 /**
  * Created by weics on 2018/3/23.
@@ -76,6 +77,12 @@ public class WeiiResult implements Serializable {
     public void setData(Object data) {
         this.data = data;
     }
+
+    public static WeiiResult build(ErrorEnum errorEnum) {
+        return new WeiiResult(errorEnum.getErrorCode(), errorEnum.getErrorMsg(), null);
+    }
+
+
 
     /**
      * 将json结果集转化为WeiiResult对象

@@ -13,4 +13,6 @@ import java.util.List;
 public interface PermissionService {
 
     List<JSONObject> findAllResourcePermission();
+
+    JSONObject getUserPermission(String username);
 }

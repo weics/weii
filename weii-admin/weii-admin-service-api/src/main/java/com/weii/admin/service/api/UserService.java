@@ -15,4 +15,6 @@ public interface UserService {
 
 
     User authLogin(String username, String pwd);
+
+    WeiiResult getInfo();
 }
