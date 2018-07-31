@@ -155,8 +155,6 @@ public class ShiroConfiguration {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setGlobalSessionTimeout(1000000);
         sessionManager.setDeleteInvalidSessions(true);
-//        sessionManager.setSessionValidationScheduler(sessionValidationScheduler);
-//        sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionDAO(sessionDAO);
         SimpleCookie sessionIdCookie = new SimpleCookie("mldn-session-id");
         sessionIdCookie.setHttpOnly(true);

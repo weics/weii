@@ -1,5 +1,6 @@
 package com.weii.admin.web.shiro;
 
+import com.weii.common.enums.ErrorEnum;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import com.alibaba.fastjson.JSONObject;
