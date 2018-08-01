@@ -253,4 +253,22 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
+  <select id="getUserPermission" resultType="com.weii.domain.admin.vo.PermissionVo">
+      SELECT
+          u.user_id userId,
+          ur.role_id roleId,
+          r.role_name roleName,
+          p.menu_code menuCode,
+          p.permission_code permissionCode
+      FROM
+          user u
+      LEFT JOIN user_role ur ON u.user_id = ur.user_id
+      LEFT JOIN role r ON r.role_id = ur.role_id
+      LEFT JOIN role_permission rp ON ur.role_id = rp.role_id
+      LEFT JOIN permission p ON rp.permission_id = p.permission_id
+      WHERE
+          u.user_name = #{username}
+  </select>
+
 </mapper>

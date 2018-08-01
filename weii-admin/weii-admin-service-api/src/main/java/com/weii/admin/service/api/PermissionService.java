@@ -1,6 +1,7 @@
 package com.weii.admin.service.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.weii.domain.admin.vo.PermissionVo;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface PermissionService {
 
     List<JSONObject> findAllResourcePermission();
 
-    JSONObject getUserPermission(String username);
+    List<PermissionVo> getUserPermission(String username);
 }

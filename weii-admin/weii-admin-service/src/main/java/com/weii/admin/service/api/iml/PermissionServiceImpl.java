@@ -3,6 +3,7 @@ package com.weii.admin.service.api.iml;
 import com.alibaba.fastjson.JSONObject;
 import com.weii.admin.dao.mapper.PermissionMapper;
 import com.weii.admin.service.api.PermissionService;
+import com.weii.domain.admin.vo.PermissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public JSONObject getUserPermission(String username) {
-        permissionMapper.getUserPermission(username);
-        return null;
+    public List<PermissionVo> getUserPermission(String username) {
+        final List<PermissionVo> userPermission = permissionMapper.getUserPermission(username);
+        return userPermission;
     }
 }

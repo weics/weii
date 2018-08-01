@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.Permission;
 import com.weii.domain.admin.entity.PermissionExample;
+import com.weii.domain.admin.vo.PermissionVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface PermissionMapper {
@@ -63,5 +64,5 @@ public interface PermissionMapper {
      */
     int updateByExample(@Param("record") Permission record, @Param("example") PermissionExample example);
 
-    void getUserPermission(String username);
+    List<PermissionVo> getUserPermission(@Param("username") String username);
 }
