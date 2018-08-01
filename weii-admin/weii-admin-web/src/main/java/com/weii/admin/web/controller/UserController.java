@@ -53,13 +53,13 @@ public class UserController {
         }
 
     }
-    
+
     /**
      * 查询当前登录用户的信息
      *
      * @return
      */
-    @PostMapping("/getInfo")
+    @RequestMapping("/getInfo")
     public WeiiResult getInfo() {
         Session session = SecurityUtils.getSubject().getSession();
         try {

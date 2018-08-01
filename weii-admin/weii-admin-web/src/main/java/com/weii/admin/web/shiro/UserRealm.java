@@ -74,9 +74,12 @@ public class UserRealm extends AuthorizingRealm {
         //session中不需要保存密码
 //        user.remove("password");
         user.setPassword("");
+        final String content = JSONObject.toJSONString(user);
 
         //将用户信息放入session中
-        SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_USER_INFO, user);
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute(Constants.SESSION_USER_INFO, content);
+        System.out.println("放入session中的数据:"+content);
         return authenticationInfo;
     }
 }

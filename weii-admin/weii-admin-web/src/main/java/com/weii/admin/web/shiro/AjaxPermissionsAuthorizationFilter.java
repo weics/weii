@@ -22,24 +22,24 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("errcode", ErrorEnum.E_20011.getErrorCode());
-        jsonObject.put("errinfo", ErrorEnum.E_20011.getErrorMsg());
-        PrintWriter out = null;
-        HttpServletResponse res = (HttpServletResponse) response;
-        try {
-            res.setCharacterEncoding("UTF-8");
-            res.setContentType("application/json");
-            out = response.getWriter();
-            out.println(jsonObject);
-        } catch (Exception e) {
-        } finally {
-            if (null != out) {
-                out.flush();
-                out.close();
-            }
-        }
-        return false;
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("errcode", ErrorEnum.E_20011.getErrorCode());
+//        jsonObject.put("errinfo", ErrorEnum.E_20011.getErrorMsg());
+//        PrintWriter out = null;
+//        HttpServletResponse res = (HttpServletResponse) response;
+//        try {
+//            res.setCharacterEncoding("UTF-8");
+//            res.setContentType("application/json");
+//            out = response.getWriter();
+//            out.println(jsonObject);
+//        } catch (Exception e) {
+//        } finally {
+//            if (null != out) {
+//                out.flush();
+//                out.close();
+//            }
+//        }
+        return true;
     }
 
     @Bean
