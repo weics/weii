@@ -48,7 +48,8 @@
             this.loading = true
             this.$store.dispatch('Login', this.loginForm).then(data => {
               this.loading = false
-              if ("success" === data.result) {
+              console.log("获取的data:"+JSON.stringify(data))
+              if ("OK" === data.msg) {
                 this.$router.push({path: '/'})
               } else {
                 this.$message.error("账号/密码错误");

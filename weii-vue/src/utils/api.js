@@ -18,13 +18,15 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
   response => {
+    console.log("初始数据:"+JSON.stringify(response.data));
     const res = response.data;
-    if (res.returnCode == '1000') {
+    console.log("获取的res:"+JSON.stringify(res));
+    if (res.status == '400') {
       return res;
     }
-    if (res.returnCode == '100') {
-      return res.returnData;
-    } else if (res.returnCode == "20011") {
+    if (res.status == '200') {
+      return res;
+    } else if (res.status == "20011") {
       Message({
         showClose: true,
         message: res.returnMsg,
