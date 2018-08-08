@@ -15,6 +15,7 @@ const user = {
   },
   mutations: {
     SET_USER: (state, userInfo) => {
+      console.log(JSON.stringify("1111111:"+userInfo))
       state.nickname = userInfo.nickname;
       state.userId = userInfo.userId;
       state.role = userInfo.roleName;
@@ -38,7 +39,8 @@ const user = {
           method: "post",
           data: loginForm
         }).then(data => {
-          if (data.result === "success") {
+          console.log("获取的数据："+JSON.stringify(data))
+          if (data.msg === "OK") {
             //cookie中保存前端登录状态
             setToken();
           }
@@ -56,6 +58,8 @@ const user = {
           method: 'post'
         }).then(data => {
           //储存用户信息
+          console.log("获取的数据11111："+JSON.stringify(data))
+          data = data.data;
           commit('SET_USER', data.userPermission);
           //cookie保存登录状态,仅靠vuex保存的话,页面刷新就会丢失登录状态
           setToken();
