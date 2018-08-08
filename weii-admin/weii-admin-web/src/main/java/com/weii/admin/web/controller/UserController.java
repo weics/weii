@@ -1,6 +1,8 @@
 package com.weii.admin.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.weii.admin.service.api.PermissionService;
 import com.weii.admin.service.api.UserService;
 import com.weii.admin.web.utils.constants.Constants;
@@ -78,6 +80,20 @@ public class UserController {
         return  WeiiResult.build(ErrorEnum.E_400);
 
     }
+
+
+    @RequestMapping("list")
+    public WeiiResult userList() {
+        Session session = SecurityUtils.getSubject().getSession();
+        String username = "admin";
+
+        PageHelper.startPage(1,10);
+        PageInfo<User> pageInfo = new PageInfo<>(userService.getUserList());
+
+
+        return WeiiResult.ok(pageInfo);
+    }
+
 
     @GetMapping("/logout")
     public WeiiResult logout(final Principal user) {

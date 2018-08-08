@@ -39,4 +39,14 @@ public class UserServiceImpl implements UserService {
     public WeiiResult getInfo() {
         return WeiiResult.ok();
     }
+
+    @Override
+    public List<User> getUserList() {
+
+        // startPage(第几页, 多少条数据)
+
+        UserExample example = new UserExample();
+        final List<User> users = userMapper.selectByExample(example);
+        return users;
+    }
 }

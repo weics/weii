@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +63,47 @@ public class LoginController {
         Session session = SecurityUtils.getSubject().getSession();
         try {
             //从session获取用户信息
-            JSONObject userInfo = (JSONObject) session.getAttribute(Constants.SESSION_USER_INFO);
-            String username = userInfo.getString("username");
+//            JSONObject userInfo = (JSONObject) session.getAttribute(Constants.SESSION_USER_INFO);
+//            String username = userInfo.getString("username");
             Map<String,Object> data = new HashMap<>(10);
-            final List<PermissionVo> userPermission = permissionService.getUserPermission(username);
-            session.setAttribute(Constants.SESSION_USER_PERMISSION, userPermission);
+//            final List<PermissionVo> userPermission = permissionService.getUserPermission(username);
+//            session.setAttribute(Constants.SESSION_USER_PERMISSION, userPermission);
+            /**
+             * "menuList":[
+             *             "role",
+             *             "user",
+             *             "article"
+             *          ],
+             *          "roleId":1,
+             *          "nickname":"超级用户",
+             *          "roleName":"管理员",
+             *          "permissionList":[
+             *             "article:list",
+             *             "article:add",
+             *             "user:list",
+             *          ],
+             *          "userId":10003
+             */
 
-            data.put("userPermission", userPermission);
+
+            Map<String,Object> map = new HashMap<>();
+            List<String> menuList = new ArrayList<>();
+            menuList.add("role");
+            menuList.add("user");
+            menuList.add("article");
+            map.put("menuList",menuList);
+            map.put("roleId",1);
+            map.put("nickname","超级用户");
+            map.put("roleName","管理员");
+            List<String> permissionList = new ArrayList<>();
+            permissionList.add("article:list");
+            permissionList.add("article:add");
+            permissionList.add("user:list");
+            map.put("permissionList",permissionList);
+            map.put("userId",10003);
+
+
+            data.put("userPermission", map);
             return WeiiResult.ok(data);
         } catch (Exception e) {
 
