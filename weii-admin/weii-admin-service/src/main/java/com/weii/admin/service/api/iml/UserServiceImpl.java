@@ -5,6 +5,7 @@ import com.weii.admin.service.api.UserService;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import com.weii.domain.admin.entity.UserExample;
+import com.weii.domain.admin.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserList() {
+    public List<UserVo> getUserList() {
 
         // startPage(第几页, 多少条数据)
 
-        UserExample example = new UserExample();
-        final List<User> users = userMapper.selectByExample(example);
-        return users;
+//        UserExample example = new UserExample();
+//        final List<User> users = userMapper.selectByExample(example);
+
+        final List<UserVo> allUser = userMapper.getAllUser();
+
+        return allUser;
     }
 }

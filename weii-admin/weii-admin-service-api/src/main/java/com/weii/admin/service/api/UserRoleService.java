@@ -1,6 +1,9 @@
 package com.weii.admin.service.api;
 
 import com.weii.domain.admin.entity.User;
+import com.weii.domain.admin.vo.RoleVo;
+
+import java.util.List;
 
 /**
  * @Author: weics
@@ -10,4 +13,6 @@ import com.weii.domain.admin.entity.User;
  */
 public interface UserRoleService {
     void updateUserRole(User user);
+
+    List<RoleVo> getAllRoles();
 }

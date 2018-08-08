@@ -10,6 +10,7 @@ import com.weii.common.enums.ErrorEnum;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
 import com.weii.domain.admin.vo.PermissionVo;
+import com.weii.domain.admin.vo.UserVo;
 import netscape.security.Principal;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -88,7 +89,9 @@ public class UserController {
         String username = "admin";
 
         PageHelper.startPage(1,10);
-        PageInfo<User> pageInfo = new PageInfo<>(userService.getUserList());
+
+
+        PageInfo<UserVo> pageInfo = new PageInfo<>(userService.getUserList());
 
 
         return WeiiResult.ok(pageInfo);

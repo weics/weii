@@ -269,4 +269,20 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="getAllUser" resultType="com.weii.domain.admin.vo.UserVo">
+    SELECT
+        u.user_id userId,
+        u.user_name userName,
+        u.`password` `password`,
+      u.created_time createdTime,
+      u.update_time updateTime,
+        r.role_id roleId,
+        r.role_name roleName
+    FROM
+        user u
+    LEFT JOIN user_role ur on ur.user_id = u.user_id
+    LEFT JOIN role r ON ur.role_id = r.role_id
+  </select>
 </mapper>

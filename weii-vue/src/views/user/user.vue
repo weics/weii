@@ -15,16 +15,16 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="昵称" prop="nickname" style="width: 60px;"></el-table-column>
-      <el-table-column align="center" label="用户名" prop="username" style="width: 60px;"></el-table-column>
+      <el-table-column align="center" label="昵称" prop="userName" style="width: 60px;"></el-table-column>
+      <el-table-column align="center" label="用户名" prop="userName" style="width: 60px;"></el-table-column>
       <el-table-column align="center" label="角色" width="100">
         <template slot-scope="scope">
           <el-tag type="success" v-text="scope.row.roleName" v-if="scope.row.roleId===1"></el-tag>
           <el-tag type="primary" v-text="scope.row.roleName" v-else></el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间" prop="createTime" width="170"></el-table-column>
-      <el-table-column align="center" label="最近修改时间" prop="updateTime" width="170"></el-table-column>
+      <el-table-column align="center" label="创建时间" prop="createdTime" width="170" :formatter="dateFormat"></el-table-column>
+      <el-table-column align="center" label="最近修改时间" prop="updateTime" width="170" :formatter="dateFormat"></el-table-column>
       <el-table-column align="center" label="管理" width="220" v-if="hasPerm('user:update')">
         <template slot-scope="scope">
           <el-button type="primary" icon="edit" @click="showUpdate(scope.$index)">修改</el-button>
@@ -107,14 +107,14 @@
           nickname: '',
           roleId: '',
           userId: ''
-        }
+        },
       }
     },
     created() {
       this.getList();
-      if (this.hasPerm('user:add') || this.hasPerm('user:update')) {
+      // if (this.hasPerm('user:add') || this.hasPerm('user:update')) {
         this.getAllRoles();
-      }
+      // }
     },
     computed: {
       ...mapGetters([
@@ -122,12 +122,24 @@
       ])
     },
     methods: {
-      getAllRoles() {
+      //时间格式化
+      //时间格式化
+      dateFormat:function(row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return this.moment(date).format("YYYY-MM-DD HH:mm:ss");
+      } ,
+
+
+    getAllRoles() {
         this.api({
-          url: "/user/getAllRoles",
+          url: "/userrole/getAllRoles",
           method: "get"
         }).then(data => {
-          this.roles = data.list;
+          console.log("role data"+JSON.stringify(data.data))
+          this.roles = data.data;
         })
       },
       getList() {
@@ -139,7 +151,7 @@
           params: this.listQuery
         }).then(data => {
           this.listLoading = false;
-          this.list = data.list;
+          this.list = data.data.list;
           this.totalCount = data.totalCount;
         })
       },

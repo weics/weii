@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.User;
 import com.weii.domain.admin.entity.UserExample;
+import com.weii.domain.admin.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -98,4 +99,6 @@ public interface UserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(User record);
+
+    List<UserVo> getAllUser();
 }

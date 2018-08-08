@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.weii.domain.admin.entity.UserRole;
 import com.weii.domain.admin.entity.UserRoleExample;
+import com.weii.domain.admin.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -98,4 +99,6 @@ public interface UserRoleMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(UserRole record);
+
+    List<RoleVo> getAllRoles();
 }

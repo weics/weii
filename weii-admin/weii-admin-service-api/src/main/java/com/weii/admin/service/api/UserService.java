@@ -3,6 +3,7 @@ package com.weii.admin.service.api;
 
 import com.weii.common.pojo.WeiiResult;
 import com.weii.domain.admin.entity.User;
+import com.weii.domain.admin.vo.UserVo;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface UserService {
 
     WeiiResult getInfo();
 
-    List<User> getUserList();
+    List<UserVo> getUserList();
 }
