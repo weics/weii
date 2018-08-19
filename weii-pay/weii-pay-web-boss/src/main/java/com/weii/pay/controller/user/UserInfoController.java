@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author: weics
  * @Date: Created in 22:18 2018/5/12
@@ -31,12 +34,13 @@ public class UserInfoController {
      * @throws
      */
     @RequestMapping(value = "/list", method ={RequestMethod.POST,RequestMethod.GET})
-    public String list(RpUserInfo rpUserInfo,PageParam pageParam, Model model) {
+    public Object list(RpUserInfo rpUserInfo,PageParam pageParam) {
         PageBean pageBean = rpUserInfoService.listPage(pageParam, rpUserInfo);
-        model.addAttribute("pageBean", pageBean);
-        model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpUserInfo",rpUserInfo);
-        return "user/info/list";
+        Map<String,Object> result = new HashMap<>(3);
+        result.put("pageBean", pageBean);
+        result.put("pageParam", pageParam);
+        result.put("rpUserInfo",rpUserInfo);
+        return result;
     }
 
     /**
@@ -60,13 +64,13 @@ public class UserInfoController {
      * @throws
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Model model, @RequestParam("userName") String userName) {
+    public Object add(Model model, @RequestParam("userName") String userName) {
         rpUserInfoService.registerOffline(userName);
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
 //        return DWZ.AJAX_DONE;
-        return null;
+        return "success";
     }
 
     /**
@@ -77,11 +81,13 @@ public class UserInfoController {
      * @throws
      */
     @RequestMapping(value = "/lookupList", method ={RequestMethod.POST,RequestMethod.GET})
-    public String lookupList(RpUserInfo rpUserInfo, PageParam pageParam, Model model) {
+    public Object lookupList(RpUserInfo rpUserInfo, PageParam pageParam) {
         PageBean pageBean = rpUserInfoService.listPage(pageParam, rpUserInfo);
-        model.addAttribute("pageBean", pageBean);
-        model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpUserInfo",rpUserInfo);
-        return "user/info/lookupList";
+
+        Map<String,Object> result = new HashMap<>(3);
+        result.put("pageBean", pageBean);
+        result.put("pageParam", pageParam);
+        result.put("rpUserInfo",rpUserInfo);
+        return result;
     }
 }

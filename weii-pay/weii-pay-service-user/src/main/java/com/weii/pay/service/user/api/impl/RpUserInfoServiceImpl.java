@@ -11,6 +11,7 @@ import com.weii.pay.service.user.api.RpUserInfoService;
 import com.weii.pay.service.user.dao.RpUserInfoDao;
 import com.weii.pay.service.user.entity.RpUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ import java.util.Map;
  * @Description:
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@org.springframework.stereotype.Service
+@Service
 public class RpUserInfoServiceImpl implements RpUserInfoService {
 
     @Autowired
