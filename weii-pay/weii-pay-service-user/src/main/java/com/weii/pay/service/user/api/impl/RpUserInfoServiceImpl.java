@@ -5,10 +5,9 @@ import com.weii.pay.common.core.enums.PublicStatusEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.account.api.RpAccountService;
 import com.weii.pay.service.account.entity.RpAccount;
 import com.weii.pay.service.user.api.RpUserInfoService;
-import com.weii.pay.service.user.dao.RpUserInfoDao;
+import com.weii.pay.service.user.dao.RpUserInfoMapper;
 import com.weii.pay.service.user.entity.RpUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,30 +30,30 @@ import java.util.Map;
 public class RpUserInfoServiceImpl implements RpUserInfoService {
 
     @Autowired
-    private RpUserInfoDao rpUserInfoDao;
+    private RpUserInfoMapper rpUserInfoMapper;
 
-    @Autowired
-    private RpAccountService rpAccountService;
+//    @Autowired
+//    private RpAccountService rpAccountService;
 
     @Override
     public void saveData(RpUserInfo rpUserInfo) {
-        rpUserInfoDao.insert(rpUserInfo);
+        rpUserInfoMapper.insert(rpUserInfo);
     }
 
     @Override
     public void updateData(RpUserInfo rpUserInfo) {
-        rpUserInfoDao.update(rpUserInfo);
+        rpUserInfoMapper.update(rpUserInfo);
     }
 
     @Override
     public RpUserInfo getDataById(String id) {
-        return rpUserInfoDao.getById(id);
+        return rpUserInfoMapper.getById(id);
     }
 
     @Override
     public PageBean listPage(PageParam pageParam, RpUserInfo rpUserInfo) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        return rpUserInfoDao.listPage(pageParam, paramMap);
+        return rpUserInfoMapper.listPage(pageParam, paramMap);
     }
 
     /**
@@ -67,8 +66,8 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void registerOffline(String userName) {
-        String userNo = rpUserInfoDao.buildUserNo();
-        String accountNo = rpUserInfoDao.buildAccountNo();
+        String userNo = rpUserInfoMapper.buildUserNo();
+        String accountNo = rpUserInfoMapper.buildAccountNo();
 
         //生成用户信息
         RpUserInfo rpUserInfo = new RpUserInfo();
@@ -98,7 +97,7 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
         rpAccount.setUnbalance(new BigDecimal("0"));
         rpAccount.setTotalExpend(new BigDecimal("0"));
         rpAccount.setTotalIncome(new BigDecimal("0"));
-        rpAccountService.saveData(rpAccount);
+//        rpAccountService.saveData(rpAccount);
     }
 
     /**
@@ -112,7 +111,7 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("userNo", merchantNo);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpUserInfoDao.getBy(paramMap);
+        return rpUserInfoMapper.getBy(paramMap);
     }
 
     /**
@@ -123,6 +122,6 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
     public List<RpUserInfo> listAll(){
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpUserInfoDao.listBy(paramMap);
+        return rpUserInfoMapper.listBy(paramMap);
     }
 }

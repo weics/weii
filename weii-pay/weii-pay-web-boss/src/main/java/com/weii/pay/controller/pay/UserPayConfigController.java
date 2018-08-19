@@ -25,7 +25,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  * @Modified By:
  */
-@RestController
+//@RestController
+//@RequestMapping("/pay/config")
 public class UserPayConfigController {
     @Reference(version = "1.0.0")
     private RpUserPayConfigService rpUserPayConfigService;

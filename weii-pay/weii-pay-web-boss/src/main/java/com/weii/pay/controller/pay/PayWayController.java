@@ -25,7 +25,8 @@ import java.util.*;
  * @Description:
  * @Modified By:
  */
-@RestController
+//@RestController
+//@RequestMapping("/pay/way")
 public class PayWayController {
     @Reference(version = "1.0.0")
     private RpPayWayService rpPayWayService;

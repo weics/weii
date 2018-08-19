@@ -5,8 +5,6 @@ import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.user.api.RpUserInfoService;
 import com.weii.pay.service.user.entity.RpUserInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +20,7 @@ import java.util.Map;
  * @Modified By:
  */
 @RestController
+@RequestMapping("/user")
 public class UserInfoController {
     @Reference(version = "1.0.0")
     private RpUserInfoService rpUserInfoService;
@@ -64,12 +63,8 @@ public class UserInfoController {
      * @throws
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object add(Model model, @RequestParam("userName") String userName) {
+    public Object add(@RequestParam("userName") String userName) {
         rpUserInfoService.registerOffline(userName);
-//        dwz.setStatusCode(DWZ.SUCCESS);
-//        dwz.setMessage(DWZ.SUCCESS_MSG);
-//        model.addAttribute("dwz", dwz);
-//        return DWZ.AJAX_DONE;
         return "success";
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.roncoo.pay.service.user.dao.impl.RpPayWayDaoImpl" >
+<mapper namespace="com.weii.pay.service.user.dao.RpPayWayMapper" >
 
   <resultMap id="BaseResultMap" type="com.weii.pay.service.user.entity.RpPayWay" >
     <id column="ID" property="id" jdbcType="VARCHAR" />

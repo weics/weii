@@ -11,7 +11,7 @@ import com.weii.pay.service.user.api.RpPayProductService;
 import com.weii.pay.service.user.api.RpPayWayService;
 import com.weii.pay.service.user.api.RpUserPayConfigService;
 import com.weii.pay.service.user.api.RpUserPayInfoService;
-import com.weii.pay.service.user.dao.RpUserPayConfigDao;
+import com.weii.pay.service.user.dao.RpUserPayConfigMapper;
 import com.weii.pay.service.user.entity.RpPayProduct;
 import com.weii.pay.service.user.entity.RpPayWay;
 import com.weii.pay.service.user.entity.RpUserPayConfig;
@@ -36,7 +36,7 @@ import java.util.Map;
 public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
 
     @Autowired
-    private RpUserPayConfigDao rpUserPayConfigDao;
+    private RpUserPayConfigMapper rpUserPayConfigMapper;
     @Autowired
     private RpPayProductService rpPayProductService;
     @Autowired
@@ -46,17 +46,17 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
 
     @Override
     public void saveData(RpUserPayConfig rpUserPayConfig) {
-        rpUserPayConfigDao.insert(rpUserPayConfig);
+        rpUserPayConfigMapper.insert(rpUserPayConfig);
     }
 
     @Override
     public void updateData(RpUserPayConfig rpUserPayConfig) {
-        rpUserPayConfigDao.update(rpUserPayConfig);
+        rpUserPayConfigMapper.update(rpUserPayConfig);
     }
 
     @Override
     public RpUserPayConfig getDataById(String id) {
-        return rpUserPayConfigDao.getById(id);
+        return rpUserPayConfigMapper.getById(id);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
         paramMap.put("userName", rpUserPayConfig.getUserName());
         paramMap.put("productName", rpUserPayConfig.getProductName());
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpUserPayConfigDao.listPage(pageParam, paramMap);
+        return rpUserPayConfigMapper.listPage(pageParam, paramMap);
     }
 
     /**
@@ -78,7 +78,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
      */
     @Override
     public RpUserPayConfig getByUserNo(String userNo) {
-        return rpUserPayConfigDao.getByUserNo(userNo, PublicEnum.YES.name());
+        return rpUserPayConfigMapper.getByUserNo(userNo, PublicEnum.YES.name());
     }
 
     /**
@@ -89,7 +89,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
      */
     @Override
     public RpUserPayConfig getByUserNo(String userNo, String auditStatus){
-        return rpUserPayConfigDao.getByUserNo(userNo, auditStatus);
+        return rpUserPayConfigMapper.getByUserNo(userNo, auditStatus);
     }
 
 
@@ -102,7 +102,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
         paramMap.put("productCode", productCode);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
         paramMap.put("auditStatus", PublicEnum.YES.name());
-        return rpUserPayConfigDao.listBy(paramMap);
+        return rpUserPayConfigMapper.listBy(paramMap);
     }
 
     /**
@@ -114,7 +114,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
         paramMap.put("productCode", productCode);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
         paramMap.put("auditStatus", auditStatus);
-        return rpUserPayConfigDao.listBy(paramMap);
+        return rpUserPayConfigMapper.listBy(paramMap);
     }
 
     /**
@@ -125,7 +125,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
                                     String fundIntoType, String isAutoSett, String appId, String merchantId, String partnerKey,
                                     String ali_partner, String ali_sellerId, String ali_key)  throws PayBizException {
 
-        RpUserPayConfig payConfig = rpUserPayConfigDao.getByUserNo(userNo, null);
+        RpUserPayConfig payConfig = rpUserPayConfigMapper.getByUserNo(userNo, null);
         if(payConfig != null){
             throw new PayBizException(PayBizException.USER_PAY_CONFIG_IS_EXIST,"用户支付配置已存在");
         }
@@ -219,7 +219,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
     @Override
     public void deleteUserPayConfig(String userNo) throws PayBizException{
 
-        RpUserPayConfig rpUserPayConfig = rpUserPayConfigDao.getByUserNo(userNo, null);
+        RpUserPayConfig rpUserPayConfig = rpUserPayConfigMapper.getByUserNo(userNo, null);
         if(rpUserPayConfig == null){
             throw new PayBizException(PayBizException.USER_PAY_CONFIG_IS_NOT_EXIST,"用户支付配置不存在");
         }
@@ -236,7 +236,7 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
     public void updateUserPayConfig(String userNo, String productCode, String productName, Integer riskDay, String fundIntoType,
                                     String isAutoSett, String appId, String merchantId, String partnerKey,
                                     String ali_partner, String ali_sellerId, String ali_key)  throws PayBizException{
-        RpUserPayConfig rpUserPayConfig = rpUserPayConfigDao.getByUserNo(userNo, null);
+        RpUserPayConfig rpUserPayConfig = rpUserPayConfigMapper.getByUserNo(userNo, null);
         if(rpUserPayConfig == null){
             throw new PayBizException(PayBizException.USER_PAY_CONFIG_IS_NOT_EXIST,"用户支付配置不存在");
         }
@@ -349,6 +349,6 @@ public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
         paramMap.put("payKey", payKey);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
         paramMap.put("auditStatus", PublicEnum.YES.name());
-        return rpUserPayConfigDao.getBy(paramMap);
+        return rpUserPayConfigMapper.getBy(paramMap);
     }
 }

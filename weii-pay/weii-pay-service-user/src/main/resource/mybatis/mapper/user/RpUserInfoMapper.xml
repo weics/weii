@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.roncoo.pay.service.user.dao.impl.RpUserInfoDaoImpl" >
+<mapper namespace="com.weii.pay.service.user.dao.RpUserInfoMapper" >
 
   <resultMap id="BaseResultMap" type="com.weii.pay.service.user.entity.RpUserInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
@@ -143,12 +143,12 @@
 	</select>
 
 	<!-- 生成用户编号序列 -->
-	<select id="buildUserNoSeq" resultType="java.lang.String">
+	<select id="buildUserNo" resultType="java.lang.String">
     	select FUN_SEQ('USER_NO_SEQ')
     </select>
     
     <!-- 生成账户编号序列 -->
-	<select id="buildAccountNoSeq" resultType="java.lang.String">
+	<select id="buildAccountNo" resultType="java.lang.String">
     	select FUN_SEQ('ACCOUNT_NO_SEQ')
     </select>
 	

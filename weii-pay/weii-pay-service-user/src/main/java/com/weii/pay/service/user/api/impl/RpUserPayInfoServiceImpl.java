@@ -3,7 +3,7 @@ package com.weii.pay.service.user.api.impl;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.user.api.RpUserPayInfoService;
-import com.weii.pay.service.user.dao.RpUserPayInfoDao;
+import com.weii.pay.service.user.dao.RpUserPayInfoMapper;
 import com.weii.pay.service.user.entity.RpUserPayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,27 +22,27 @@ import java.util.Map;
 public class RpUserPayInfoServiceImpl implements RpUserPayInfoService {
 
     @Autowired
-    private RpUserPayInfoDao rpUserPayInfoDao;
+    private RpUserPayInfoMapper rpUserPayInfoMapper;
 
     @Override
     public void saveData(RpUserPayInfo rpUserPayInfo) {
-        rpUserPayInfoDao.insert(rpUserPayInfo);
+        rpUserPayInfoMapper.insert(rpUserPayInfo);
     }
 
     @Override
     public void updateData(RpUserPayInfo rpUserPayInfo) {
-        rpUserPayInfoDao.update(rpUserPayInfo);
+        rpUserPayInfoMapper.update(rpUserPayInfo);
     }
 
     @Override
     public RpUserPayInfo getDataById(String id) {
-        return rpUserPayInfoDao.getById(id);
+        return rpUserPayInfoMapper.getById(id);
     }
 
     @Override
     public PageBean listPage(PageParam pageParam, RpUserPayInfo rpUserPayInfo) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        return rpUserPayInfoDao.listPage(pageParam, paramMap);
+        return rpUserPayInfoMapper.listPage(pageParam, paramMap);
     }
 
     /**
@@ -53,6 +53,6 @@ public class RpUserPayInfoServiceImpl implements RpUserPayInfoService {
      */
     @Override
     public RpUserPayInfo getByUserNo(String userNo, String payWayCode) {
-        return rpUserPayInfoDao.getByUserNo(userNo, payWayCode);
+        return rpUserPayInfoMapper.getByUserNo(userNo, payWayCode);
     }
 }

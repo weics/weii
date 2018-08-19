@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  * @Modified By:
  */
-@RestController
+//@RestController
+//@RequestMapping("/pay/product")
 public class PayProductController {
 
     @Reference(version = "1.0.0")

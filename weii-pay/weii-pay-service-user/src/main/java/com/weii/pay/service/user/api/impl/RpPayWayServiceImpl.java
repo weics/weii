@@ -9,7 +9,7 @@ import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.user.api.RpPayProductService;
 import com.weii.pay.service.user.api.RpPayWayService;
-import com.weii.pay.service.user.dao.RpPayWayDao;
+import com.weii.pay.service.user.dao.RpPayWayMapper;
 import com.weii.pay.service.user.entity.RpPayProduct;
 import com.weii.pay.service.user.entity.RpPayWay;
 import com.weii.pay.service.user.exceptions.PayBizException;
@@ -32,24 +32,24 @@ import java.util.Map;
 public class RpPayWayServiceImpl implements RpPayWayService {
 
     @Autowired
-    private RpPayWayDao rpPayWayDao;
+    private RpPayWayMapper rpPayWayMapper;
 
     @Autowired
     private RpPayProductService rpPayProductService;
 
     @Override
     public void saveData(RpPayWay rpPayWay) {
-        rpPayWayDao.insert(rpPayWay);
+        rpPayWayMapper.insert(rpPayWay);
     }
 
     @Override
     public void updateData(RpPayWay rpPayWay) {
-        rpPayWayDao.update(rpPayWay);
+        rpPayWayMapper.update(rpPayWay);
     }
 
     @Override
     public RpPayWay getDataById(String id) {
-        return rpPayWayDao.getById(id);
+        return rpPayWayMapper.getById(id);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RpPayWayServiceImpl implements RpPayWayService {
         paramMap.put("payProductCode", rpPayWay.getPayProductCode());
         paramMap.put("payWayName", rpPayWay.getPayWayName());
         paramMap.put("payTypeName", rpPayWay.getPayTypeName());
-        return rpPayWayDao.listPage(pageParam, paramMap);
+        return rpPayWayMapper.listPage(pageParam, paramMap);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class RpPayWayServiceImpl implements RpPayWayService {
         paramMap.put("payTypeCode", payTypeCode);
         paramMap.put("payWayCode", payWayCode);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpPayWayDao.getBy(paramMap);
+        return rpPayWayMapper.getBy(paramMap);
     }
 
     /**
@@ -111,7 +111,7 @@ public class RpPayWayServiceImpl implements RpPayWayService {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("payProductCode", payProductCode);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpPayWayDao.listBy(paramMap);
+        return rpPayWayMapper.listBy(paramMap);
     }
 
     /**
@@ -121,6 +121,6 @@ public class RpPayWayServiceImpl implements RpPayWayService {
     public List<RpPayWay> listAll(){
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-        return rpPayWayDao.listBy(paramMap);
+        return rpPayWayMapper.listBy(paramMap);
     }
 }

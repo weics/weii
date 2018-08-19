@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  * @Modified By:
  */
-@RestController
+//@RestController
+//@RequestMapping("/trade")
 public class TradeController {
     @Reference(version = "1.0.0")
     private RpTradePaymentQueryService rpTradePaymentQueryService;
