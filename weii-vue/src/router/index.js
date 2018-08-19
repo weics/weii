@@ -43,6 +43,29 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/pay',
+    component: Layout,
+    redirect: '/pay/',
+    name: '支付模块',
+    meta: {title: '支付', icon: 'tree'},
+    children: [
+      {
+        path: 'pay',
+        name: '二维码支付',
+        component: _import('pay/pay'),
+        meta: {title: '支付', icon: 'example'},
+        menu: 'role'
+      },
+      {
+        path: 'mqInfo',
+        name: '消息队列',
+        component: _import('pay/mqInfo'),
+        meta: {title: '消息队列', icon: 'example'},
+        menu: 'role'
+      },
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     redirect: '/user/',
@@ -50,7 +73,11 @@ export const asyncRouterMap = [
     meta: {title: '用户权限', icon: 'table'},
     children: [
       {
-        path: '', name: '用户列表', component: _import('user/user'), meta: {title: '用户列表', icon: 'user'}, menu: 'user'
+        path: '',
+        name: '用户列表',
+        component: _import('user/user'),
+        meta: {title: '用户列表', icon: 'user'},
+        menu: 'user'
       },
       {
         path: 'role',

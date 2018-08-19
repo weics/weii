@@ -18,7 +18,7 @@ import java.util.List;
  * @Description:
  * @Modified By:
  */
-public class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public class DateUtils {
 
     public static final String TIME_WITH_MINUTE_PATTERN = "HH:mm";
 
@@ -69,8 +69,8 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
      */
     public static Date parseDate(String str, String parsePatterns) {
         try {
-            return parseDate(str, new String[] { parsePatterns });
-        } catch (ParseException e) {
+            return parseDate(str, parsePatterns );
+        } catch (Exception e) {
             logger.error(e);
             return null;
         }

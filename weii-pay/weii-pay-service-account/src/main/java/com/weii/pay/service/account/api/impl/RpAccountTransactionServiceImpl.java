@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountTransactionService")
 public class RpAccountTransactionServiceImpl implements RpAccountTransactionService {
 

@@ -1,5 +1,6 @@
 package com.weii.pay.controller.trade;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.PayTypeEnum;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.enums.TrxTypeEnum;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,8 +24,9 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  * @Modified By:
  */
+@RestController
 public class TradeController {
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTradePaymentQueryService rpTradePaymentQueryService;
 
     @RequestMapping(value = "/listPaymentOrder", method ={RequestMethod.POST,RequestMethod.GET})

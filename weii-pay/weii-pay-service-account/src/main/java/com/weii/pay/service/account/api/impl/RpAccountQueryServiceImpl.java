@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountQueryService")
 public class RpAccountQueryServiceImpl implements RpAccountQueryService {
 	@Autowired

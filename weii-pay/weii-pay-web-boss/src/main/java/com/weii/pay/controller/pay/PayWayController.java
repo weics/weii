@@ -1,5 +1,6 @@
 package com.weii.pay.controller.pay;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.PayTypeEnum;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.enums.PublicEnum;
@@ -14,10 +15,7 @@ import com.weii.pay.service.user.entity.RpPayWay;
 import com.weii.pay.service.user.exceptions.PayBizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -27,11 +25,12 @@ import java.util.*;
  * @Description:
  * @Modified By:
  */
+@RestController
 public class PayWayController {
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpPayWayService rpPayWayService;
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpPayProductService rpPayProductService;
 
     /**

@@ -1,5 +1,6 @@
 package com.weii.pay.service.user.api.impl;
 
+
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.enums.PublicStatusEnum;
@@ -17,6 +18,7 @@ import com.weii.pay.service.user.entity.RpUserPayConfig;
 import com.weii.pay.service.user.entity.RpUserPayInfo;
 import com.weii.pay.service.user.exceptions.PayBizException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +31,8 @@ import java.util.Map;
  * @date Created in 10:50 2018/5/12
  * @Description:
  */
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service
 public class RpUserPayConfigServiceImpl implements RpUserPayConfigService {
 
     @Autowired

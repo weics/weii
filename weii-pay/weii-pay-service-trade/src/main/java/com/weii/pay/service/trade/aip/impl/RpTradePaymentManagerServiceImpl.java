@@ -48,6 +48,7 @@ import com.weii.pay.service.user.exceptions.UserBizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -62,6 +63,8 @@ import java.util.Map;
  * @date Created in 19:37 2018/5/11
  * @Description:
  */
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service
 public class RpTradePaymentManagerServiceImpl implements RpTradePaymentManagerService {
 
     private static final Logger LOG = LoggerFactory.getLogger(RpTradePaymentManagerServiceImpl.class);

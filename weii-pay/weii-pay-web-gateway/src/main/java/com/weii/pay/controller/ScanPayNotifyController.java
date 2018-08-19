@@ -1,5 +1,6 @@
 package com.weii.pay.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.utils.StringUtil;
@@ -32,9 +33,9 @@ import java.util.Map;
 public class ScanPayNotifyController {
     private static final Log LOG = LogFactory.getLog(ScanPayController.class);
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTradePaymentManagerService rpTradePaymentManagerService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTransactionMessageService rpTransactionMessageService;
 
     /**

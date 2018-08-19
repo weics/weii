@@ -36,6 +36,8 @@ import java.util.*;
  * @Modified By:
  */
 //@Service
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service
 public class RpTransactionMessageServiceImpl implements RpTransactionMessageService {
 
     private static final Log log = LogFactory.getLog(RpTransactionMessageServiceImpl.class);

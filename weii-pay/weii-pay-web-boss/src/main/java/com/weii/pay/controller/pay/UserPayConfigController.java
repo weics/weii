@@ -1,5 +1,6 @@
 package com.weii.pay.controller.pay;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,12 +25,13 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  * @Modified By:
  */
+@RestController
 public class UserPayConfigController {
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpUserPayConfigService rpUserPayConfigService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpUserInfoService rpUserInfoService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpUserPayInfoService rpUserPayInfoService;
 
 

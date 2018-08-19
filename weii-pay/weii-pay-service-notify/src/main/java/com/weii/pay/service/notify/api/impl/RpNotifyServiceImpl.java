@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpNotifyService")
 public class RpNotifyServiceImpl implements RpNotifyService {
 

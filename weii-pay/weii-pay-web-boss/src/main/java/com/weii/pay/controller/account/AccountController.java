@@ -1,5 +1,6 @@
 package com.weii.pay.controller.account;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.account.api.RpAccountHistoryService;
@@ -22,11 +23,14 @@ import java.util.List;
  * @Modified By:
  */
 public class AccountController {
-    @Autowired
+
+
+
+    @Reference(version = "1.0.0")
     private RpAccountService rpAccountService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpUserInfoService rpUserInfoService;
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpAccountHistoryService rpAccountHistoryService;
 
     /**

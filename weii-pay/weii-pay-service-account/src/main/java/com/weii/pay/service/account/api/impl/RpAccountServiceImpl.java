@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountService")
 public class RpAccountServiceImpl implements RpAccountService {
 

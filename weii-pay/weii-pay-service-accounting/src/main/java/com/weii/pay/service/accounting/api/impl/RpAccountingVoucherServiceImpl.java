@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -20,7 +21,8 @@ import java.util.Map;
  * @author WuShuicheng.
  *
  */
-@Component("rpAccountingVoucherService")
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service("rpAccountingVoucherService")
 public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherService {
 	
 	private static final Log LOG = LogFactory.getLog(RpAccountingVoucherServiceImpl.class);
@@ -106,7 +108,7 @@ public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherServic
 
 	@Override
 	public PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) {
-		// TODO Auto-generated method stub
+
 		return rpAccountingVoucherDao.listPage(pageParam, paramMap);
 	}
 	

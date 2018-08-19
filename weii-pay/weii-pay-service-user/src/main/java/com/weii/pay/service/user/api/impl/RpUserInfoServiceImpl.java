@@ -1,5 +1,6 @@
 package com.weii.pay.service.user.api.impl;
 
+
 import com.weii.pay.common.core.enums.PublicStatusEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
@@ -24,6 +25,8 @@ import java.util.Map;
  * @date Created in 10:48 2018/5/12
  * @Description:
  */
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@org.springframework.stereotype.Service
 public class RpUserInfoServiceImpl implements RpUserInfoService {
 
     @Autowired

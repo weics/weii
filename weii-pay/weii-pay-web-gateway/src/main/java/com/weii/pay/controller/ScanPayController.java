@@ -1,5 +1,6 @@
 package com.weii.pay.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.common.core.utils.StringUtil;
@@ -42,16 +43,16 @@ import java.util.Map;
 public class ScanPayController extends BaseController {
     private static final Log LOG = LogFactory.getLog(ScanPayController.class);
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTradePaymentManagerService rpTradePaymentManagerService;
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTradePaymentQueryService rpTradePaymentQueryService;
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpUserPayConfigService rpUserPayConfigService;
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpPayWayService rpPayWayService;
 
     /**

@@ -1,5 +1,6 @@
 package com.weii.pay.controller.message;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
@@ -12,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -23,10 +25,11 @@ import java.util.Map;
  * @date Created in 17:10 2018/5/12
  * @Description:
  */
+@RestController
 public class MessageController {
 
     private static final Log log = LogFactory.getLog(MessageController.class);
-    @Autowired
+    @Reference(version = "1.0.0")
     private RpTransactionMessageService rpTransactionMessageService;
 
     @RequestMapping(value = "/list")

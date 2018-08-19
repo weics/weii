@@ -6,6 +6,7 @@ import com.weii.pay.service.user.api.RpUserPayInfoService;
 import com.weii.pay.service.user.dao.RpUserPayInfoDao;
 import com.weii.pay.service.user.entity.RpUserPayInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,8 @@ import java.util.Map;
  * @date Created in 10:51 2018/5/12
  * @Description:
  */
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service
 public class RpUserPayInfoServiceImpl implements RpUserPayInfoService {
 
     @Autowired

@@ -15,6 +15,7 @@ import com.weii.pay.service.user.api.RpUserPayConfigService;
 import com.weii.pay.service.user.entity.RpUserPayConfig;
 import com.weii.pay.service.user.exceptions.UserBizException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,8 @@ import java.util.Map;
  * @date Created in 19:14 2018/5/12
  * @Description:
  */
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@Service
 public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryService {
     @Autowired
     private RpTradePaymentRecordDao rpTradePaymentRecordDao;
