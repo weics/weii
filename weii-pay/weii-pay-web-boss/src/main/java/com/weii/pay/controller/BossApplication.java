@@ -11,7 +11,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
  * @Description:
  * @Modified By:
  */
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class},
+        scanBasePackages = "com.weii.pay.controller.user")
 public class BossApplication {
     public static void main(String[] args) {
         SpringApplication.run(BossApplication.class, args);

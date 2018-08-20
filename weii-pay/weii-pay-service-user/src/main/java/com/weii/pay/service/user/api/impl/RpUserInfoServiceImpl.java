@@ -25,7 +25,14 @@ import java.util.Map;
  * @date Created in 10:48 2018/5/12
  * @Description:
  */
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@com.alibaba.dubbo.config.annotation.Service(
+
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+
+)
 @Service
 public class RpUserInfoServiceImpl implements RpUserInfoService {
 
@@ -66,8 +73,10 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void registerOffline(String userName) {
-        String userNo = rpUserInfoMapper.buildUserNo();
-        String accountNo = rpUserInfoMapper.buildAccountNo();
+//        String userNo = rpUserInfoMapper.buildUserNo();
+//        String accountNo = rpUserInfoMapper.buildAccountNo();
+        String userNo = "3123123123123";
+        String accountNo = "4324234234234";
 
         //生成用户信息
         RpUserInfo rpUserInfo = new RpUserInfo();

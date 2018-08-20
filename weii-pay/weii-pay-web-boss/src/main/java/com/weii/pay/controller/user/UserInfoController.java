@@ -22,7 +22,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserInfoController {
-    @Reference(version = "1.0.0")
+//    @Reference(version = "1.0.0")
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}")
     private RpUserInfoService rpUserInfoService;
 
     /**
