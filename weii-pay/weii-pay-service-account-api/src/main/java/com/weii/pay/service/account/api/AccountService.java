@@ -12,7 +12,7 @@ import com.weii.pay.service.account.exceptions.AccountBizException;
  * @date Created in 10:55 2018/5/12
  * @Description:
  */
-public interface RpAccountService{
+public interface AccountService {
 	
 	/**
 	 * 保存

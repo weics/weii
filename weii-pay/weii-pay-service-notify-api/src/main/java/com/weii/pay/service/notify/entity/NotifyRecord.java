@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class RpNotifyRecord  extends BaseEntity implements Serializable {
+public class NotifyRecord extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -6104194914044220447L;
 
@@ -42,12 +42,12 @@ public class RpNotifyRecord  extends BaseEntity implements Serializable {
     /** 通知类型 NotifyTypeEnum **/
     private String notifyType;
 
-    public RpNotifyRecord() {
+    public NotifyRecord() {
         super();
     }
 
-    public RpNotifyRecord(Date createTime, Date lastNotifyTime, Integer notifyTimes, Integer limitNotifyTimes, String url, String merchantNo,
-                          String merchantOrderNo, NotifyStatusEnum status, NotifyTypeEnum type) {
+    public NotifyRecord(Date createTime, Date lastNotifyTime, Integer notifyTimes, Integer limitNotifyTimes, String url, String merchantNo,
+                        String merchantOrderNo, NotifyStatusEnum status, NotifyTypeEnum type) {
         super();
         this.createTime = createTime;
         this.lastNotifyTime = lastNotifyTime;

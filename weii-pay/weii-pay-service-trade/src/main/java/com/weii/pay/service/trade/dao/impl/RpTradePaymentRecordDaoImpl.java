@@ -6,7 +6,7 @@ import com.weii.pay.common.core.dao.impl.BaseDaoImpl;
 import com.weii.pay.common.core.exception.BizException;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.service.trade.dao.RpTradePaymentRecordDao;
-import com.weii.pay.service.trade.entity.RpTradePaymentRecord;
+import com.weii.pay.service.trade.entity.TradePaymentRecord;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository("rpTradePaymentRecordDao")
-public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<RpTradePaymentRecord> implements RpTradePaymentRecordDao {
+public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<TradePaymentRecord> implements RpTradePaymentRecordDao {
 	
 	/** 银行订单号 **/
 	private static final String BANK_ORDER_NO_PREFIX = "6666";
@@ -82,17 +82,17 @@ public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<RpTradePaymentRecor
 	}
 
 	@Override
-	public int insertSelective(RpTradePaymentRecord record) {
+	public int insertSelective(TradePaymentRecord record) {
 		return 0;
 	}
 
 	@Override
-	public RpTradePaymentRecord selectByPrimaryKey(String id) {
+	public TradePaymentRecord selectByPrimaryKey(String id) {
 		return null;
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(RpTradePaymentRecord record) {
+	public int updateByPrimaryKeySelective(TradePaymentRecord record) {
 		return 0;
 	}
 
@@ -103,7 +103,7 @@ public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<RpTradePaymentRecor
 	 * @return
 	 */
 	@Override
-	public RpTradePaymentRecord getByBankOrderNo(String bankOrderNo) {
+	public TradePaymentRecord getByBankOrderNo(String bankOrderNo) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bankOrderNo", bankOrderNo);
 		return super.getBy(paramMap);
@@ -117,7 +117,7 @@ public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<RpTradePaymentRecor
 	 * @return
 	 */
 	@Override
-	public RpTradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo) {
+	public TradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("merchantNo", merchantNo);
 		paramMap.put("merchantOrderNo", merchantOrderNo);
@@ -130,7 +130,7 @@ public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<RpTradePaymentRecor
 	 * @param trxNo
 	 * @return
 	 */
-	public RpTradePaymentRecord getByTrxNo(String trxNo) {
+	public TradePaymentRecord getByTrxNo(String trxNo) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("trxNo", trxNo);
 		return super.getBy(paramMap);

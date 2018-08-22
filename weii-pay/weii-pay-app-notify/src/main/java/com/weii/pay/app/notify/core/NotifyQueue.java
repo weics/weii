@@ -2,7 +2,7 @@ package com.weii.pay.app.notify.core;
 
 import com.weii.pay.app.notify.App;
 import com.weii.pay.app.notify.entity.NotifyParam;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecord;
 import com.weii.pay.service.notify.enums.NotifyStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +37,7 @@ public class NotifyQueue implements Serializable {
      * @param notifyRecord
      * @throws Exception
      */
-    public void addElementToList(RpNotifyRecord notifyRecord) {
+    public void addElementToList(NotifyRecord notifyRecord) {
         if (notifyRecord == null) {
             return;
         }

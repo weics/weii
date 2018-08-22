@@ -3,11 +3,11 @@ package com.weii.pay.service.trade.aip.impl;
 import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.trade.api.RpTradePaymentQueryService;
+import com.weii.pay.service.trade.api.TradePaymentQueryService;
 import com.weii.pay.service.trade.dao.RpTradePaymentOrderDao;
 import com.weii.pay.service.trade.dao.RpTradePaymentRecordDao;
-import com.weii.pay.service.trade.entity.RpTradePaymentOrder;
-import com.weii.pay.service.trade.entity.RpTradePaymentRecord;
+import com.weii.pay.service.trade.entity.TradePaymentOrder;
+import com.weii.pay.service.trade.entity.TradePaymentRecord;
 import com.weii.pay.service.trade.enums.TradeStatusEnum;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service
-public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryService {
+public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
     @Autowired
     private RpTradePaymentRecordDao rpTradePaymentRecordDao;
 
@@ -45,7 +45,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
      * @param paramMap
      * @return
      */
-    public List<RpTradePaymentRecord> listPaymentRecord(Map<String, Object> paramMap) {
+    public List<TradePaymentRecord> listPaymentRecord(Map<String, Object> paramMap) {
         return rpTradePaymentRecordDao.listByColumn(paramMap);
     }
 
@@ -67,14 +67,14 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
         }
 
         String merchantNo = userPayConfig.getUserNo();// 商户编号
-        RpTradePaymentOrder rpTradePaymentOrder = rpTradePaymentOrderDao.selectByMerchantNoAndMerchantOrderNo(merchantNo, orderNo);
+        TradePaymentOrder tradePaymentOrder = rpTradePaymentOrderDao.selectByMerchantNoAndMerchantOrderNo(merchantNo, orderNo);
 
         OrderPayResultVo orderPayResultVo = new OrderPayResultVo();// 返回结果
-        if (rpTradePaymentOrder != null && TradeStatusEnum.SUCCESS.name().equals(rpTradePaymentOrder.getStatus())) {// 支付记录为空,或者支付状态非成功
+        if (tradePaymentOrder != null && TradeStatusEnum.SUCCESS.name().equals(tradePaymentOrder.getStatus())) {// 支付记录为空,或者支付状态非成功
             orderPayResultVo.setStatus(PublicEnum.YES.name());// 设置支付状态
-            orderPayResultVo.setOrderPrice(rpTradePaymentOrder.getOrderAmount());// 设置支付订单
-            orderPayResultVo.setProductName(rpTradePaymentOrder.getProductName());// 设置产品名称
-            orderPayResultVo.setReturnUrl(rpTradePaymentOrder.getReturnUrl());
+            orderPayResultVo.setOrderPrice(tradePaymentOrder.getOrderAmount());// 设置支付订单
+            orderPayResultVo.setProductName(tradePaymentOrder.getProductName());// 设置产品名称
+            orderPayResultVo.setReturnUrl(tradePaymentOrder.getReturnUrl());
         }
 
         return orderPayResultVo;
@@ -86,7 +86,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
      * @param bankOrderNo
      * @return
      */
-    public RpTradePaymentRecord getRecordByBankOrderNo(String bankOrderNo) {
+    public TradePaymentRecord getRecordByBankOrderNo(String bankOrderNo) {
         return rpTradePaymentRecordDao.getByBankOrderNo(bankOrderNo);
     }
 
@@ -96,7 +96,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
      * @param trxNo
      * @return
      */
-    public RpTradePaymentRecord getRecordByTrxNo(String trxNo){
+    public TradePaymentRecord getRecordByTrxNo(String trxNo){
         return rpTradePaymentRecordDao.getByTrxNo(trxNo);
     }
 
@@ -108,7 +108,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
      * @return
      */
     @Override
-    public PageBean<RpTradePaymentOrder> listPaymentOrderPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
+    public PageBean<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
 
         Map<String , Object> paramMap = new HashMap<String , Object>();
         paramMap.put("merchantNo",paymentOrderQueryVo.getMerchantNo());//商户编号
@@ -140,7 +140,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
      * @return
      */
     @Override
-    public PageBean<RpTradePaymentRecord> listPaymentRecordPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
+    public PageBean<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
         Map<String , Object> paramMap = new HashMap<String , Object>();
         paramMap.put("merchantNo",paymentOrderQueryVo.getMerchantNo());//商户编号
         paramMap.put("merchantName",paymentOrderQueryVo.getMerchantName());//商户名称

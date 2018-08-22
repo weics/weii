@@ -4,14 +4,13 @@ package com.weii.pay.service.accounting.api.impl;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.accounting.api.RpAccountingVoucherService;
+import com.weii.pay.service.accounting.api.AccountingVoucherService;
 import com.weii.pay.service.accounting.dao.RpAccountingVoucherDao;
-import com.weii.pay.service.accounting.entity.RpAccountingVoucher;
+import com.weii.pay.service.accounting.entity.AccountingVoucher;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -23,9 +22,9 @@ import java.util.Map;
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountingVoucherService")
-public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherService {
+public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	
-	private static final Log LOG = LogFactory.getLog(RpAccountingVoucherServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(AccountingVoucherServiceImpl.class);
 	
 	@Autowired
 	private RpAccountingVoucherDao rpAccountingVoucherDao;
@@ -60,8 +59,8 @@ public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherServic
 			String requestNo, String bankChannelCode, String bankAccount, int fromSystem, String remark, String bankOrderNo,
 			int payerAccountType, double payAmount, int receiverAccountType, double payerFee, double receiverFee) {
 		
-		RpAccountingVoucher rpAccountingVoucher = rpAccountingVoucherDao.getDataByVoucherNoFromSystem(entryType, voucherNo, fromSystem);
-		if(rpAccountingVoucher != null){
+		AccountingVoucher accountingVoucher = rpAccountingVoucherDao.getDataByVoucherNoFromSystem(entryType, voucherNo, fromSystem);
+		if(accountingVoucher != null){
 			LOG.info("data is exist,voucherNo="+voucherNo);
 			return ;
 		}
@@ -90,8 +89,8 @@ public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherServic
 	 * @param map
 	 * @return
 	 */
-	public RpAccountingVoucher getBy(Map<String, Object> map) {
-		RpAccountingVoucher note = rpAccountingVoucherDao.getBy(map);
+	public AccountingVoucher getBy(Map<String, Object> map) {
+		AccountingVoucher note = rpAccountingVoucherDao.getBy(map);
 
 		return note;
 	}
@@ -116,8 +115,8 @@ public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherServic
 	 * 查出分录请求表
 	 * @param requestNo
 	 */
-	public RpAccountingVoucher getAccountingVoucherByRequestNo(String requestNo){
-		RpAccountingVoucher entity = rpAccountingVoucherDao.findByRequestNo(requestNo);
+	public AccountingVoucher getAccountingVoucherByRequestNo(String requestNo){
+		AccountingVoucher entity = rpAccountingVoucherDao.findByRequestNo(requestNo);
 
 		return entity;
 	}
@@ -126,7 +125,7 @@ public class RpAccountingVoucherServiceImpl implements RpAccountingVoucherServic
 	 * 修改分录请求
 	 * @param entity
 	 */
-	public void updateAccountingVoucher(RpAccountingVoucher entity){
+	public void updateAccountingVoucher(AccountingVoucher entity){
 		rpAccountingVoucherDao.update(entity);
 	}
 	

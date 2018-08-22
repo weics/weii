@@ -4,13 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
+import com.weii.pay.service.message.api.TransactionMessageService;
+import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,17 +28,17 @@ public class MessageController {
 
     private static final Log log = LogFactory.getLog(MessageController.class);
     @Reference(version = "1.0.0")
-    private RpTransactionMessageService rpTransactionMessageService;
+    private TransactionMessageService transactionMessageService;
 
     @RequestMapping(value = "/list")
-    public String list(HttpServletRequest request, PageParam pageParam, RpTransactionMessage message, Model model) {
+    public String list(HttpServletRequest request, PageParam pageParam, TransactionMessage message, Model model) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("areadlyDead", message.getAreadlyDead());
         paramMap.put("messageId", message.getMessageId());
         paramMap.put("consumerQueue", message.getConsumerQueue());
         paramMap.put("status", message.getStatus());
 
-        PageBean pageBean = rpTransactionMessageService.listPage(pageParam, paramMap);
+        PageBean pageBean = transactionMessageService.listPage(pageParam, paramMap);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("messageStatus", MessageStatusEnum.toList());
         model.addAttribute("queues", NotifyDestinationNameEnum.toList());
@@ -50,10 +48,10 @@ public class MessageController {
     @RequestMapping(value = "/sendMessage")
     public String sendMessage(String messageId, Model model) {
 
-        rpTransactionMessageService.reSendMessageByMessageId(messageId);
+        transactionMessageService.reSendMessageByMessageId(messageId);
 //        DwzAjax dwz = new DwzAjax();
 //        try {
-//            rpTransactionMessageService.reSendMessageByMessageId(messageId);
+//            transactionMessageService.reSendMessageByMessageId(messageId);
 //            dwz.setStatusCode(DWZ.SUCCESS);
 //            dwz.setNavTabId("xxlb");
 //            dwz.setMessage("操作成功");
@@ -86,7 +84,7 @@ public class MessageController {
 //                model.addAttribute("dwz", dwz);
 //                return DWZ.AJAX_DONE;
 //            }
-            rpTransactionMessageService.reSendAllDeadMessageByQueueName(queueName, 2000);
+            transactionMessageService.reSendAllDeadMessageByQueueName(queueName, 2000);
 //            dwz.setStatusCode(DWZ.SUCCESS);
 //            dwz.setNavTabId("xxlb");
 //            dwz.setMessage("操作成功");

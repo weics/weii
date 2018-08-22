@@ -5,7 +5,7 @@ import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.enums.TrxTypeEnum;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.account.api.RpAccountTransactionService;
+import com.weii.pay.service.account.api.AccountTransactionService;
 import com.weii.pay.service.account.dao.RpAccountDao;
 import com.weii.pay.service.account.dao.RpAccountHistoryDao;
 import com.weii.pay.service.account.entity.RpAccount;
@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountTransactionService")
-public class RpAccountTransactionServiceImpl implements RpAccountTransactionService {
+public class AccountTransactionServiceImpl implements AccountTransactionService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RpAccountTransactionServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AccountTransactionServiceImpl.class);
 
 	@Autowired
 	private RpAccountDao rpAccountDao;

@@ -6,15 +6,13 @@ import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.enums.TrxTypeEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.trade.api.RpTradePaymentQueryService;
+import com.weii.pay.service.trade.api.TradePaymentQueryService;
 import com.weii.pay.service.trade.enums.TradeStatusEnum;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
 import com.weii.pay.service.user.enums.FundInfoTypeEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,11 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 //@RequestMapping("/trade")
 public class TradeController {
     @Reference(version = "1.0.0")
-    private RpTradePaymentQueryService rpTradePaymentQueryService;
+    private TradePaymentQueryService tradePaymentQueryService;
 
     @RequestMapping(value = "/listPaymentOrder", method ={RequestMethod.POST,RequestMethod.GET})
     public String listPaymentOrder(HttpServletRequest request, PaymentOrderQueryVo paymentOrderQueryVo, PageParam pageParam, Model model) {
-        PageBean pageBean = rpTradePaymentQueryService.listPaymentOrderPage(pageParam, paymentOrderQueryVo);
+        PageBean pageBean = tradePaymentQueryService.listPaymentOrderPage(pageParam, paymentOrderQueryVo);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("pageParam", pageParam);
         model.addAttribute("rpTradePaymentOrder",paymentOrderQueryVo);//查询条件
@@ -48,7 +46,7 @@ public class TradeController {
 
     @RequestMapping(value = "/listPaymentRecord", method ={RequestMethod.POST,RequestMethod.GET})
     public String listPaymentRecord(HttpServletRequest request,PaymentOrderQueryVo paymentOrderQueryVo,PageParam pageParam, Model model) {
-        PageBean pageBean = rpTradePaymentQueryService.listPaymentRecordPage(pageParam, paymentOrderQueryVo);
+        PageBean pageBean = tradePaymentQueryService.listPaymentRecordPage(pageParam, paymentOrderQueryVo);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("pageParam", pageParam);
         model.addAttribute("rpUserInfo",paymentOrderQueryVo);

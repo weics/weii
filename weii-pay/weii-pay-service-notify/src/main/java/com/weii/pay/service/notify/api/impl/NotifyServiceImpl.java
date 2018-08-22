@@ -3,11 +3,11 @@ package com.weii.pay.service.notify.api.impl;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.notify.api.RpNotifyService;
+import com.weii.pay.service.notify.api.NotifyService;
 import com.weii.pay.service.notify.dao.RpNotifyRecordDao;
 import com.weii.pay.service.notify.dao.RpNotifyRecordLogDao;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
-import com.weii.pay.service.notify.entity.RpNotifyRecordLog;
+import com.weii.pay.service.notify.entity.NotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecordLog;
 import com.weii.pay.service.notify.enums.NotifyStatusEnum;
 import com.weii.pay.service.notify.enums.NotifyTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpNotifyService")
-public class RpNotifyServiceImpl implements RpNotifyService {
+public class NotifyServiceImpl implements NotifyService {
 
 
 
@@ -36,7 +36,7 @@ public class RpNotifyServiceImpl implements RpNotifyService {
     @Override
     public void notifySend(String notifyUrl, String merchantOrderNo, String merchantNo) {
 
-        RpNotifyRecord record = new RpNotifyRecord();
+        NotifyRecord record = new NotifyRecord();
         record.setNotifyTimes(0);
         record.setLimitNotifyTimes(5);
         record.setStatus(NotifyStatusEnum.CREATED.name());
@@ -62,7 +62,7 @@ public class RpNotifyServiceImpl implements RpNotifyService {
      * @return
      */
     @Override
-    public RpNotifyRecord getNotifyRecordById(String id) {
+    public NotifyRecord getNotifyRecordById(String id) {
         return rpNotifyRecordDao.getById(id);
     }
 
@@ -75,44 +75,44 @@ public class RpNotifyServiceImpl implements RpNotifyService {
      * @return
      */
     @Override
-    public RpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) {
+    public NotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) {
         return rpNotifyRecordDao.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(merchantNo,merchantOrderNo,notifyType);
     }
 
     @Override
-    public PageBean<RpNotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) {
+    public PageBean<NotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) {
         return rpNotifyRecordDao.listPage(pageParam,paramMap);
     }
 
     /**
      * 创建消息通知
      *
-     * @param rpNotifyRecord
+     * @param notifyRecord
      */
     @Override
-    public long createNotifyRecord(RpNotifyRecord rpNotifyRecord) {
-        return rpNotifyRecordDao.insert(rpNotifyRecord);
+    public long createNotifyRecord(NotifyRecord notifyRecord) {
+        return rpNotifyRecordDao.insert(notifyRecord);
     }
 
     /**
      * 修改消息通知
      *
-     * @param rpNotifyRecord
+     * @param notifyRecord
      */
     @Override
-    public void updateNotifyRecord(RpNotifyRecord rpNotifyRecord) {
-        rpNotifyRecordDao.update(rpNotifyRecord);
+    public void updateNotifyRecord(NotifyRecord notifyRecord) {
+        rpNotifyRecordDao.update(notifyRecord);
     }
 
     /**
      * 创建消息通知记录
      *
-     * @param rpNotifyRecordLog
+     * @param notifyRecordLog
      * @return
      */
     @Override
-    public long createNotifyRecordLog(RpNotifyRecordLog rpNotifyRecordLog) {
-        return rpNotifyRecordLogDao.insert(rpNotifyRecordLog);
+    public long createNotifyRecordLog(NotifyRecordLog notifyRecordLog) {
+        return rpNotifyRecordLogDao.insert(notifyRecordLog);
     }
 
 

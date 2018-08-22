@@ -3,8 +3,8 @@ package com.weii.pay.controller.account;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.account.api.RpAccountHistoryService;
-import com.weii.pay.service.account.api.RpAccountService;
+import com.weii.pay.service.account.api.AccountHistoryService;
+import com.weii.pay.service.account.api.AccountService;
 import com.weii.pay.service.account.entity.RpAccount;
 import com.weii.pay.service.account.entity.RpAccountHistory;
 import com.weii.pay.service.user.api.UserInfoService;
@@ -26,11 +26,11 @@ public class AccountController {
 
 
     @Reference(version = "1.0.0")
-    private RpAccountService rpAccountService;
+    private AccountService accountService;
     @Reference(version = "1.0.0")
     private UserInfoService userInfoService;
     @Reference(version = "1.0.0")
-    private RpAccountHistoryService rpAccountHistoryService;
+    private AccountHistoryService accountHistoryService;
 
     /**
      * 函数功能说明 ： 查询账户信息
@@ -41,7 +41,7 @@ public class AccountController {
      */
     @RequestMapping(value = "/list", method ={RequestMethod.POST,RequestMethod.GET})
     public String list(RpAccount rpAccount, PageParam pageParam, Model model) {
-        PageBean pageBean = rpAccountService.listPage(pageParam, rpAccount);
+        PageBean pageBean = accountService.listPage(pageParam, rpAccount);
         List<Object> recordList = pageBean.getRecordList();
         for(Object obj : recordList){
             RpAccount account = (RpAccount)obj;
@@ -63,7 +63,7 @@ public class AccountController {
      */
     @RequestMapping(value = "/historyList", method ={RequestMethod.POST,RequestMethod.GET})
     public String historyList(RpAccountHistory rpAccountHistory, PageParam pageParam, Model model) {
-        PageBean pageBean = rpAccountHistoryService.listPage(pageParam, rpAccountHistory);
+        PageBean pageBean = accountHistoryService.listPage(pageParam, rpAccountHistory);
         List<Object> recordList = pageBean.getRecordList();
         for(Object obj : recordList){
             RpAccountHistory history = (RpAccountHistory)obj;

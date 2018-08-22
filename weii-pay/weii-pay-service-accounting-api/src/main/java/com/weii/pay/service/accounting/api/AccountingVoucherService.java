@@ -2,7 +2,7 @@ package com.weii.pay.service.accounting.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.accounting.entity.RpAccountingVoucher;
+import com.weii.pay.service.accounting.entity.AccountingVoucher;
 import com.weii.pay.service.accounting.exceptions.AccountingBizException;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @date Created in 18:33 2018/5/11
  * @Description: 会计原始凭证服务接口.
  */
-public interface RpAccountingVoucherService {
+public interface AccountingVoucherService {
 
     /**
      * 创建会计分录原始凭证信息.
@@ -55,7 +55,7 @@ public interface RpAccountingVoucherService {
      * @param map
      * @return
      */
-    public RpAccountingVoucher getBy(Map<String, Object> map) throws AccountingBizException;
+    public AccountingVoucher getBy(Map<String, Object> map) throws AccountingBizException;
 
     /***
      * 根据条件查询分录请求表数据
@@ -79,14 +79,14 @@ public interface RpAccountingVoucherService {
      *
      * @param requestNo
      */
-    public RpAccountingVoucher getAccountingVoucherByRequestNo(String requestNo) throws AccountingBizException;
+    public AccountingVoucher getAccountingVoucherByRequestNo(String requestNo) throws AccountingBizException;
 
     /**
      * 修改分录请求
      *
      * @param entity
      */
-    public void updateAccountingVoucher(RpAccountingVoucher entity) throws AccountingBizException;
+    public void updateAccountingVoucher(AccountingVoucher entity) throws AccountingBizException;
 
 
 }

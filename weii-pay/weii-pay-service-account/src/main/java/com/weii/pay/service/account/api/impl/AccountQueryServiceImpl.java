@@ -6,7 +6,7 @@ import com.weii.pay.common.core.enums.PublicStatusEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.DateUtils;
-import com.weii.pay.service.account.api.RpAccountQueryService;
+import com.weii.pay.service.account.api.AccountQueryService;
 
 import com.weii.pay.service.account.dao.RpAccountDao;
 import com.weii.pay.service.account.dao.RpAccountHistoryDao;
@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountQueryService")
-public class RpAccountQueryServiceImpl implements RpAccountQueryService {
+public class AccountQueryServiceImpl implements AccountQueryService {
 	@Autowired
 	private RpAccountDao rpAccountDao;
 	@Autowired
 	private RpAccountHistoryDao rpAccountHistoryDao;
 
-	private static final Logger LOG = LoggerFactory.getLogger(RpAccountQueryServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AccountQueryServiceImpl.class);
 
 	/**
 	 * 根据账户编号获取账户信息

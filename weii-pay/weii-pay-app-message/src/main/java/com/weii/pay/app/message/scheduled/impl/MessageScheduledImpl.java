@@ -6,8 +6,8 @@ import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.PublicConfigUtil;
-import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
+import com.weii.pay.service.message.api.TransactionMessageService;
+import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +29,7 @@ public class MessageScheduledImpl implements MessageScheduled {
     private static final Log log = LogFactory.getLog(MessageScheduledImpl.class);
 
     @Autowired
-    private RpTransactionMessageService rpTransactionMessageService;
+    private TransactionMessageService transactionMessageService;
 
 
     @Autowired
@@ -52,7 +52,7 @@ public class MessageScheduledImpl implements MessageScheduled {
             paramMap.put("createTimeBefore",dateStr);//取存放了多久的消息
             paramMap.put("status", MessageStatusEnum.WAITING_CONFIRM.name());
 
-            Map<String,RpTransactionMessage> messageMap = getMessageMap(numPerPage,maxHandlePageCount,paramMap);
+            Map<String,TransactionMessage> messageMap = getMessageMap(numPerPage,maxHandlePageCount,paramMap);
 
             messageBiz.handleWaitingConfirmTimeOutMessage(messageMap);
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class MessageScheduledImpl implements MessageScheduled {
             paramMap.put("areadlyDead", PublicEnum.NO.name());// 取存活的发送中消息
 
 
-            Map<String, RpTransactionMessage> messageMap = getMessageMap(numPerPage, maxHandlePageCount, paramMap);
+            Map<String, TransactionMessage> messageMap = getMessageMap(numPerPage, maxHandlePageCount, paramMap);
 
             messageBiz.handleSendingTimeOutMessage(messageMap);
         } catch (Exception e) {
@@ -99,16 +99,16 @@ public class MessageScheduledImpl implements MessageScheduled {
      * @return
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Map<String,RpTransactionMessage> getMessageMap(int numPerPage,int maxHandlePageCount,Map<String, Object> paramMap){
+    private Map<String,TransactionMessage> getMessageMap(int numPerPage, int maxHandlePageCount, Map<String, Object> paramMap){
         int pageNum = 1; // 当前页
 
-        Map<String,RpTransactionMessage> messageMap = new HashMap<String, RpTransactionMessage>(); // 转换成map
-        List<RpTransactionMessage> recordList = new ArrayList<RpTransactionMessage>(); // 每次拿到的结果集
+        Map<String,TransactionMessage> messageMap = new HashMap<String, TransactionMessage>(); // 转换成map
+        List<TransactionMessage> recordList = new ArrayList<TransactionMessage>(); // 每次拿到的结果集
         int pageCount = 1;//总页数
 
         log.info("==>pageNum:" + pageNum + ", numPerPage:" + numPerPage);
 
-        PageBean pageBean = rpTransactionMessageService.listPage(new PageParam(pageNum,numPerPage),paramMap);
+        PageBean pageBean = transactionMessageService.listPage(new PageParam(pageNum,numPerPage),paramMap);
 
 
         recordList = pageBean.getRecordList();
@@ -120,7 +120,7 @@ public class MessageScheduledImpl implements MessageScheduled {
 
         log.info("==>now page size:" + recordList.size());
 
-        for (RpTransactionMessage message : recordList){
+        for (TransactionMessage message : recordList){
             messageMap.put(message.getMessageId(),message);
         }
 
@@ -136,7 +136,7 @@ public class MessageScheduledImpl implements MessageScheduled {
         for (pageNum = 2;pageNum <= pageCount; pageNum++){
             log.info("==>pageNum:" + pageNum + ", numPerPage:" + numPerPage);
 
-            pageBean = rpTransactionMessageService.listPage(new PageParam(pageNum,numPerPage),paramMap);
+            pageBean = transactionMessageService.listPage(new PageParam(pageNum,numPerPage),paramMap);
             recordList = pageBean.getRecordList();
 
             if (recordList == null || recordList.isEmpty()){
@@ -144,7 +144,7 @@ public class MessageScheduledImpl implements MessageScheduled {
             }
             log.info("==>now page size:" + recordList.size());
 
-            for (RpTransactionMessage message : recordList) {
+            for (TransactionMessage message : recordList) {
                 messageMap.put(message.getMessageId(), message);
             }
 

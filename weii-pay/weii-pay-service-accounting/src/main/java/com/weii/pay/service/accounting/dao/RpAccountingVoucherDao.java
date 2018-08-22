@@ -2,13 +2,13 @@ package com.weii.pay.service.accounting.dao;
 
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.accounting.entity.RpAccountingVoucher;
+import com.weii.pay.service.accounting.entity.AccountingVoucher;
 
 import java.util.List;
 import java.util.Map;
 
 
-public interface RpAccountingVoucherDao extends BaseDao<RpAccountingVoucher> {
+public interface RpAccountingVoucherDao extends BaseDao<AccountingVoucher> {
 	
 	/**
 	 * 创建会计分录原始凭证信息.
@@ -45,7 +45,7 @@ public interface RpAccountingVoucherDao extends BaseDao<RpAccountingVoucher> {
 	 * @return AccountingRequestNote .
 	 * 
 	 */
-	RpAccountingVoucher findByRequestNo(String requestNo);
+	AccountingVoucher findByRequestNo(String requestNo);
 
 	/***
 	 * 根据条件查询分录请求表数据
@@ -66,7 +66,7 @@ public interface RpAccountingVoucherDao extends BaseDao<RpAccountingVoucher> {
 	 * @param noteMap
 	 * @return
 	 */
-	List<RpAccountingVoucher> getListBy(Map<String, Object> noteMap);
+	List<AccountingVoucher> getListBy(Map<String, Object> noteMap);
 	
 	
 	/**
@@ -75,7 +75,7 @@ public interface RpAccountingVoucherDao extends BaseDao<RpAccountingVoucher> {
 	 * @param voucherNo 交易流水号
 	 * @return
 	 */
-	public RpAccountingVoucher getAccountingRequestNote(String requestNo, String bankOrderNo, String voucherNo);
+	public AccountingVoucher getAccountingRequestNote(String requestNo, String bankOrderNo, String voucherNo);
 	
 	/**
 	 * @param entryType
@@ -86,5 +86,5 @@ public interface RpAccountingVoucherDao extends BaseDao<RpAccountingVoucher> {
 	 *            来源系统
 	 * @return
 	 */
-	public RpAccountingVoucher getDataByVoucherNoFromSystem(int entryType, String voucherNo, int fromSystem);
+	public AccountingVoucher getDataByVoucherNoFromSystem(int entryType, String voucherNo, int fromSystem);
 }

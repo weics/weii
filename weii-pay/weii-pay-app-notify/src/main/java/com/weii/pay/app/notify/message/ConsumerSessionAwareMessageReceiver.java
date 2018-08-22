@@ -6,9 +6,8 @@ import com.weii.pay.app.notify.core.NotifyPersist;
 import com.weii.pay.app.notify.core.NotifyQueue;
 import com.weii.pay.common.core.exception.BizException;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
-import com.weii.pay.service.notify.api.RpNotifyService;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
+import com.weii.pay.service.notify.api.NotifyService;
+import com.weii.pay.service.notify.entity.NotifyRecord;
 import com.weii.pay.service.notify.enums.NotifyStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +34,7 @@ public class ConsumerSessionAwareMessageReceiver {
     private NotifyQueue notifyQueue;
 
     @Autowired
-    private RpNotifyService rpNotifyService;
+    private NotifyService notifyService;
 
     @Autowired
     private NotifyPersist notifyPersist;
@@ -52,7 +51,7 @@ public class ConsumerSessionAwareMessageReceiver {
             log.info("== receive message:" + ms);
 
             JSON json = (JSON) JSONObject.parse(ms);
-            RpNotifyRecord notifyRecord = JSONObject.toJavaObject(json, RpNotifyRecord.class);
+            NotifyRecord notifyRecord = JSONObject.toJavaObject(json, NotifyRecord.class);
             if (notifyRecord == null) {
                 return;
             }
@@ -62,20 +61,20 @@ public class ConsumerSessionAwareMessageReceiver {
             notifyRecord.setLastNotifyTime(new Date());
 
             if ( !StringUtil.isEmpty(notifyRecord.getId())){
-                RpNotifyRecord notifyRecordById = rpNotifyService.getNotifyRecordById(notifyRecord.getId());
+                NotifyRecord notifyRecordById = notifyService.getNotifyRecordById(notifyRecord.getId());
                 if (notifyRecordById != null){
                     return;
                 }
             }
 
-            while (rpNotifyService == null) {
+            while (notifyService == null) {
                 Thread.currentThread().sleep(1000); // 主动休眠，防止类Spring 未加载完成，监听服务就开启监听出现空指针异常
             }
 
             try {
                 // 将获取到的通知先保存到数据库中
                 notifyPersist.saveNotifyRecord(notifyRecord);
-                notifyRecord = rpNotifyService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(notifyRecord.getMerchantNo(), notifyRecord.getMerchantOrderNo(), notifyRecord.getNotifyType());
+                notifyRecord = notifyService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(notifyRecord.getMerchantNo(), notifyRecord.getMerchantOrderNo(), notifyRecord.getNotifyType());
 
                 // 添加到通知队列
                 notifyQueue.addElementToList(notifyRecord);

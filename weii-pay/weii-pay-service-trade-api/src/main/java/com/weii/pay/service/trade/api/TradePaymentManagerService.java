@@ -2,7 +2,7 @@ package com.weii.pay.service.trade.api;
 
 import com.weii.pay.service.trade.exceptions.TradeBizException;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
-import com.weii.pay.service.trade.vo.RpPayGateWayPageShowVo;
+import com.weii.pay.service.trade.vo.PayGateWayPageShowVo;
 import com.weii.pay.service.trade.vo.ScanPayResultVo;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @Description: WeiiPay订单管理服务接口,所有与接口相关,需要做数据修改,事务管理的类,由该接口管理
  * @Modified By:
  */
-public interface RpTradePaymentManagerService {
+public interface TradePaymentManagerService {
 
     /**
      * 初始化直连扫码支付数据,直连扫码支付初始化方法规则
@@ -112,7 +112,7 @@ public interface RpTradePaymentManagerService {
      * @param field4    扩展字段4
      * @param field5    扩展字段5
      */
-    public RpPayGateWayPageShowVo initNonDirectScanPay(String payKey, String productName, String orderNo, Date orderDate, Date orderTime, BigDecimal orderPrice, String orderIp, Integer orderPeriod, String returnUrl
+    public PayGateWayPageShowVo initNonDirectScanPay(String payKey, String productName, String orderNo, Date orderDate, Date orderTime, BigDecimal orderPrice, String orderIp, Integer orderPeriod, String returnUrl
             , String notifyUrl, String remark, String field1, String field2, String field3, String field4, String field5) throws TradeBizException;
 
     /**

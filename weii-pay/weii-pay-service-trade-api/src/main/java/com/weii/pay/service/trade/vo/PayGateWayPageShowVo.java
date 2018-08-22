@@ -12,7 +12,7 @@ import java.util.Map;
  * @Description: 支付网关页面展示实体
  * @Modified By:
  */
-public class RpPayGateWayPageShowVo implements Serializable {
+public class PayGateWayPageShowVo implements Serializable {
     private static final long serialVersionUID = -8326765365969156567L;
 
     /** 订单金额 **/

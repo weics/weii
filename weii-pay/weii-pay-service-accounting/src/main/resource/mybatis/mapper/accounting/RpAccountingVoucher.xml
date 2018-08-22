@@ -6,7 +6,7 @@
 	<!-- 表名 -->
 	<sql id="table"> rp_accounting_voucher </sql>
 	
-	<resultMap id="beanMap" type="com.weii.pay.service.accounting.entity.RpAccountingVoucher">
+	<resultMap id="beanMap" type="com.weii.pay.service.accounting.entity.AccountingVoucher">
 		<id column="ID" property="id" />
 		
 		<result column="entry_type" property="entryType" />
@@ -41,7 +41,7 @@
 		
 	</resultMap>
 
-	<insert id="insert" parameterType="com.weii.pay.service.accounting.entity.RpAccountingVoucher" keyProperty="id" useGeneratedKeys="true">
+	<insert id="insert" parameterType="com.weii.pay.service.accounting.entity.AccountingVoucher" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO
 		<include refid="table" />
 		(
@@ -103,7 +103,7 @@
 		)
 	</insert>
 	
-	<update id="update" parameterType="com.weii.pay.service.accounting.entity.RpAccountingVoucher">
+	<update id="update" parameterType="com.weii.pay.service.accounting.entity.AccountingVoucher">
 		UPDATE
 		<include refid="table" />
 		<set>

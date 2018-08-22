@@ -2,7 +2,7 @@ package com.weii.pay.service.message.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
+import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.exception.MessageBizException;
 
 import java.util.Map;
@@ -13,12 +13,12 @@ import java.util.Map;
  * @Description: message状态枚举.
  * @Modified By:
  */
-public interface RpTransactionMessageService {
+public interface TransactionMessageService {
 
     /**
      * 预存储消息.
      */
-    public int saveMessageWaitingConfirm(RpTransactionMessage rpTransactionMessage) throws MessageBizException;
+    public int saveMessageWaitingConfirm(TransactionMessage transactionMessage) throws MessageBizException;
 
 
     /**
@@ -30,19 +30,19 @@ public interface RpTransactionMessageService {
     /**
      * 存储并发送消息.
      */
-    public int saveAndSendMessage(RpTransactionMessage rpTransactionMessage) throws MessageBizException;
+    public int saveAndSendMessage(TransactionMessage transactionMessage) throws MessageBizException;
 
 
     /**
      * 直接发送消息.
      */
-    public void directSendMessage(RpTransactionMessage rpTransactionMessage) throws MessageBizException;
+    public void directSendMessage(TransactionMessage transactionMessage) throws MessageBizException;
 
 
     /**
      * 重发消息.
      */
-    public void reSendMessage(RpTransactionMessage rpTransactionMessage) throws MessageBizException;
+    public void reSendMessage(TransactionMessage transactionMessage) throws MessageBizException;
 
 
     /**
@@ -60,7 +60,7 @@ public interface RpTransactionMessageService {
     /**
      * 根据消息ID获取消息
      */
-    public RpTransactionMessage getMessageByMessageId(String messageId) throws MessageBizException;
+    public TransactionMessage getMessageByMessageId(String messageId) throws MessageBizException;
 
     /**
      * 根据消息ID删除消息

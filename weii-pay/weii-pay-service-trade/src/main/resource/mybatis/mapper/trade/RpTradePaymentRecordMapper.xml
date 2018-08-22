@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.roncoo.pay.service.trade.dao.impl.RpTradePaymentRecordDaoImpl">
 
-	<resultMap id="BaseResultMap" type="com.weii.pay.service.trade.entity.RpTradePaymentRecord">
+	<resultMap id="BaseResultMap" type="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="version" property="version" jdbcType="SMALLINT" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -76,7 +76,7 @@
 		delete from rp_trade_payment_record
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="com.weii.pay.service.trade.entity.RpTradePaymentRecord">
+	<insert id="insert" parameterType="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		insert into rp_trade_payment_record (id, version, create_time,
 		status, editor, creater,
 		edit_time, product_name, merchant_order_no,
@@ -115,7 +115,7 @@
 		#{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.weii.pay.service.trade.entity.RpTradePaymentRecord">
+	<insert id="insertSelective" parameterType="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		insert into rp_trade_payment_record
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -434,7 +434,7 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.trade.entity.RpTradePaymentRecord">
+	<update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		update rp_trade_payment_record
 		<set>
 			<if test="version != null">
@@ -593,7 +593,7 @@
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.weii.pay.service.trade.entity.RpTradePaymentRecord">
+	<update id="updateByPrimaryKey" parameterType="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		update rp_trade_payment_record
 		set version = #{version,jdbcType=SMALLINT},
 		create_time = #{createTime,jdbcType=TIMESTAMP},

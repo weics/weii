@@ -6,7 +6,7 @@ import com.weii.pay.common.core.entity.BaseEntity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class RpNotifyRecordLog extends BaseEntity implements Serializable {
+public class NotifyRecordLog extends BaseEntity implements Serializable {
     /**
      *
      */
@@ -40,11 +40,11 @@ public class RpNotifyRecordLog extends BaseEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    public RpNotifyRecordLog() {
+    public NotifyRecordLog() {
         super();
     }
 
-    public RpNotifyRecordLog(Date createTime, String notifyId, String request, String response, String merchantNo, String merchantOrderNo, Integer httpStatus) {
+    public NotifyRecordLog(Date createTime, String notifyId, String request, String response, String merchantNo, String merchantOrderNo, Integer httpStatus) {
         super();
         this.createTime = createTime;
         this.notifyId = notifyId;

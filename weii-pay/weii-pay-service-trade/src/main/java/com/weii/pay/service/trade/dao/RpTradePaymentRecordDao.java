@@ -2,9 +2,9 @@ package com.weii.pay.service.trade.dao;
 
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.trade.entity.RpTradePaymentRecord;
+import com.weii.pay.service.trade.entity.TradePaymentRecord;
 
-public interface RpTradePaymentRecordDao extends BaseDao<RpTradePaymentRecord> {
+public interface RpTradePaymentRecordDao extends BaseDao<TradePaymentRecord> {
 	
 	/** 获取支付流水号 **/
 	String buildTrxNo();
@@ -15,18 +15,18 @@ public interface RpTradePaymentRecordDao extends BaseDao<RpTradePaymentRecord> {
 	
     int deleteByPrimaryKey(String id);
 
-    int insertSelective(RpTradePaymentRecord record);
+    int insertSelective(TradePaymentRecord record);
 
-    RpTradePaymentRecord selectByPrimaryKey(String id);
+    TradePaymentRecord selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(RpTradePaymentRecord record);
+    int updateByPrimaryKeySelective(TradePaymentRecord record);
 
     /**
      * 根据银行订单号获取支付信息
      * @param bankOrderNo
      * @return
      */
-    RpTradePaymentRecord getByBankOrderNo(String bankOrderNo);
+    TradePaymentRecord getByBankOrderNo(String bankOrderNo);
 
     /**
      * 根据商户编号及商户订单号获取支付结果
@@ -34,7 +34,7 @@ public interface RpTradePaymentRecordDao extends BaseDao<RpTradePaymentRecord> {
      * @param merchantOrderNo
      * @return
      */
-    RpTradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo);
+    TradePaymentRecord getByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo);
 
     /**
 	 * 根据支付流水号查询支付记录
@@ -42,6 +42,6 @@ public interface RpTradePaymentRecordDao extends BaseDao<RpTradePaymentRecord> {
 	 * @param trxNo
 	 * @return
 	 */
-	RpTradePaymentRecord getByTrxNo(String trxNo);
+	TradePaymentRecord getByTrxNo(String trxNo);
 
 }

@@ -13,7 +13,7 @@ import java.util.Date;
  * @Description: 支付订单表
  * @Modified By:
  */
-public class RpTradePaymentOrder extends BaseEntity implements Serializable {
+public class TradePaymentOrder extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 4205335329741561071L;
 
     /** 商品名称 **/

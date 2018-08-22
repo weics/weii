@@ -16,7 +16,7 @@ import java.util.Map;
  * @date Created in 10:55 2018/5/12
  * @Description:
  */
-public interface RpAccountQueryService {
+public interface AccountQueryService {
     /**
      * 根据账户编号获取账户信息
      *

@@ -11,7 +11,7 @@ import com.weii.pay.service.account.exceptions.AccountBizException;
  * @date Created in 10:54 2018/5/12
  * @Description: 账户历史service接口
  */
-public interface RpAccountHistoryService {
+public interface AccountHistoryService {
     /**
      * 保存
      */

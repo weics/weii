@@ -11,7 +11,7 @@ import java.util.Date;
  * @date Created in 18:37 2018/5/11
  * @Description:
  */
-public class RpAccountingVoucher extends BaseEntity implements Serializable {
+public class AccountingVoucher extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -8468106528334365078L;
 
 

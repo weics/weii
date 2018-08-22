@@ -2,19 +2,19 @@ package com.weii.pay.service.notify.dao;
 
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecord;
 
-public interface RpNotifyRecordDao  extends BaseDao<RpNotifyRecord> {
+public interface RpNotifyRecordDao  extends BaseDao<NotifyRecord> {
 
-    RpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType);
+    NotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType);
 
     int deleteByPrimaryKey(String id);
 
-    int insertSelective(RpNotifyRecord record);
+    int insertSelective(NotifyRecord record);
 
-    RpNotifyRecord selectByPrimaryKey(String id);
+    NotifyRecord selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(RpNotifyRecord record);
+    int updateByPrimaryKeySelective(NotifyRecord record);
 
-    int updateByPrimaryKey(RpNotifyRecord record);
+    int updateByPrimaryKey(NotifyRecord record);
 }

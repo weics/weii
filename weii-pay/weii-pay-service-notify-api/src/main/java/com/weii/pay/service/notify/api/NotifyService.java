@@ -3,13 +3,13 @@ package com.weii.pay.service.notify.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
-import com.weii.pay.service.notify.entity.RpNotifyRecordLog;
+import com.weii.pay.service.notify.entity.NotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecordLog;
 import com.weii.pay.service.notify.exceptions.NotifyBizException;
 
 import java.util.Map;
 
-public interface RpNotifyService {
+public interface NotifyService {
 
     /**
      * 发送消息通知
@@ -25,7 +25,7 @@ public interface RpNotifyService {
      * @param id
      * @return
      */
-    public RpNotifyRecord getNotifyRecordById(String id) throws NotifyBizException;
+    public NotifyRecord getNotifyRecordById(String id) throws NotifyBizException;
 
     /**
      * 根据商户编号,商户订单号,通知类型获取通知记录
@@ -34,27 +34,27 @@ public interface RpNotifyService {
      * @param notifyType    消息类型
      * @return
      */
-    public RpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) throws NotifyBizException;
+    public NotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) throws NotifyBizException;
 
 
-    public PageBean<RpNotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) throws NotifyBizException;
+    public PageBean<NotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) throws NotifyBizException;
     /**
      * 创建消息通知
-     * @param rpNotifyRecord
+     * @param notifyRecord
      */
-    public long createNotifyRecord(RpNotifyRecord rpNotifyRecord) throws NotifyBizException;
+    public long createNotifyRecord(NotifyRecord notifyRecord) throws NotifyBizException;
 
     /**
      * 修改消息通知
-     * @param rpNotifyRecord
+     * @param notifyRecord
      */
-    public void updateNotifyRecord(RpNotifyRecord rpNotifyRecord) throws NotifyBizException;
+    public void updateNotifyRecord(NotifyRecord notifyRecord) throws NotifyBizException;
 
     /**
      * 创建消息通知记录
-     * @param rpNotifyRecordLog
+     * @param notifyRecordLog
      * @return
      */
-    public long createNotifyRecordLog(RpNotifyRecordLog rpNotifyRecordLog) throws NotifyBizException;
+    public long createNotifyRecordLog(NotifyRecordLog notifyRecordLog) throws NotifyBizException;
 
 }

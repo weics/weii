@@ -1,7 +1,7 @@
 package com.weii.pay.service.message.dao;
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
+import com.weii.pay.service.message.entity.TransactionMessage;
 
 /**
  * @Author: weics
@@ -9,5 +9,5 @@ import com.weii.pay.service.message.entity.RpTransactionMessage;
  * @Description:
  * @Modified By:
  */
-public interface RpTransactionMessageDao extends BaseDao<RpTransactionMessage> {
+public interface RpTransactionMessageDao extends BaseDao<TransactionMessage> {
 }

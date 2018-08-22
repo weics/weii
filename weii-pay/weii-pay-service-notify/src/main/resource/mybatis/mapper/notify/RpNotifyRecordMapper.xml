@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.roncoo.pay.service.notify.dao.impl.RpNotifyRecordDaoImpl" >
 
-  <resultMap id="BaseResultMap" type="com.weii.pay.service.notify.entity.RpNotifyRecord" >
+  <resultMap id="BaseResultMap" type="com.weii.pay.service.notify.entity.NotifyRecord" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="version" property="version" jdbcType="SMALLINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -35,7 +35,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insert" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecord" >
+  <insert id="insert" parameterType="com.weii.pay.service.notify.entity.NotifyRecord" >
     insert into rp_notify_record (id, version, create_time, 
       editor, creater, edit_time, 
       notify_times, limit_notify_times, url, 
@@ -48,7 +48,7 @@
       #{notifyType,jdbcType=SMALLINT})
   </insert>
 
-  <insert id="insertSelective" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecord" >
+  <insert id="insertSelective" parameterType="com.weii.pay.service.notify.entity.NotifyRecord" >
     insert into rp_notify_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -134,7 +134,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecord" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.notify.entity.NotifyRecord" >
     update rp_notify_record
     <set >
       <if test="version != null" >
@@ -177,7 +177,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecord" >
+  <update id="updateByPrimaryKey" parameterType="com.weii.pay.service.notify.entity.NotifyRecord" >
     update rp_notify_record
     set version = #{version,jdbcType=SMALLINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

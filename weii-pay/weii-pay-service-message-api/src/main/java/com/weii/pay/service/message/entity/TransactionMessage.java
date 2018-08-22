@@ -8,7 +8,7 @@ import com.weii.pay.common.core.entity.BaseEntity;
  * @Description: 持久化消息实体
  * @Modified By:
  */
-public class RpTransactionMessage extends BaseEntity {
+public class TransactionMessage extends BaseEntity {
 
     private static final long serialVersionUID = -2162707074513387185L;
 
@@ -30,12 +30,12 @@ public class RpTransactionMessage extends BaseEntity {
 
     private String field3;
 
-    public RpTransactionMessage() {
+    public TransactionMessage() {
         super();
     }
 
 
-    public RpTransactionMessage(String messageId, String messageBody, String consumerQueue) {
+    public TransactionMessage(String messageId, String messageBody, String consumerQueue) {
         super();
         this.messageId = messageId;
         this.messageBody = messageBody;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.roncoo.pay.service.notify.dao.impl.RpNotifyRecordLogDaoImpl" >
 
-  <resultMap id="BaseResultMap" type="com.weii.pay.service.notify.entity.RpNotifyRecordLog" >
+  <resultMap id="BaseResultMap" type="com.weii.pay.service.notify.entity.NotifyRecordLog" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="version" property="version" jdbcType="SMALLINT" />
     <result column="editor" property="editor" jdbcType="VARCHAR" />
@@ -34,7 +34,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insert" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecordLog" >
+  <insert id="insert" parameterType="com.weii.pay.service.notify.entity.NotifyRecordLog" >
     insert into rp_notify_record_log (id, version, editor, 
       creater, edit_time, create_time, 
       notify_id, request, response, 
@@ -47,7 +47,7 @@
       )
   </insert>
 
-  <insert id="insertSelective" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecordLog" >
+  <insert id="insertSelective" parameterType="com.weii.pay.service.notify.entity.NotifyRecordLog" >
     insert into rp_notify_record_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -127,7 +127,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecordLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.weii.pay.service.notify.entity.NotifyRecordLog" >
     update rp_notify_record_log
     <set >
       <if test="version != null" >
@@ -167,7 +167,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.weii.pay.service.notify.entity.RpNotifyRecordLog" >
+  <update id="updateByPrimaryKey" parameterType="com.weii.pay.service.notify.entity.NotifyRecordLog" >
     update rp_notify_record_log
     set version = #{version,jdbcType=SMALLINT},
       editor = #{editor,jdbcType=VARCHAR},

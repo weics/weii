@@ -5,8 +5,8 @@ import com.weii.pay.app.notify.core.NotifyQueue;
 import com.weii.pay.app.notify.core.NotifyTask;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.notify.api.RpNotifyService;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
+import com.weii.pay.service.notify.api.NotifyService;
+import com.weii.pay.service.notify.entity.NotifyRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -34,7 +34,7 @@ public class App {
 
     private static ThreadPoolTaskExecutor threadPool;
 
-    public static RpNotifyService rpNotifyService;
+    public static NotifyService notifyService;
 
     private static NotifyQueue notifyQueue;
 
@@ -45,7 +45,7 @@ public class App {
             context = new ClassPathXmlApplicationContext(new String[] { "spring/spring-context.xml" });
             context.start();
             threadPool = (ThreadPoolTaskExecutor) context.getBean("threadPool");
-            rpNotifyService = (RpNotifyService) context.getBean("rpNotifyService");
+            notifyService = (NotifyService) context.getBean("notifyService");
             notifyQueue = (NotifyQueue) context.getBean("notifyQueue");
             notifyPersist = (NotifyPersist) context.getBean("notifyPersist");
             startInitFromDB();
@@ -113,20 +113,20 @@ public class App {
         paramMap.put("statusList", status);
         paramMap.put("notifyTimeList", notifyTime);
 
-        PageBean<RpNotifyRecord> pager = rpNotifyService.queryNotifyRecordListPage(pageParam, paramMap);
+        PageBean<NotifyRecord> pager = notifyService.queryNotifyRecordListPage(pageParam, paramMap);
 //        int totalSize = (pager.getNumPerPage()-1)/numPerPage+1;//总页数
         int totalSize = pager.getTotalPage();//总页数
         while (pageNum <= totalSize) {
-            List<RpNotifyRecord> list = pager.getRecordList();
+            List<NotifyRecord> list = pager.getRecordList();
             for (int i = 0; i < list.size(); i++) {
-                RpNotifyRecord notifyRecord = list.get(i);
+                NotifyRecord notifyRecord = list.get(i);
                 notifyRecord.setLastNotifyTime(new Date());
                 notifyQueue.addElementToList(notifyRecord);
             }
             pageNum++;
-            LOG.info(String.format("调用通知服务.rpNotifyService.queryNotifyRecordListPage(%s, %s, %s)", pageNum, numPerPage, paramMap));
+            LOG.info(String.format("调用通知服务.notifyService.queryNotifyRecordListPage(%s, %s, %s)", pageNum, numPerPage, paramMap));
             pageParam = new PageParam(pageNum, numPerPage);
-            pager = rpNotifyService.queryNotifyRecordListPage(pageParam, paramMap);
+            pager = notifyService.queryNotifyRecordListPage(pageParam, paramMap);
         }
     }
 }

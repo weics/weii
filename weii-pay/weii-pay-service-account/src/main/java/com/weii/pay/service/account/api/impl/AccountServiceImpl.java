@@ -3,7 +3,7 @@ package com.weii.pay.service.account.api.impl;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.account.api.RpAccountService;
+import com.weii.pay.service.account.api.AccountService;
 import com.weii.pay.service.account.dao.RpAccountDao;
 import com.weii.pay.service.account.entity.RpAccount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountService")
-public class RpAccountServiceImpl implements RpAccountService {
+public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private RpAccountDao rpAccountDao;

@@ -50,7 +50,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoMapper rpUserInfoMapper;
 
 //    @Autowired
-//    private RpAccountService rpAccountService;
+//    private AccountService rpAccountService;
 
     @Override
     public void saveData(UserInfo userInfo) {

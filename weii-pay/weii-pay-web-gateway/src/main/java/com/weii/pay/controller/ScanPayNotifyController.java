@@ -4,15 +4,14 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.weii.pay.common.core.enums.PayWayEnum;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
-import com.weii.pay.service.trade.api.RpTradePaymentManagerService;
+import com.weii.pay.service.message.api.TransactionMessageService;
+import com.weii.pay.service.message.entity.TransactionMessage;
+import com.weii.pay.service.trade.api.TradePaymentManagerService;
 import com.weii.pay.service.trade.utils.WeiXinPayUtils;
 import com.weii.pay.service.trade.utils.alipay.util.AliPayUtil;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +33,9 @@ public class ScanPayNotifyController {
     private static final Log LOG = LogFactory.getLog(ScanPayController.class);
 
     @Reference(version = "1.0.0")
-    private RpTradePaymentManagerService rpTradePaymentManagerService;
+    private TradePaymentManagerService tradePaymentManagerService;
     @Reference(version = "1.0.0")
-    private RpTransactionMessageService rpTransactionMessageService;
+    private TransactionMessageService transactionMessageService;
 
     /**
      * 支付平台异步通知.
@@ -72,7 +71,7 @@ public class ScanPayNotifyController {
             printStr = "TEST_PAY_HTTP_CLIENT success";
         }else{
             //验证签名
-            rpTradePaymentManagerService.verifyNotify(payWayCode, notifyMap);
+            tradePaymentManagerService.verifyNotify(payWayCode, notifyMap);
         }
 
         // 订单处理消息
@@ -81,16 +80,16 @@ public class ScanPayNotifyController {
         notifyMap.put("messageId", messageId);
 //        String messageBody = JSONObject.toJSONString(notifyMap);
         String messageBody = null;
-        RpTransactionMessage rpTransactionMessage = new RpTransactionMessage(messageId, messageBody, NotifyDestinationNameEnum.BANK_NOTIFY.name());
-        int saveSendMessage = rpTransactionMessageService.saveAndSendMessage(rpTransactionMessage); // 保存并发送
+        TransactionMessage transactionMessage = new TransactionMessage(messageId, messageBody, NotifyDestinationNameEnum.BANK_NOTIFY.name());
+        int saveSendMessage = transactionMessageService.saveAndSendMessage(transactionMessage); // 保存并发送
 
         // 通知商户
         if (saveSendMessage > 0){
-            String merchantNotifyUrl = rpTradePaymentManagerService.getMerchantNotifyMessage(payWayCode, notifyMap);
+            String merchantNotifyUrl = tradePaymentManagerService.getMerchantNotifyMessage(payWayCode, notifyMap);
             LOG.info("发送商户消息日志：" + merchantNotifyUrl);
             String notifyMessageId = StringUtil.get32UUID();
-            RpTransactionMessage notifyTransactionMessage = new RpTransactionMessage(notifyMessageId, merchantNotifyUrl, NotifyDestinationNameEnum.MERCHANT_NOTIFY.name());
-            rpTransactionMessageService.directSendMessage(notifyTransactionMessage);
+            TransactionMessage notifyTransactionMessage = new TransactionMessage(notifyMessageId, merchantNotifyUrl, NotifyDestinationNameEnum.MERCHANT_NOTIFY.name());
+            transactionMessageService.directSendMessage(notifyTransactionMessage);
 
         }
 
@@ -126,7 +125,7 @@ public class ScanPayNotifyController {
             resultMap.put(name, valueStr);
         }
 
-        OrderPayResultVo scanPayByResult = rpTradePaymentManagerService.completeScanPayByResult(payWayCode, resultMap);
+        OrderPayResultVo scanPayByResult = tradePaymentManagerService.completeScanPayByResult(payWayCode, resultMap);
         model.addAttribute("scanPayByResult",scanPayByResult);
 
         return "PayResult";

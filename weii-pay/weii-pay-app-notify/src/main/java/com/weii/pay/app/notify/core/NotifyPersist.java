@@ -1,8 +1,8 @@
 package com.weii.pay.app.notify.core;
 
-import com.weii.pay.service.notify.api.RpNotifyService;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
-import com.weii.pay.service.notify.entity.RpNotifyRecordLog;
+import com.weii.pay.service.notify.api.NotifyService;
+import com.weii.pay.service.notify.entity.NotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecordLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @Service
 public class NotifyPersist {
     @Autowired
-    private RpNotifyService rpNotifyService;
+    private NotifyService notifyService;
 
     /**
      * 创建商户通知记录.<br/>
@@ -25,8 +25,8 @@ public class NotifyPersist {
      * @param notifyRecord
      * @return
      */
-    public long saveNotifyRecord(RpNotifyRecord notifyRecord) {
-        return rpNotifyService.createNotifyRecord(notifyRecord);
+    public long saveNotifyRecord(NotifyRecord notifyRecord) {
+        return notifyService.createNotifyRecord(notifyRecord);
     }
 
     /**
@@ -40,11 +40,11 @@ public class NotifyPersist {
      * @return 更新结果
      */
     public  void updateNotifyRord(String id, int notifyTimes, String status) {
-        RpNotifyRecord notifyRecord = rpNotifyService.getNotifyRecordById(id);
+        NotifyRecord notifyRecord = notifyService.getNotifyRecordById(id);
         notifyRecord.setNotifyTimes(notifyTimes);
         notifyRecord.setStatus(status);
         notifyRecord.setLastNotifyTime(new Date());
-        rpNotifyService.updateNotifyRecord(notifyRecord);
+        notifyService.updateNotifyRecord(notifyRecord);
     }
 
     /**
@@ -66,7 +66,7 @@ public class NotifyPersist {
      */
     public long saveNotifyRecordLogs(String notifyId, String merchantNo, String merchantOrderNo, String request, String response,
                                      int httpStatus) {
-        RpNotifyRecordLog notifyRecordLog = new RpNotifyRecordLog();
+        NotifyRecordLog notifyRecordLog = new NotifyRecordLog();
         notifyRecordLog.setHttpStatus(httpStatus);
         notifyRecordLog.setMerchantNo(merchantNo);
         notifyRecordLog.setMerchantOrderNo(merchantOrderNo);
@@ -75,6 +75,6 @@ public class NotifyPersist {
         notifyRecordLog.setResponse(response);
         notifyRecordLog.setCreateTime(new Date());
         notifyRecordLog.setEditTime(new Date());
-        return rpNotifyService.createNotifyRecordLog(notifyRecordLog);
+        return notifyService.createNotifyRecordLog(notifyRecordLog);
     }
 }

@@ -3,7 +3,7 @@ package com.weii.pay.service.accounting.dao.impl;
 import com.weii.pay.common.core.dao.impl.BaseDaoImpl;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.service.accounting.dao.RpAccountingVoucherDao;
-import com.weii.pay.service.accounting.entity.RpAccountingVoucher;
+import com.weii.pay.service.accounting.entity.AccountingVoucher;
 
 import java.util.Date;
 import java.util.Hashtable;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @date Created in 11:58 2018/5/12
  * @Description:
  */
-public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher> implements RpAccountingVoucherDao {
+public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<AccountingVoucher> implements RpAccountingVoucherDao {
 
     /**
      * 创建会计分录原始凭证信息.
@@ -48,7 +48,7 @@ public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher>
                                         String requestNo, String bankChannelCode, String bankAccount, int fromSystem, String remark, String bankOrderNo,
                                         int payerAccountType, double payAmount, int receiverAccountType, double payerFee, double receiverFee) {
 
-        RpAccountingVoucher voucher = new RpAccountingVoucher();
+        AccountingVoucher voucher = new AccountingVoucher();
 
         voucher.setAccountingDate(new Date());
         voucher.setBankChangeAmount(bankChangeAmount);
@@ -84,7 +84,7 @@ public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher>
      * @param requestNo .
      * @return AccountingRequestNote .
      */
-    public RpAccountingVoucher findByRequestNo(String requestNo) {
+    public AccountingVoucher findByRequestNo(String requestNo) {
         return super.getSqlSession().selectOne(getStatement("getByRequestNo"), requestNo);
     }
 
@@ -114,7 +114,7 @@ public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher>
      * @param noteMap
      * @return
      */
-    public List<RpAccountingVoucher> getListBy(Map<String, Object> noteMap) {
+    public List<AccountingVoucher> getListBy(Map<String, Object> noteMap) {
         return super.listBy(noteMap);
     }
 
@@ -124,7 +124,7 @@ public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher>
      * @param voucherNo   交易流水号
      * @return
      */
-    public RpAccountingVoucher getAccountingRequestNote(String requestNo, String bankOrderNo, String voucherNo) {
+    public AccountingVoucher getAccountingRequestNote(String requestNo, String bankOrderNo, String voucherNo) {
         Map<String, Object> paramMap = new Hashtable<String, Object>();
         paramMap.put("requestNo", requestNo);
         paramMap.put("bankOrderNo", bankOrderNo);
@@ -138,7 +138,7 @@ public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<RpAccountingVoucher>
      * @param fromSystem 来源系统
      * @return
      */
-    public RpAccountingVoucher getDataByVoucherNoFromSystem(int entryType, String voucherNo, int fromSystem) {
+    public AccountingVoucher getDataByVoucherNoFromSystem(int entryType, String voucherNo, int fromSystem) {
         Map<String, Object> paramMap = new Hashtable<String, Object>();
         paramMap.put("entryType", entryType);
         paramMap.put("voucherNo", voucherNo);

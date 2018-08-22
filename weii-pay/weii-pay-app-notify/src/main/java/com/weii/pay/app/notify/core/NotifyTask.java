@@ -7,7 +7,7 @@ import com.weii.pay.common.core.exception.BizException;
 import com.weii.pay.common.core.utils.httpclient.SimpleHttpParam;
 import com.weii.pay.common.core.utils.httpclient.SimpleHttpResult;
 import com.weii.pay.common.core.utils.httpclient.SimpleHttpUtils;
-import com.weii.pay.service.notify.entity.RpNotifyRecord;
+import com.weii.pay.service.notify.entity.NotifyRecord;
 import com.weii.pay.service.notify.enums.NotifyStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +27,7 @@ public class NotifyTask  implements Runnable, Delayed {
 
     private long executeTime;
 
-    private RpNotifyRecord notifyRecord;
+    private NotifyRecord notifyRecord;
 
     private NotifyQueue notifyQueue;
 
@@ -38,7 +38,7 @@ public class NotifyTask  implements Runnable, Delayed {
     public NotifyTask() {
     }
 
-    public NotifyTask(RpNotifyRecord notifyRecord, NotifyQueue notifyQueue, NotifyParam notifyParam) {
+    public NotifyTask(NotifyRecord notifyRecord, NotifyQueue notifyQueue, NotifyParam notifyParam) {
         super();
         this.notifyRecord = notifyRecord;
         this.notifyQueue = notifyQueue;
@@ -46,7 +46,7 @@ public class NotifyTask  implements Runnable, Delayed {
         this.executeTime = getExecuteTime(notifyRecord);
     }
 
-    private long getExecuteTime(RpNotifyRecord record) {
+    private long getExecuteTime(NotifyRecord record) {
         long lastTime = record.getLastNotifyTime().getTime();
         Integer nextNotifyTime = notifyParam.getNotifyParams().get(record.getNotifyTimes());
         return (nextNotifyTime == null ? 0 : nextNotifyTime * 1000) + lastTime;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.account.api.RpAccountHistoryService;
+import com.weii.pay.service.account.api.AccountHistoryService;
 import com.weii.pay.service.account.dao.RpAccountHistoryDao;
 import com.weii.pay.service.account.entity.RpAccountHistory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service("rpAccountHistoryService")
-public class RpAccountHistoryServiceImpl implements RpAccountHistoryService {
+public class AccountHistoryServiceImpl implements AccountHistoryService {
 
 	@Autowired
 	private RpAccountHistoryDao rpAccountHistoryDao;

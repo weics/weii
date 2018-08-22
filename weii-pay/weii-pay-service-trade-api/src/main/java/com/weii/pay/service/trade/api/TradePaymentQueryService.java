@@ -2,8 +2,8 @@ package com.weii.pay.service.trade.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.trade.entity.RpTradePaymentOrder;
-import com.weii.pay.service.trade.entity.RpTradePaymentRecord;
+import com.weii.pay.service.trade.entity.TradePaymentOrder;
+import com.weii.pay.service.trade.entity.TradePaymentRecord;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
 
@@ -16,14 +16,14 @@ import java.util.Map;
  * @Description: 交易模块查询接口类.
  * @Modified By:
  */
-public interface RpTradePaymentQueryService {
+public interface TradePaymentQueryService {
     /**
      * 根据参数查询交易记录List
      *
      * @param paremMap
      * @return
      */
-    public List<RpTradePaymentRecord> listPaymentRecord(Map<String, Object> paremMap);
+    public List<TradePaymentRecord> listPaymentRecord(Map<String, Object> paremMap);
 
     /**
      * 根据商户支付KEY 及商户订单号 查询支付结果
@@ -42,7 +42,7 @@ public interface RpTradePaymentQueryService {
      * @param bankOrderNo
      * @return
      */
-    public RpTradePaymentRecord getRecordByBankOrderNo(String bankOrderNo);
+    public TradePaymentRecord getRecordByBankOrderNo(String bankOrderNo);
 
     /**
      * 根据支付流水号查询支付记录
@@ -50,7 +50,7 @@ public interface RpTradePaymentQueryService {
      * @param trxNo
      * @return
      */
-    public RpTradePaymentRecord getRecordByTrxNo(String trxNo);
+    public TradePaymentRecord getRecordByTrxNo(String trxNo);
 
 
     /**
@@ -59,7 +59,7 @@ public interface RpTradePaymentQueryService {
      * @param paymentOrderQueryVo
      * @return
      */
-    public PageBean<RpTradePaymentOrder> listPaymentOrderPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
+    public PageBean<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
 
     /**
      * 分页查询支付记录
@@ -67,6 +67,6 @@ public interface RpTradePaymentQueryService {
      * @param paymentOrderQueryVo
      * @return
      */
-    public PageBean<RpTradePaymentRecord> listPaymentRecordPage(PageParam pageParam ,PaymentOrderQueryVo paymentOrderQueryVo);
+    public PageBean<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
 
 }

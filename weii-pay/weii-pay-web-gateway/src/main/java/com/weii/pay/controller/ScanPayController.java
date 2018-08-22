@@ -6,12 +6,12 @@ import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.common.core.utils.WeixinConfigUtil;
 import com.weii.pay.controller.common.BaseController;
-import com.weii.pay.service.trade.api.RpTradePaymentManagerService;
-import com.weii.pay.service.trade.api.RpTradePaymentQueryService;
+import com.weii.pay.service.trade.api.TradePaymentManagerService;
+import com.weii.pay.service.trade.api.TradePaymentQueryService;
 import com.weii.pay.service.trade.exceptions.TradeBizException;
 import com.weii.pay.service.trade.utils.MerchantApiUtil;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
-import com.weii.pay.service.trade.vo.RpPayGateWayPageShowVo;
+import com.weii.pay.service.trade.vo.PayGateWayPageShowVo;
 import com.weii.pay.service.trade.vo.ScanPayResultVo;
 import com.weii.pay.service.user.api.PayWayService;
 import com.weii.pay.service.user.api.UserPayConfigService;
@@ -43,10 +43,10 @@ public class ScanPayController extends BaseController {
     private static final Log LOG = LogFactory.getLog(ScanPayController.class);
 
     @Reference(version = "1.0.0")
-    private RpTradePaymentManagerService rpTradePaymentManagerService;
+    private TradePaymentManagerService tradePaymentManagerService;
 
     @Reference(version = "1.0.0")
-    private RpTradePaymentQueryService rpTradePaymentQueryService;
+    private TradePaymentQueryService tradePaymentQueryService;
 
     @Reference(version = "1.0.0")
     private UserPayConfigService userPayConfigService;
@@ -123,7 +123,7 @@ public class ScanPayController extends BaseController {
 
         BigDecimal orderPrice = BigDecimal.valueOf(Double.valueOf(orderPriceStr));
         if (StringUtil.isEmpty(payWayCode)){//非直连方式
-            RpPayGateWayPageShowVo payGateWayPageShowVo = rpTradePaymentManagerService.initNonDirectScanPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, orderIp, orderPeriod, returnUrl
+            PayGateWayPageShowVo payGateWayPageShowVo = tradePaymentManagerService.initNonDirectScanPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, orderIp, orderPeriod, returnUrl
                     , notifyUrl, remark, field1, field2, field3, field4, field5);
 
             model.addAttribute("payGateWayPageShowVo",payGateWayPageShowVo);//支付网关展示数据
@@ -137,7 +137,7 @@ public class ScanPayController extends BaseController {
             }else {
 
                 // TEST_PAY_HTTP_CLIENT
-                ScanPayResultVo scanPayResultVo = rpTradePaymentManagerService.initDirectScanPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, payWayCode, orderIp, orderPeriod, returnUrl
+                ScanPayResultVo scanPayResultVo = tradePaymentManagerService.initDirectScanPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, payWayCode, orderIp, orderPeriod, returnUrl
                         , notifyUrl, remark, field1, field2, field3, field4, field5);
 
                 model.addAttribute("codeUrl",scanPayResultVo.getCodeUrl());//支付二维码
@@ -162,7 +162,7 @@ public class ScanPayController extends BaseController {
     @RequestMapping("/toPay/{orderNo}/{payWay}/{payKey}")
     public String toPay(@PathVariable("payKey")String payKey , @PathVariable("orderNo")String orderNo , @PathVariable("payWay")String payWay , Model model){
 
-        ScanPayResultVo scanPayResultVo = rpTradePaymentManagerService.toNonDirectScanPay(payKey, orderNo, payWay);
+        ScanPayResultVo scanPayResultVo = tradePaymentManagerService.toNonDirectScanPay(payKey, orderNo, payWay);
 
         model.addAttribute("codeUrl",scanPayResultVo.getCodeUrl());//支付二维码
 
@@ -188,7 +188,7 @@ public class ScanPayController extends BaseController {
         String payKey = getString_UrlDecode_UTF8("payKey"); // 企业支付KEY
         String orderNO = getString_UrlDecode_UTF8("orderNO"); // 订单号
 
-        OrderPayResultVo payResult = rpTradePaymentQueryService.getPayResult(payKey, orderNO);
+        OrderPayResultVo payResult = tradePaymentQueryService.getPayResult(payKey, orderNO);
 
 //        JsonUtils.responseJson(httpServletResponse,payResult);
 
@@ -236,7 +236,7 @@ public class ScanPayController extends BaseController {
             throw new TradeBizException(TradeBizException.TRADE_ORDER_ERROR, "订单签名异常");
         }
 
-        OrderPayResultVo scanPayByResult = rpTradePaymentManagerService.completeTestPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, payWayCode, orderIp, orderPeriod, returnUrl
+        OrderPayResultVo scanPayByResult = tradePaymentManagerService.completeTestPay(payKey, productName, orderNo, orderDate, orderTime, orderPrice, payWayCode, orderIp, orderPeriod, returnUrl
                 , notifyUrl, remark, field1, field2, field3, field4, field5);
 
         model.addAttribute("scanPayByResult",scanPayByResult);

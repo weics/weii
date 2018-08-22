@@ -3,9 +3,9 @@ package com.weii.pay.service.trade.dao;
 
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.trade.entity.RpTradePaymentOrder;
+import com.weii.pay.service.trade.entity.TradePaymentOrder;
 
-public interface RpTradePaymentOrderDao  extends BaseDao<RpTradePaymentOrder> {
+public interface RpTradePaymentOrderDao  extends BaseDao<TradePaymentOrder> {
 
     /**
      * 根据商户编号及商户订单号获取支付订单信息
@@ -13,17 +13,17 @@ public interface RpTradePaymentOrderDao  extends BaseDao<RpTradePaymentOrder> {
      * @param merchantOrderNo
      * @return
      */
-    RpTradePaymentOrder selectByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo);
+    TradePaymentOrder selectByMerchantNoAndMerchantOrderNo(String merchantNo, String merchantOrderNo);
 
     int deleteByPrimaryKey(String id);
 
-    int insertSelective(RpTradePaymentOrder record);
+    int insertSelective(TradePaymentOrder record);
 
-    RpTradePaymentOrder selectByPrimaryKey(String id);
+    TradePaymentOrder selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(RpTradePaymentOrder record);
+    int updateByPrimaryKeySelective(TradePaymentOrder record);
 
-    int updateByPrimaryKey(RpTradePaymentOrder record);
+    int updateByPrimaryKey(TradePaymentOrder record);
     
    
 

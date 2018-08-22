@@ -5,10 +5,10 @@ package com.weii.pay.service.message.api.impl;
 //import com.weii.pay.common.core.page.PageParam;
 //import com.weii.pay.common.core.utils.PublicConfigUtil;
 //import com.weii.pay.common.core.utils.StringUtil;
-//import com.weii.pay.service.message.api.RpTransactionMessageService;
+//import com.weii.pay.service.message.api.TransactionMessageService;
 //import com.weii.pay.service.message.api.config.MQSender;
 //import com.weii.pay.service.message.dao.RpTransactionMessageDao;
-//import com.weii.pay.service.message.entity.RpTransactionMessage;
+//import com.weii.pay.service.message.entity.TransactionMessage;
 //import com.weii.pay.service.message.enums.MessageStatusEnum;
 //import com.weii.pay.service.message.exception.MessageBizException;
 import com.weii.pay.common.core.enums.PublicEnum;
@@ -16,10 +16,10 @@ import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.PublicConfigUtil;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.message.api.RpTransactionMessageService;
+import com.weii.pay.service.message.api.TransactionMessageService;
 import com.weii.pay.service.message.api.config.MQSender;
 import com.weii.pay.service.message.dao.RpTransactionMessageDao;
-import com.weii.pay.service.message.entity.RpTransactionMessage;
+import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import com.weii.pay.service.message.exception.MessageBizException;
 import org.apache.commons.logging.Log;
@@ -38,9 +38,9 @@ import java.util.*;
 //@Service
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service
-public class RpTransactionMessageServiceImpl implements RpTransactionMessageService {
+public class TransactionMessageServiceImpl implements TransactionMessageService {
 
-    private static final Log log = LogFactory.getLog(RpTransactionMessageServiceImpl.class);
+    private static final Log log = LogFactory.getLog(TransactionMessageServiceImpl.class);
 
     @Autowired
     private RpTransactionMessageDao rpTransactionMessageDao;
@@ -50,7 +50,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
 
     @Override
-    public int saveMessageWaitingConfirm(RpTransactionMessage message) throws MessageBizException {
+    public int saveMessageWaitingConfirm(TransactionMessage message) throws MessageBizException {
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"保存的消息为空");
         }
@@ -68,7 +68,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
     @Override
     public void confirmAndSendMessage(String messageId) throws MessageBizException {
-        final RpTransactionMessage message = getMessageByMessageId(messageId);
+        final TransactionMessage message = getMessageByMessageId(messageId);
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -82,7 +82,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     }
 
     @Override
-    public int saveAndSendMessage(RpTransactionMessage message) throws MessageBizException {
+    public int saveAndSendMessage(TransactionMessage message) throws MessageBizException {
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -116,7 +116,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     }
 
     @Override
-    public void directSendMessage(final RpTransactionMessage message) throws MessageBizException {
+    public void directSendMessage(final TransactionMessage message) throws MessageBizException {
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -130,7 +130,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     }
 
     @Override
-    public void reSendMessage(RpTransactionMessage message) throws MessageBizException {
+    public void reSendMessage(TransactionMessage message) throws MessageBizException {
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -149,7 +149,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
     @Override
     public void reSendMessageByMessageId(String messageId) throws MessageBizException {
-        final RpTransactionMessage message = getMessageByMessageId(messageId);
+        final TransactionMessage message = getMessageByMessageId(messageId);
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -172,7 +172,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
     @Override
     public void setMessageToAreadlyDead(String messageId) throws MessageBizException {
-        final RpTransactionMessage message = getMessageByMessageId(messageId);
+        final TransactionMessage message = getMessageByMessageId(messageId);
         if (message == null){
             throw new MessageBizException(MessageBizException.SAVA_MESSAGE_IS_NULL,"根据id查找的消息为空");
         }
@@ -183,7 +183,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
     }
 
     @Override
-    public RpTransactionMessage getMessageByMessageId(String messageId) throws MessageBizException {
+    public TransactionMessage getMessageByMessageId(String messageId) throws MessageBizException {
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("messageId",messageId);
         return rpTransactionMessageDao.getBy(paramMap);
@@ -217,7 +217,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         paramMap.put("areadlyDead",PublicEnum.YES.name());
         paramMap.put("listPageSortType","ASC");
 
-        Map<String,RpTransactionMessage> messageMap = new HashMap<>();
+        Map<String,TransactionMessage> messageMap = new HashMap<>();
         List<Object> recordList = new ArrayList<>();
         int pageCount = 1;
 
@@ -231,7 +231,7 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
         pageCount = pageBean.getTotalPage();
         for (final Object obj : recordList){
-            final RpTransactionMessage message = (RpTransactionMessage)obj;
+            final TransactionMessage message = (TransactionMessage)obj;
             messageMap.put(message.getMessageId(),message);
         }
 
@@ -239,8 +239,8 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
         recordList = null;
         pageBean = null;
 
-        for (Map.Entry<String,RpTransactionMessage> entry: messageMap.entrySet()){
-            final RpTransactionMessage message = entry.getValue();
+        for (Map.Entry<String,TransactionMessage> entry: messageMap.entrySet()){
+            final TransactionMessage message = entry.getValue();
             message.setEditTime(new Date());
             message.setMessageSendTimes(message.getMessageSendTimes()+1);
             rpTransactionMessageDao.update(message);

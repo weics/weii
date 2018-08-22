@@ -2,18 +2,18 @@ package com.weii.pay.service.notify.dao;
 
 
 import com.weii.pay.common.core.dao.BaseDao;
-import com.weii.pay.service.notify.entity.RpNotifyRecordLog;
+import com.weii.pay.service.notify.entity.NotifyRecordLog;
 
-public interface RpNotifyRecordLogDao  extends BaseDao<RpNotifyRecordLog> {
+public interface RpNotifyRecordLogDao  extends BaseDao<NotifyRecordLog> {
 
 
     int deleteByPrimaryKey(String id);
 
-    int insertSelective(RpNotifyRecordLog record);
+    int insertSelective(NotifyRecordLog record);
 
-    RpNotifyRecordLog selectByPrimaryKey(String id);
+    NotifyRecordLog selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(RpNotifyRecordLog record);
+    int updateByPrimaryKeySelective(NotifyRecordLog record);
 
-    int updateByPrimaryKey(RpNotifyRecordLog record);
+    int updateByPrimaryKey(NotifyRecordLog record);
 }

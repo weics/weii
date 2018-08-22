@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * @date Created in 10:55 2018/5/12
  * @Description:
  */
-public interface RpAccountTransactionService {
+public interface AccountTransactionService {
 
 	/** 加款:有银行流水 **/
 	RpAccount creditToAccount(String userNo, BigDecimal amount, String requestNo, String bankTrxNo, String trxType, String remark) throws AccountBizException;

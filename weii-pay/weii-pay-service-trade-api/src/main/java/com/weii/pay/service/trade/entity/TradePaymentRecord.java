@@ -12,7 +12,7 @@ import java.util.Date;
  * @Description:
  * @Modified By:
  */
-public class RpTradePaymentRecord extends BaseEntity implements Serializable {
+public class TradePaymentRecord extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 5570510995977063771L;
 
     /** 商品名称 **/

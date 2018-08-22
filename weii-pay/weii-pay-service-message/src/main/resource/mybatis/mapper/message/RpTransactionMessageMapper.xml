@@ -5,7 +5,7 @@
 	
 	<sql id="table_name"> rp_transaction_message </sql>
 
-	<resultMap id="BaseResultMap" type="com.weii.pay.service.message.entity.RpTransactionMessage">
+	<resultMap id="BaseResultMap" type="com.weii.pay.service.message.entity.TransactionMessage">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="version" property="version" jdbcType="SMALLINT" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -32,7 +32,7 @@
 
 	</sql>
 
-	<insert id="insert" parameterType="com.weii.pay.service.message.entity.RpTransactionMessage">
+	<insert id="insert" parameterType="com.weii.pay.service.message.entity.TransactionMessage">
 		insert into
 		<include refid="table_name" />
 		(id, version, create_time,
@@ -51,7 +51,7 @@
 		)
 	</insert>
 
-	<update id="updateByPrimaryKey" parameterType="com.weii.pay.service.message.entity.RpTransactionMessage">
+	<update id="updateByPrimaryKey" parameterType="com.weii.pay.service.message.entity.TransactionMessage">
 		update
 		<include refid="table_name" />
 		set version = #{version,jdbcType=SMALLINT}+1,

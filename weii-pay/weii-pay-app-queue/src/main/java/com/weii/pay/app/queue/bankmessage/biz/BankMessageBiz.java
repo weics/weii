@@ -2,8 +2,8 @@ package com.weii.pay.app.queue.bankmessage.biz;
 
 
 
-import com.weii.pay.service.message.api.RpTransactionMessageService;
-import com.weii.pay.service.trade.api.RpTradePaymentManagerService;
+import com.weii.pay.service.message.api.TransactionMessageService;
+import com.weii.pay.service.trade.api.TradePaymentManagerService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class BankMessageBiz {
     private static final Log LOG = LogFactory.getLog(BankMessageBiz.class);
 
     @Autowired
-    private RpTradePaymentManagerService rpTradePaymentManagerService;
+    private TradePaymentManagerService tradePaymentManagerService;
 
     @Autowired
-    private RpTransactionMessageService rpTransactionMessageService;
+    private TransactionMessageService transactionMessageService;
 
     public void completePay(Map<String , String > notifyMessageMap){
 
@@ -32,29 +32,29 @@ public class BankMessageBiz {
         //调用业务方法,完成交易
         try{
 
-            rpTradePaymentManagerService.completeScanPay(payWayCode, notifyMessageMap);
+            tradePaymentManagerService.completeScanPay(payWayCode, notifyMessageMap);
 
             //删除消息
-            rpTransactionMessageService.deleteMessageByMessageId(messageId);
+            transactionMessageService.deleteMessageByMessageId(messageId);
         }catch (Exception e){
             LOG.error("完成支付结果异常:",e);
         }
 
     }
 
-    public RpTradePaymentManagerService getRpTradePaymentManagerService() {
-        return rpTradePaymentManagerService;
+    public TradePaymentManagerService getTradePaymentManagerService() {
+        return tradePaymentManagerService;
     }
 
-    public void setRpTradePaymentManagerService(RpTradePaymentManagerService rpTradePaymentManagerService) {
-        this.rpTradePaymentManagerService = rpTradePaymentManagerService;
+    public void setTradePaymentManagerService(TradePaymentManagerService tradePaymentManagerService) {
+        this.tradePaymentManagerService = tradePaymentManagerService;
     }
 
-    public RpTransactionMessageService getRpTransactionMessageService() {
-        return rpTransactionMessageService;
+    public TransactionMessageService getTransactionMessageService() {
+        return transactionMessageService;
     }
 
-    public void setRpTransactionMessageService(RpTransactionMessageService rpTransactionMessageService) {
-        this.rpTransactionMessageService = rpTransactionMessageService;
+    public void setTransactionMessageService(TransactionMessageService transactionMessageService) {
+        this.transactionMessageService = transactionMessageService;
     }
 }
