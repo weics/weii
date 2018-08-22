@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @date Created in 19:46 2018/5/11
  * @Description:
  */
-public class RpUserPayInfo extends BaseEntity implements Serializable {
+public class UserPayInfo extends BaseEntity implements Serializable {
     /**
      * 对应关系
      * 微信：appid

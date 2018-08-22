@@ -2,7 +2,7 @@ package com.weii.pay.service.user.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.entity.RpUserPayConfig;
+import com.weii.pay.service.user.entity.UserPayConfig;
 import com.weii.pay.service.user.exceptions.PayBizException;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
  * @date Created in 10:26 2018/5/12
  * @Description: 用户支付配置service接口
  */
-public interface RpUserPayConfigService {
+public interface UserPayConfigService {
     /**
      * 保存
      */
-    void saveData(RpUserPayConfig rpUserPayConfig) throws PayBizException;
+    void saveData(UserPayConfig userPayConfig) throws PayBizException;
 
     /**
      * 更新
      */
-    void updateData(RpUserPayConfig rpUserPayConfig) throws PayBizException;
+    void updateData(UserPayConfig userPayConfig) throws PayBizException;
 
     /**
      * 根据id获取数据
@@ -30,7 +30,7 @@ public interface RpUserPayConfigService {
      * @param id
      * @return
      */
-    RpUserPayConfig getDataById(String id) throws PayBizException;
+    UserPayConfig getDataById(String id) throws PayBizException;
 
 
     /**
@@ -39,14 +39,14 @@ public interface RpUserPayConfigService {
      * @param pageParam
      * @return
      */
-    PageBean listPage(PageParam pageParam, RpUserPayConfig rpUserPayConfig) throws PayBizException;
+    PageBean listPage(PageParam pageParam, UserPayConfig userPayConfig) throws PayBizException;
 
     /**
      * 根据商户编号获取已生效的支付配置
      * @param userNo
      * @return
      */
-    RpUserPayConfig getByUserNo(String userNo) throws PayBizException;
+    UserPayConfig getByUserNo(String userNo) throws PayBizException;
 
     /**
      * 根据商户编号获取支付配置
@@ -54,17 +54,17 @@ public interface RpUserPayConfigService {
      * @param auditStatus
      * @return
      */
-    RpUserPayConfig getByUserNo(String userNo, String auditStatus) throws PayBizException;
+    UserPayConfig getByUserNo(String userNo, String auditStatus) throws PayBizException;
 
     /**
      * 根据支付产品获取已生效数据
      */
-    List<RpUserPayConfig> listByProductCode(String productCode) throws PayBizException;
+    List<UserPayConfig> listByProductCode(String productCode) throws PayBizException;
 
     /**
      * 根据支付产品获取数据
      */
-    List<RpUserPayConfig> listByProductCode(String productCode, String auditStatus) throws PayBizException;
+    List<UserPayConfig> listByProductCode(String productCode, String auditStatus) throws PayBizException;
 
     /**
      * 创建用户支付配置
@@ -96,5 +96,5 @@ public interface RpUserPayConfigService {
      * @param payKey
      * @return
      */
-    RpUserPayConfig getByPayKey(String payKey) throws PayBizException;
+    UserPayConfig getByPayKey(String payKey) throws PayBizException;
 }

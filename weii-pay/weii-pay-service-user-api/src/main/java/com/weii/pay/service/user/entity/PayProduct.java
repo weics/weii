@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date Created in 19:41 2018/5/11
  * @Description: 支付产品实体类
  */
-public class RpPayProduct  extends BaseEntity implements Serializable {
+public class PayProduct extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 514313391810904644L;
 
     private String productCode;

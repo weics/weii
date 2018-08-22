@@ -2,7 +2,7 @@ package com.weii.pay.service.user.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.entity.RpPayProduct;
+import com.weii.pay.service.user.entity.PayProduct;
 import com.weii.pay.service.user.exceptions.PayBizException;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
  * @date Created in 19:39 2018/5/11
  * @Description:
  */
-public interface RpPayProductService {
+public interface PayProductService {
     /**
      * 保存
      */
-    void saveData(RpPayProduct rpPayProduct) throws PayBizException;
+    void saveData(PayProduct payProduct) throws PayBizException;
 
     /**
      * 更新
      */
-    void updateData(RpPayProduct rpPayProduct) throws PayBizException;
+    void updateData(PayProduct payProduct) throws PayBizException;
 
     /**
      * 根据id获取数据
@@ -30,7 +30,7 @@ public interface RpPayProductService {
      * @param id
      * @return
      */
-    RpPayProduct getDataById(String id) throws PayBizException;
+    PayProduct getDataById(String id) throws PayBizException;
 
 
     /**
@@ -39,14 +39,14 @@ public interface RpPayProductService {
      * @param pageParam
      * @return
      */
-    PageBean listPage(PageParam pageParam, RpPayProduct rpPayProduct) throws PayBizException;
+    PageBean listPage(PageParam pageParam, PayProduct payProduct) throws PayBizException;
 
     /**
      * 根据产品编号获取支付产品
      * @param productCode
      * @return
      */
-    RpPayProduct getByProductCode(String productCode, String auditStatus) throws PayBizException;
+    PayProduct getByProductCode(String productCode, String auditStatus) throws PayBizException;
 
     /**
      * 创建支付产品
@@ -64,7 +64,7 @@ public interface RpPayProductService {
     /**
      * 获取所有支付产品
      */
-    List<RpPayProduct> listAll() throws PayBizException;
+    List<PayProduct> listAll() throws PayBizException;
 
     /**
      * 审核

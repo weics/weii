@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @date Created in 19:42 2018/5/11
  * @Description: 支付方式实体类
  */
-public class RpPayWay extends BaseEntity implements Serializable {
+public class PayWay extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -992367769827189992L;
 
     private String payWayCode;

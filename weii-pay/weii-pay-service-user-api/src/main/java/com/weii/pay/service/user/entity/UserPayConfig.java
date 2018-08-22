@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date Created in 19:44 2018/5/11
  * @Description: 用户支付配置实体类
  */
-public class RpUserPayConfig extends BaseEntity implements Serializable {
+public class UserPayConfig extends BaseEntity implements Serializable {
     private String auditStatus;
 
     private String isAutoSett;

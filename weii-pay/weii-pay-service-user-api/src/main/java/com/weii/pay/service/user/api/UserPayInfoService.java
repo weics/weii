@@ -2,7 +2,7 @@ package com.weii.pay.service.user.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.entity.RpUserPayInfo;
+import com.weii.pay.service.user.entity.UserPayInfo;
 import com.weii.pay.service.user.exceptions.UserBizException;
 
 /**
@@ -11,16 +11,16 @@ import com.weii.pay.service.user.exceptions.UserBizException;
  * @date Created in 10:28 2018/5/12
  * @Description: 用户第三方支付信息service接口
  */
-public interface RpUserPayInfoService {
+public interface UserPayInfoService {
     /**
      * 保存
      */
-    void saveData(RpUserPayInfo rpUserPayInfo) throws UserBizException;
+    void saveData(UserPayInfo userPayInfo) throws UserBizException;
 
     /**
      * 更新
      */
-    void updateData(RpUserPayInfo rpUserPayInfo) throws UserBizException;
+    void updateData(UserPayInfo userPayInfo) throws UserBizException;
 
     /**
      * 根据id获取数据
@@ -28,7 +28,7 @@ public interface RpUserPayInfoService {
      * @param id
      * @return
      */
-    RpUserPayInfo getDataById(String id) throws UserBizException;
+    UserPayInfo getDataById(String id) throws UserBizException;
 
 
     /**
@@ -37,7 +37,7 @@ public interface RpUserPayInfoService {
      * @param pageParam
      * @return
      */
-    PageBean listPage(PageParam pageParam, RpUserPayInfo rpUserPayInfo) throws UserBizException;
+    PageBean listPage(PageParam pageParam, UserPayInfo userPayInfo) throws UserBizException;
 
     /**
      * 通过商户编号获取商户支付配置信息
@@ -45,5 +45,5 @@ public interface RpUserPayInfoService {
      * @param payWayCode
      * @return
      */
-    public RpUserPayInfo getByUserNo(String userNo, String payWayCode) throws UserBizException;
+    public UserPayInfo getByUserNo(String userNo, String payWayCode) throws UserBizException;
 }

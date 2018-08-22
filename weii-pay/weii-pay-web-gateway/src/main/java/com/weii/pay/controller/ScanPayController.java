@@ -13,13 +13,12 @@ import com.weii.pay.service.trade.utils.MerchantApiUtil;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import com.weii.pay.service.trade.vo.RpPayGateWayPageShowVo;
 import com.weii.pay.service.trade.vo.ScanPayResultVo;
-import com.weii.pay.service.user.api.RpPayWayService;
-import com.weii.pay.service.user.api.RpUserPayConfigService;
-import com.weii.pay.service.user.entity.RpUserPayConfig;
+import com.weii.pay.service.user.api.PayWayService;
+import com.weii.pay.service.user.api.UserPayConfigService;
+import com.weii.pay.service.user.entity.UserPayConfig;
 import com.weii.pay.service.user.exceptions.UserBizException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,10 +49,10 @@ public class ScanPayController extends BaseController {
     private RpTradePaymentQueryService rpTradePaymentQueryService;
 
     @Reference(version = "1.0.0")
-    private RpUserPayConfigService rpUserPayConfigService;
+    private UserPayConfigService userPayConfigService;
 
     @Reference(version = "1.0.0")
-    private RpPayWayService rpPayWayService;
+    private PayWayService payWayService;
 
     /**
      * 扫码支付,预支付页面
@@ -111,13 +110,13 @@ public class ScanPayController extends BaseController {
         Date orderTime = DateUtils.parseDate(orderTimeStr,"yyyyMMddHHmmss");
         Integer orderPeriod = Integer.valueOf(orderPeriodStr);
 
-        RpUserPayConfig rpUserPayConfig = rpUserPayConfigService.getByPayKey(payKey);
-        if (rpUserPayConfig == null){
+        UserPayConfig userPayConfig = userPayConfigService.getByPayKey(payKey);
+        if (userPayConfig == null){
             LOG.info("===>用户支付配置有误" );
             throw new UserBizException(UserBizException.USER_PAY_CONFIG_ERRPR,"用户支付配置有误");
         }
 
-        if (!MerchantApiUtil.isRightSign(paramMap,rpUserPayConfig.getPaySecret(),sign)){
+        if (!MerchantApiUtil.isRightSign(paramMap, userPayConfig.getPaySecret(),sign)){
             LOG.info("===>订单签名异常" );
             throw new TradeBizException(TradeBizException.TRADE_ORDER_ERROR,"订单签名异常");
         }
@@ -228,12 +227,12 @@ public class ScanPayController extends BaseController {
 
         LOG.info("===>initPay paramMap:" + paramMap.toString());
 
-        RpUserPayConfig rpUserPayConfig = rpUserPayConfigService.getByPayKey(payKey);
-        if (rpUserPayConfig == null) {
+        UserPayConfig userPayConfig = userPayConfigService.getByPayKey(payKey);
+        if (userPayConfig == null) {
             throw new UserBizException(UserBizException.USER_PAY_CONFIG_ERRPR, "用户支付配置有误");
         }
 
-        if (!MerchantApiUtil.isRightSign(paramMap, rpUserPayConfig.getPaySecret(), sign)) {
+        if (!MerchantApiUtil.isRightSign(paramMap, userPayConfig.getPaySecret(), sign)) {
             throw new TradeBizException(TradeBizException.TRADE_ORDER_ERROR, "订单签名异常");
         }
 

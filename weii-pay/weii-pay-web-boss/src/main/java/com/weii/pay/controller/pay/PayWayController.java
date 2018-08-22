@@ -8,12 +8,11 @@ import com.weii.pay.common.core.enums.PublicStatusEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.StringUtil;
-import com.weii.pay.service.user.api.RpPayProductService;
-import com.weii.pay.service.user.api.RpPayWayService;
-import com.weii.pay.service.user.entity.RpPayProduct;
-import com.weii.pay.service.user.entity.RpPayWay;
+import com.weii.pay.service.user.api.PayProductService;
+import com.weii.pay.service.user.api.PayWayService;
+import com.weii.pay.service.user.entity.PayProduct;
+import com.weii.pay.service.user.entity.PayWay;
 import com.weii.pay.service.user.exceptions.PayBizException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +28,10 @@ import java.util.*;
 //@RequestMapping("/pay/way")
 public class PayWayController {
     @Reference(version = "1.0.0")
-    private RpPayWayService rpPayWayService;
+    private PayWayService payWayService;
 
     @Reference(version = "1.0.0")
-    private RpPayProductService rpPayProductService;
+    private PayProductService payProductService;
 
     /**
      * 函数功能说明 ： 查询分页数据
@@ -42,18 +41,18 @@ public class PayWayController {
      * @throws
      */
     @RequestMapping(value = "/list", method ={RequestMethod.POST,RequestMethod.GET})
-    public String list(RpPayWay rpPayWay, PageParam pageParam, Model model) {
+    public String list(PayWay payWay, PageParam pageParam, Model model) {
         // payProductCode 每次添加或编辑后 会变成以“,”分隔的重复数据
-        if(!StringUtil.isEmpty(rpPayWay.getPayProductCode())&&rpPayWay.getPayProductCode().contains(",")){
-            String[] payProductCodes = rpPayWay.getPayProductCode().split(",");
-            rpPayWay.setPayProductCode(payProductCodes[0]);
+        if(!StringUtil.isEmpty(payWay.getPayProductCode())&& payWay.getPayProductCode().contains(",")){
+            String[] payProductCodes = payWay.getPayProductCode().split(",");
+            payWay.setPayProductCode(payProductCodes[0]);
         }
-        RpPayProduct rpPayProduct = rpPayProductService.getByProductCode(rpPayWay.getPayProductCode(), null);
-        PageBean pageBean = rpPayWayService.listPage(pageParam, rpPayWay);
+        PayProduct payProduct = payProductService.getByProductCode(payWay.getPayProductCode(), null);
+        PageBean pageBean = payWayService.listPage(pageParam, payWay);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpPayWay", rpPayWay);
-        model.addAttribute("rpPayProduct", rpPayProduct);
+        model.addAttribute("rpPayWay", payWay);
+        model.addAttribute("rpPayProduct", payProduct);
         return "pay/way/list";
     }
 
@@ -80,8 +79,8 @@ public class PayWayController {
      * @throws
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Model model, RpPayWay rpPayWay) {
-        rpPayWayService.createPayWay(rpPayWay.getPayProductCode(), rpPayWay.getPayWayCode(), rpPayWay.getPayTypeCode(), rpPayWay.getPayRate());
+    public String add(Model model, PayWay payWay) {
+        payWayService.createPayWay(payWay.getPayProductCode(), payWay.getPayWayCode(), payWay.getPayTypeCode(), payWay.getPayRate());
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
@@ -98,10 +97,10 @@ public class PayWayController {
      */
     @RequestMapping(value = "/editUI", method = RequestMethod.GET)
     public String editUI(Model model,@RequestParam("id") String id) {
-        RpPayWay rpPayWay = rpPayWayService.getDataById(id);
+        PayWay payWay = payWayService.getDataById(id);
         model.addAttribute("PayWayEnums", PayWayEnum.toList());
         model.addAttribute("PayTypeEnums", PayTypeEnum.toList());
-        model.addAttribute("rpPayWay", rpPayWay);
+        model.addAttribute("rpPayWay", payWay);
         return "pay/way/edit";
     }
 
@@ -113,15 +112,15 @@ public class PayWayController {
      * @throws
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(Model model, RpPayWay rpPayWay) {
-        RpPayWay rpPayWayOld = rpPayWayService.getDataById(rpPayWay.getId());
-        rpPayWayOld.setEditTime(new Date());
-        rpPayWayOld.setPayRate(rpPayWay.getPayRate());
-        RpPayProduct rpPayProduct = rpPayProductService.getByProductCode(rpPayWay.getPayProductCode(), null);
-        if(rpPayProduct.getAuditStatus().equals(PublicEnum.YES.name())){
+    public String edit(Model model, PayWay payWay) {
+        PayWay payWayOld = payWayService.getDataById(payWay.getId());
+        payWayOld.setEditTime(new Date());
+        payWayOld.setPayRate(payWay.getPayRate());
+        PayProduct payProduct = payProductService.getByProductCode(payWay.getPayProductCode(), null);
+        if(payProduct.getAuditStatus().equals(PublicEnum.YES.name())){
             throw new PayBizException(PayBizException.PAY_PRODUCT_IS_EFFECTIVE,"支付产品已生效，无法删除！");
         }
-        rpPayWayService.updateData(rpPayWayOld);
+        payWayService.updateData(payWayOld);
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
@@ -138,13 +137,13 @@ public class PayWayController {
      */
     @RequestMapping(value = "/delete", method ={RequestMethod.POST,RequestMethod.GET})
     public String delete(Model model, @RequestParam("id") String id) {
-        RpPayWay rpPayWay = rpPayWayService.getDataById(id);
-        RpPayProduct rpPayProduct = rpPayProductService.getByProductCode(rpPayWay.getPayProductCode(), null);
-        if(rpPayProduct.getAuditStatus().equals(PublicEnum.YES.name())){
+        PayWay payWay = payWayService.getDataById(id);
+        PayProduct payProduct = payProductService.getByProductCode(payWay.getPayProductCode(), null);
+        if(payProduct.getAuditStatus().equals(PublicEnum.YES.name())){
             throw new PayBizException(PayBizException.PAY_PRODUCT_IS_EFFECTIVE,"支付产品已生效，无法删除！");
         }
-        rpPayWay.setStatus(PublicStatusEnum.UNACTIVE.name());
-        rpPayWayService.updateData(rpPayWay);
+        payWay.setStatus(PublicStatusEnum.UNACTIVE.name());
+        payWayService.updateData(payWay);
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
@@ -175,11 +174,11 @@ public class PayWayController {
     @RequestMapping(value = "/getPayWay", method = RequestMethod.GET)
     @ResponseBody
     public List getPayWay(@RequestParam("productCode") String productCode) {
-        List<RpPayWay> payWayList = rpPayWayService.listByProductCode(productCode);
+        List<PayWay> payWayList = payWayService.listByProductCode(productCode);
 
         Map<String, String> map = new HashMap<String, String>();
         //过滤重复数据
-        for(RpPayWay payWay : payWayList){
+        for(PayWay payWay : payWayList){
             map.put(payWay.getPayWayCode(), payWay.getPayWayName());
         }
 

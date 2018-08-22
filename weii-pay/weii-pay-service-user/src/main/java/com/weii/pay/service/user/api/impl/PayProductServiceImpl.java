@@ -2,8 +2,8 @@ package com.weii.pay.service.user.api.impl;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.api.RpPayProductService;
-import com.weii.pay.service.user.entity.RpPayProduct;
+import com.weii.pay.service.user.api.PayProductService;
+import com.weii.pay.service.user.entity.PayProduct;
 import com.weii.pay.service.user.exceptions.PayBizException;
 import org.springframework.stereotype.Service;
 
@@ -17,29 +17,29 @@ import java.util.List;
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service
-public class RpPayProductServiceImpl implements RpPayProductService {
+public class PayProductServiceImpl implements PayProductService {
     @Override
-    public void saveData(RpPayProduct rpPayProduct) throws PayBizException {
+    public void saveData(PayProduct payProduct) throws PayBizException {
 
     }
 
     @Override
-    public void updateData(RpPayProduct rpPayProduct) throws PayBizException {
+    public void updateData(PayProduct payProduct) throws PayBizException {
 
     }
 
     @Override
-    public RpPayProduct getDataById(String id) throws PayBizException {
+    public PayProduct getDataById(String id) throws PayBizException {
         return null;
     }
 
     @Override
-    public PageBean listPage(PageParam pageParam, RpPayProduct rpPayProduct) throws PayBizException {
+    public PageBean listPage(PageParam pageParam, PayProduct payProduct) throws PayBizException {
         return null;
     }
 
     @Override
-    public RpPayProduct getByProductCode(String productCode, String auditStatus) throws PayBizException {
+    public PayProduct getByProductCode(String productCode, String auditStatus) throws PayBizException {
         return null;
     }
 
@@ -54,7 +54,7 @@ public class RpPayProductServiceImpl implements RpPayProductService {
     }
 
     @Override
-    public List<RpPayProduct> listAll() throws PayBizException {
+    public List<PayProduct> listAll() throws PayBizException {
         return null;
     }
 

@@ -7,9 +7,8 @@ import com.weii.pay.service.account.api.RpAccountHistoryService;
 import com.weii.pay.service.account.api.RpAccountService;
 import com.weii.pay.service.account.entity.RpAccount;
 import com.weii.pay.service.account.entity.RpAccountHistory;
-import com.weii.pay.service.user.api.RpUserInfoService;
-import com.weii.pay.service.user.entity.RpUserInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.weii.pay.service.user.api.UserInfoService;
+import com.weii.pay.service.user.entity.UserInfo;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +28,7 @@ public class AccountController {
     @Reference(version = "1.0.0")
     private RpAccountService rpAccountService;
     @Reference(version = "1.0.0")
-    private RpUserInfoService rpUserInfoService;
+    private UserInfoService userInfoService;
     @Reference(version = "1.0.0")
     private RpAccountHistoryService rpAccountHistoryService;
 
@@ -46,7 +45,7 @@ public class AccountController {
         List<Object> recordList = pageBean.getRecordList();
         for(Object obj : recordList){
             RpAccount account = (RpAccount)obj;
-            RpUserInfo userInfo = rpUserInfoService.getDataByMerchentNo(account.getUserNo());
+            UserInfo userInfo = userInfoService.getDataByMerchentNo(account.getUserNo());
             account.setUserName(userInfo.getUserName());
         }
         model.addAttribute("pageBean", pageBean);
@@ -68,7 +67,7 @@ public class AccountController {
         List<Object> recordList = pageBean.getRecordList();
         for(Object obj : recordList){
             RpAccountHistory history = (RpAccountHistory)obj;
-            RpUserInfo userInfo = rpUserInfoService.getDataByMerchentNo(history.getUserNo());
+            UserInfo userInfo = userInfoService.getDataByMerchentNo(history.getUserNo());
             history.setUserName(userInfo.getUserName());
         }
         model.addAttribute("pageBean", pageBean);

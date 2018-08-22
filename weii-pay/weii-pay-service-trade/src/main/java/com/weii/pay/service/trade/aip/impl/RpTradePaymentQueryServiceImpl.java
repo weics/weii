@@ -11,8 +11,8 @@ import com.weii.pay.service.trade.entity.RpTradePaymentRecord;
 import com.weii.pay.service.trade.enums.TradeStatusEnum;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
-import com.weii.pay.service.user.api.RpUserPayConfigService;
-import com.weii.pay.service.user.entity.RpUserPayConfig;
+import com.weii.pay.service.user.api.UserPayConfigService;
+import com.weii.pay.service.user.entity.UserPayConfig;
 import com.weii.pay.service.user.exceptions.UserBizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
     private RpTradePaymentOrderDao rpTradePaymentOrderDao;
 
     @Autowired
-    private RpUserPayConfigService rpUserPayConfigService;
+    private UserPayConfigService userPayConfigService;
 
     /**
      * 根据参数查询交易记录List
@@ -61,12 +61,12 @@ public class RpTradePaymentQueryServiceImpl implements RpTradePaymentQueryServic
     @Override
     public OrderPayResultVo getPayResult(String payKey, String orderNo) {
 
-        RpUserPayConfig rpUserPayConfig = rpUserPayConfigService.getByPayKey(payKey);
-        if (rpUserPayConfig == null) {
+        UserPayConfig userPayConfig = userPayConfigService.getByPayKey(payKey);
+        if (userPayConfig == null) {
             throw new UserBizException(UserBizException.USER_PAY_CONFIG_ERRPR, "用户支付配置有误");
         }
 
-        String merchantNo = rpUserPayConfig.getUserNo();// 商户编号
+        String merchantNo = userPayConfig.getUserNo();// 商户编号
         RpTradePaymentOrder rpTradePaymentOrder = rpTradePaymentOrderDao.selectByMerchantNoAndMerchantOrderNo(merchantNo, orderNo);
 
         OrderPayResultVo orderPayResultVo = new OrderPayResultVo();// 返回结果

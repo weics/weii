@@ -4,14 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.api.RpPayProductService;
-import com.weii.pay.service.user.entity.RpPayProduct;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.weii.pay.service.user.api.PayProductService;
+import com.weii.pay.service.user.entity.PayProduct;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: weics
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PayProductController {
 
     @Reference(version = "1.0.0")
-    private RpPayProductService rpPayProductService;
+    private PayProductService payProductService;
 
 
 
@@ -36,11 +34,11 @@ public class PayProductController {
      * @throws
      */
     @RequestMapping(value = "/list", method ={RequestMethod.POST,RequestMethod.GET})
-    public String list(RpPayProduct rpPayProduct, PageParam pageParam, Model model) {
-        PageBean pageBean = rpPayProductService.listPage(pageParam, rpPayProduct);
+    public String list(PayProduct payProduct, PageParam pageParam, Model model) {
+        PageBean pageBean = payProductService.listPage(pageParam, payProduct);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpPayProduct", rpPayProduct);
+        model.addAttribute("rpPayProduct", payProduct);
         return "pay/product/list";
     }
 
@@ -65,8 +63,8 @@ public class PayProductController {
      * @throws
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Model model, RpPayProduct rpPayProduct) {
-        rpPayProductService.createPayProduct(rpPayProduct.getProductCode(), rpPayProduct.getProductName());
+    public String add(Model model, PayProduct payProduct) {
+        payProductService.createPayProduct(payProduct.getProductCode(), payProduct.getProductName());
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
@@ -83,7 +81,7 @@ public class PayProductController {
      */
     @RequestMapping(value = "/delete", method ={RequestMethod.POST,RequestMethod.GET})
     public String delete(Model model, @RequestParam("productCode") String productCode) {
-        rpPayProductService.deletePayProduct(productCode);
+        payProductService.deletePayProduct(productCode);
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);
@@ -100,13 +98,13 @@ public class PayProductController {
      * @throws
      */
     @RequestMapping(value = "/lookupList", method ={RequestMethod.POST,RequestMethod.GET})
-    public String lookupList(RpPayProduct rpPayProduct, PageParam pageParam, Model model) {
+    public String lookupList(PayProduct payProduct, PageParam pageParam, Model model) {
         //查询已生效数据
-        rpPayProduct.setAuditStatus(PublicEnum.YES.name());
-        PageBean pageBean = rpPayProductService.listPage(pageParam, rpPayProduct);
+        payProduct.setAuditStatus(PublicEnum.YES.name());
+        PageBean pageBean = payProductService.listPage(pageParam, payProduct);
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpPayProduct", rpPayProduct);
+        model.addAttribute("rpPayProduct", payProduct);
         return "pay/product/lookupList";
     }
 
@@ -120,7 +118,7 @@ public class PayProductController {
     @RequestMapping(value = "/audit", method ={RequestMethod.POST,RequestMethod.GET})
     public String audit(Model model, @RequestParam("productCode") String productCode
             , @RequestParam("auditStatus") String auditStatus) {
-        rpPayProductService.audit(productCode, auditStatus);
+        payProductService.audit(productCode, auditStatus);
 //        dwz.setStatusCode(DWZ.SUCCESS);
 //        dwz.setMessage(DWZ.SUCCESS_MSG);
 //        model.addAttribute("dwz", dwz);

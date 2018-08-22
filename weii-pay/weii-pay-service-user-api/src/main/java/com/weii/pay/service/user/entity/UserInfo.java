@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date Created in 19:43 2018/5/11
  * @Description: 支付产品实体类
  */
-public class RpUserInfo extends BaseEntity implements Serializable {
+public class UserInfo extends BaseEntity implements Serializable {
     private String userNo;
 
     private String userName;

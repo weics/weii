@@ -2,7 +2,7 @@ package com.weii.pay.service.user.api;
 
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
-import com.weii.pay.service.user.entity.RpUserInfo;
+import com.weii.pay.service.user.entity.UserInfo;
 import com.weii.pay.service.user.exceptions.PayBizException;
 
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
  * @date Created in 10:28 2018/5/12
  * @Description: 用户信息service接口
  */
-public interface RpUserInfoService {
+public interface UserInfoService {
     /**
      * 保存
      */
-    void saveData(RpUserInfo rpUserInfo) throws PayBizException;
+    void saveData(UserInfo userInfo) throws PayBizException;
 
     /**
      * 更新
      */
-    void updateData(RpUserInfo rpUserInfo) throws PayBizException;
+    void updateData(UserInfo userInfo) throws PayBizException;
 
     /**
      * 根据id获取数据
@@ -30,7 +30,7 @@ public interface RpUserInfoService {
      * @param id
      * @return
      */
-    RpUserInfo getDataById(String id) throws PayBizException;
+    UserInfo getDataById(String id) throws PayBizException;
 
 
     /**
@@ -39,7 +39,7 @@ public interface RpUserInfoService {
      * @param pageParam
      * @return
      */
-    PageBean listPage(PageParam pageParam, RpUserInfo rpUserInfo) throws PayBizException;
+    PageBean listPage(PageParam pageParam, UserInfo userInfo) throws PayBizException;
 
     /**
      * 用户线下注册
@@ -55,11 +55,11 @@ public interface RpUserInfoService {
      * @param merchantNo
      * @return
      */
-    RpUserInfo getDataByMerchentNo(String merchantNo) throws PayBizException;
+    UserInfo getDataByMerchentNo(String merchantNo) throws PayBizException;
 
     /**
      * 获取所有用户
      * @return
      */
-    List<RpUserInfo> listAll() throws PayBizException;
+    List<UserInfo> listAll() throws PayBizException;
 }

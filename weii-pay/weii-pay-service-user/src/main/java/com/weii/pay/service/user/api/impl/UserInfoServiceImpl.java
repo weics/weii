@@ -8,9 +8,9 @@ import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.account.entity.RpAccount;
-import com.weii.pay.service.user.api.RpUserInfoService;
-import com.weii.pay.service.user.dao.RpUserInfoMapper;
-import com.weii.pay.service.user.entity.RpUserInfo;
+import com.weii.pay.service.user.api.UserInfoService;
+import com.weii.pay.service.user.dao.UserInfoMapper;
+import com.weii.pay.service.user.entity.UserInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ import java.util.Map;
 
 )
 @Service
-public class RpUserInfoServiceImpl implements RpUserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
 
     /** 用户编号前缀 **/
     private static final String USER_NO_PREFIX = "8888";
@@ -47,28 +47,28 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
 
 
     @Autowired
-    private RpUserInfoMapper rpUserInfoMapper;
+    private UserInfoMapper rpUserInfoMapper;
 
 //    @Autowired
 //    private RpAccountService rpAccountService;
 
     @Override
-    public void saveData(RpUserInfo rpUserInfo) {
-        rpUserInfoMapper.insert(rpUserInfo);
+    public void saveData(UserInfo userInfo) {
+        rpUserInfoMapper.insert(userInfo);
     }
 
     @Override
-    public void updateData(RpUserInfo rpUserInfo) {
-        rpUserInfoMapper.update(rpUserInfo);
+    public void updateData(UserInfo userInfo) {
+        rpUserInfoMapper.update(userInfo);
     }
 
     @Override
-    public RpUserInfo getDataById(String id) {
+    public UserInfo getDataById(String id) {
         return rpUserInfoMapper.getById(id);
     }
 
     @Override
-    public PageBean listPage(PageParam pageParam, RpUserInfo rpUserInfo) {
+    public PageBean listPage(PageParam pageParam, UserInfo userInfo) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         return rpUserInfoMapper.listPage(pageParam, paramMap);
     }
@@ -88,15 +88,15 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
         String accountNo = buildAccountNo();
 
         //生成用户信息
-        RpUserInfo rpUserInfo = new RpUserInfo();
-        rpUserInfo.setAccountNo(accountNo);
-        rpUserInfo.setCreateTime(new Date());
-        rpUserInfo.setId(StringUtil.get32UUID());
-        rpUserInfo.setStatus(PublicStatusEnum.ACTIVE.name());
-        rpUserInfo.setUserName(userName);
-        rpUserInfo.setUserNo(userNo);
-        rpUserInfo.setVersion(0);
-        this.saveData(rpUserInfo);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccountNo(accountNo);
+        userInfo.setCreateTime(new Date());
+        userInfo.setId(StringUtil.get32UUID());
+        userInfo.setStatus(PublicStatusEnum.ACTIVE.name());
+        userInfo.setUserName(userName);
+        userInfo.setUserNo(userNo);
+        userInfo.setVersion(0);
+        this.saveData(userInfo);
 
         // 生成账户信息
         RpAccount rpAccount = new RpAccount();
@@ -127,7 +127,7 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
      * @return
      */
     @Override
-    public RpUserInfo getDataByMerchentNo(String merchantNo) {
+    public UserInfo getDataByMerchentNo(String merchantNo) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("userNo", merchantNo);
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
@@ -139,7 +139,7 @@ public class RpUserInfoServiceImpl implements RpUserInfoService {
      * @return
      */
     @Override
-    public List<RpUserInfo> listAll(){
+    public List<UserInfo> listAll(){
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("status", PublicStatusEnum.ACTIVE.name());
         return rpUserInfoMapper.listBy(paramMap);
