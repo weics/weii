@@ -35,7 +35,6 @@ import java.util.*;
  * @Description:
  * @Modified By:
  */
-//@Service
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Service
 public class TransactionMessageServiceImpl implements TransactionMessageService {

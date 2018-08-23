@@ -2,45 +2,53 @@
   <el-container class="message-page">
     <el-header class="header-option-pannel">
       <el-form :inline="true" :model="getDeviceListParams">
-        <el-form-item label="消息队列">
-          <el-input v-model="getDeviceListParams.word" placeholder="请输入设备编码" :size="`small`"></el-input>
+        <el-form-item label="消息ID">
+          <el-input v-model="messageInfo.messageId" placeholder="请输入消息ID" :size="`small`"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="getDeviceListParams.appId" placeholder="请选择应用" size="small">
+        <el-form-item label="消息状态">
+          <el-select v-model="messageInfo.messageStatus" placeholder="请选择状态" size="small">
             <el-option v-for="item in appIdList" :key="item.appId" :label="item.appName" :value="item.appId">
             </el-option>
           </el-select>
-          <el-button type="primary" size="mini" plain @click="getDeviceListData">查询</el-button>
-          <el-button type="primary" size="mini" plain @click="resetQuery">重置查询条件</el-button>
         </el-form-item>
+
+        <el-form-item label="消费队列">
+          <el-select v-model="messageInfo.consumerQueue" placeholder="请选择" size="small">
+            <el-option v-for="item in queues" :key="item.name" :label="item.desc" :value="item.desc">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+
+        <el-button type="primary" size="mini" plain >查询</el-button>
+        <el-button type="primary" size="mini" plain >重置查询条件</el-button>
       </el-form>
     </el-header>
     <el-main>
       <el-table border ref="deviceListTable" v-loading.body="listLoading" :data="deviceListData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" :reserve-selection="true">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="machineId" label="设备编号" width="180">
+        <el-table-column prop="machineId" label="创建时间" width="180">
         </el-table-column>
-        <el-table-column prop="machineFunction" label="设备类型" show-overflow-tooltip>
+        <el-table-column prop="machineFunction" label="修改时间" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="appName" label="应用" show-overflow-tooltip>
+        <el-table-column prop="appName" label="消息ID" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="deviceType" label="设备型号" show-overflow-tooltip>
+        <el-table-column prop="deviceType" label="消费队列" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="createdAt" label="导入时间" show-overflow-tooltip>
+        <el-table-column prop="createdAt" label="状态" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="statusText" label="设备状态" show-overflow-tooltip>
+        <el-table-column prop="statusText" label="重发次数" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="statusText" label="是否死亡" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="操作" width="400">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="showSingleDeviceQRCode(scope.row.machineId)">二维码</el-button>
-            <el-button size="mini" @click="upDateDeviceStatus(scope.row.machineId,scope.row.status)" v-if="scope.row.status">进行测试</el-button>
-            <el-button size="mini" type="success" @click="upDateDeviceStatus(scope.row.machineId,scope.row.status)" v-if="!scope.row.status">测试完成</el-button>
             <el-button size="mini" type="danger" @click="handleDeleteDevice(scope.row.machineId)" v-if="deletePermission">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @current-change="handleCurrentTablePageChange" :current-page.sync="getDeviceListParams.page" :page-size="getDeviceListParams.size" layout="total, prev, pager, next,jumper" :total="paginationOption.total" style="text-align:center;">
+      <el-pagination @current-change="handleCurrentTablePageChange" :current-page.sync="messageInfo.page" :page-size="messageInfo.size" layout="total, prev, pager, next,jumper" :total="paginationOption.total" style="text-align:center;">
       </el-pagination>
     </el-main>
   </el-container>
@@ -48,7 +56,7 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
-  import {formatTimeStr} from '../../utils/index'
+  // import {formatTimeStr} from '../../utils/index'
   export default {
     name: 'device',
     computed: {
@@ -66,11 +74,12 @@
           excel: false,
           transferDevice: false
         },
-        getDeviceListParams: {
-          word: '',
-          appId: '',
-          page: 1,
-          size: 15
+        messageInfo:{
+          messageStatus : '',
+          consumerQueue : '',
+          messageId : 1,
+          page : 1,
+          size : 12,
         },
         fileList: [],
         multipleSelectionDevices: [],
@@ -81,7 +90,7 @@
         appIdList: [
           {
             appId: '',
-            appName: '所有应用'
+            appName: '请选择'
           }
         ],
         flag: true,
@@ -285,9 +294,6 @@
         this.getDeviceListData()
       },
       // 显示单个设备二维码
-      showSingleDeviceQRCode(machineId) {
-        window.open(`http://device.ubody.net/device/image?machineId=${machineId}`)
-      },
       // 删除设备
       handleDeleteDevice(machineId) {
         this.$confirm('此操作将删除该设备, 是否继续?', '提示', {
