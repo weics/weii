@@ -1,16 +1,7 @@
 package com.weii.pay.service.message.api.impl;
 
-//import com.weii.pay.common.core.enums.PublicEnum;
-//import com.weii.pay.common.core.page.PageBean;
-//import com.weii.pay.common.core.page.PageParam;
-//import com.weii.pay.common.core.utils.PublicConfigUtil;
-//import com.weii.pay.common.core.utils.StringUtil;
-//import com.weii.pay.service.message.api.TransactionMessageService;
-//import com.weii.pay.service.message.api.config.MQSender;
-//import com.weii.pay.service.message.dao.RpTransactionMessageDao;
-//import com.weii.pay.service.message.entity.TransactionMessage;
-//import com.weii.pay.service.message.enums.MessageStatusEnum;
-//import com.weii.pay.service.message.exception.MessageBizException;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.weii.pay.common.core.enums.PublicEnum;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
@@ -18,7 +9,7 @@ import com.weii.pay.common.core.utils.PublicConfigUtil;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.message.api.TransactionMessageService;
 import com.weii.pay.service.message.api.config.MQSender;
-import com.weii.pay.service.message.dao.RpTransactionMessageDao;
+import com.weii.pay.service.message.dao.TransactionMessageMapper;
 import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import com.weii.pay.service.message.exception.MessageBizException;
@@ -35,14 +26,19 @@ import java.util.*;
  * @Description:
  * @Modified By:
  */
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Service
 public class TransactionMessageServiceImpl implements TransactionMessageService {
 
     private static final Log log = LogFactory.getLog(TransactionMessageServiceImpl.class);
 
     @Autowired
-    private RpTransactionMessageDao rpTransactionMessageDao;
+    private TransactionMessageMapper transactionMessageMapper;
 
     @Autowired
     private MQSender mqSender;
@@ -62,7 +58,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
         message.setStatus(MessageStatusEnum.WAITING_CONFIRM.name());
         message.setAreadlyDead(PublicEnum.NO.name());
         message.setMessageSendTimes(0);
-        return rpTransactionMessageDao.insert(message);
+        return transactionMessageMapper.insert(message);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
         }
         message.setStatus(MessageStatusEnum.SENDING.name());
         message.setEditTime(new Date());
-        rpTransactionMessageDao.update(message);
+        transactionMessageMapper.update(message);
         //rabbitmq 发送消息
 //        rabbitSender.sendMsg(message);
 
@@ -94,7 +90,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
         message.setAreadlyDead(PublicEnum.NO.name());
         message.setMessageSendTimes(0);
         message.setEditTime(new Date());
-        int result = rpTransactionMessageDao.insert(message);
+        int result = transactionMessageMapper.insert(message);
 
 //        String uuid = UUID.randomUUID().toString();
 //        CorrelationData correlationId = new CorrelationData(uuid);
@@ -140,7 +136,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
 
         message.addSendTimes();
         message.setEditTime(new Date());
-        rpTransactionMessageDao.update(message);
+        transactionMessageMapper.update(message);
 
 //        rabbitSender.sendMsg(message);
         mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
@@ -161,7 +157,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
 
         message.setEditTime(new Date());
         message.setMessageSendTimes(message.getMessageSendTimes()+1);
-        rpTransactionMessageDao.update(message);
+        transactionMessageMapper.update(message);
 
 
 //        rabbitSender.sendMsg(message);
@@ -178,21 +174,21 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
 
         message.setAreadlyDead(PublicEnum.YES.name());
         message.setEditTime(new Date());
-        rpTransactionMessageDao.update(message);
+        transactionMessageMapper.update(message);
     }
 
     @Override
     public TransactionMessage getMessageByMessageId(String messageId) throws MessageBizException {
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("messageId",messageId);
-        return rpTransactionMessageDao.getBy(paramMap);
+        return transactionMessageMapper.getBy(paramMap);
     }
 
     @Override
     public void deleteMessageByMessageId(String messageId) throws MessageBizException {
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("messageId",messageId);
-        rpTransactionMessageDao.delete(paramMap);
+        transactionMessageMapper.delete(paramMap);
     }
 
     @Override
@@ -220,7 +216,11 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
         List<Object> recordList = new ArrayList<>();
         int pageCount = 1;
 
-        PageBean pageBean = rpTransactionMessageDao.listPage(new PageParam(pageNum,numPerPage),paramMap);
+        paramMap.put("pageFirst",1);
+        paramMap.put("pageSize",10);
+
+//        PageBean pageBean = transactionMessageMapper.listPage(paramMap);
+        PageBean pageBean = null;
         recordList = pageBean.getRecordList();
         if (recordList == null || recordList.isEmpty()){
             log.info("=====>recordList is empty");
@@ -242,7 +242,7 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
             final TransactionMessage message = entry.getValue();
             message.setEditTime(new Date());
             message.setMessageSendTimes(message.getMessageSendTimes()+1);
-            rpTransactionMessageDao.update(message);
+            transactionMessageMapper.update(message);
             mqSender.sendQueue(message.getConsumerQueue(),message.getMessageBody());
         }
 
@@ -251,7 +251,12 @@ public class TransactionMessageServiceImpl implements TransactionMessageService 
     }
 
     @Override
-    public PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) throws MessageBizException {
-        return rpTransactionMessageDao.listPage(pageParam, paramMap);
+    public PageInfo<TransactionMessage> listPage(PageParam pageParam, Map<String, Object> paramMap) throws MessageBizException {
+        paramMap.put("pageFirst",1);
+        paramMap.put("pageSize",10);
+        PageHelper.startPage(1, 10);
+        final List<TransactionMessage> transactionMessages = transactionMessageMapper.listPage(paramMap);
+        PageInfo<TransactionMessage> result = new PageInfo<>(transactionMessages);
+        return result;
     }
 }

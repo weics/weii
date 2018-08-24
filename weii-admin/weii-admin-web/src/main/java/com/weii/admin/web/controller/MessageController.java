@@ -1,6 +1,7 @@
 package com.weii.admin.web.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.PageInfo;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
 import com.weii.pay.common.core.page.PageBean;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +32,8 @@ public class MessageController {
 
 
     private static final Log log = LogFactory.getLog(MessageController.class);
-    @Reference(version = "1.0.0")
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}")
     private TransactionMessageService transactionMessageService;
 
     @RequestMapping(value = "/list")
@@ -41,10 +44,10 @@ public class MessageController {
         paramMap.put("consumerQueue", message.getConsumerQueue());
         paramMap.put("status", message.getStatus());
 
-        PageBean pageBean = transactionMessageService.listPage(pageParam, paramMap);
+        final PageInfo<TransactionMessage> pageInfo = transactionMessageService.listPage(pageParam, paramMap);
 
         Map<String,Object> map = new HashMap<>(3);
-        map.put("pageBean", pageBean);
+        map.put("pageBean", pageInfo);
         map.put("messageStatus", MessageStatusEnum.toList());
         map.put("queues", NotifyDestinationNameEnum.toList());
         return WeiiResult.ok(map);

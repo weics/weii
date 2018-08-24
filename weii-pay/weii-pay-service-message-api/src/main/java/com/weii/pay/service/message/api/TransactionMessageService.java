@@ -1,10 +1,12 @@
 package com.weii.pay.service.message.api;
 
+import com.github.pagehelper.PageInfo;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.exception.MessageBizException;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,5 +78,5 @@ public interface TransactionMessageService {
     /**
      * 获取分页数据
      */
-    PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) throws MessageBizException;
+    PageInfo<TransactionMessage> listPage(PageParam pageParam, Map<String, Object> paramMap) throws MessageBizException;
 }

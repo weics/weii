@@ -62,12 +62,12 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- Spring Boot Dubbo 依赖 -->
-            <dependency>
-                <groupId>io.dubbo.springboot</groupId>
-                <artifactId>spring-boot-starter-dubbo</artifactId>
-                <version>${dubbo.version}</version>
-            </dependency>
+            <!--&lt;!&ndash; Spring Boot Dubbo 依赖 &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>io.dubbo.springboot</groupId>-->
+                <!--<artifactId>spring-boot-starter-dubbo</artifactId>-->
+                <!--<version>${dubbo.version}</version>-->
+            <!--</dependency>-->
 
             <!-- AOP -->
             <dependency>
@@ -100,14 +100,27 @@
                 <version>${log4j_version}</version>
             </dependency>
 
-            <!-- Spring Boot Dubbo 依赖 -->
-            <dependency>
-            <groupId>io.dubbo.springboot</groupId>
-            <artifactId>spring-boot-starter-dubbo</artifactId>
-            <version>1.0.0</version>
-            </dependency>
+            <!--&lt;!&ndash; Spring Boot Dubbo 依赖 &ndash;&gt;-->
+            <!--<dependency>-->
+            <!--<groupId>io.dubbo.springboot</groupId>-->
+            <!--<artifactId>spring-boot-starter-dubbo</artifactId>-->
+            <!--<version>1.0.0</version>-->
+            <!--</dependency>-->
 
 
+
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-actuator</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>0.1.1</version>
+        </dependency>
 
 
             <dependency>
