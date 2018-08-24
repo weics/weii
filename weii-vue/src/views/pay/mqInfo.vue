@@ -25,22 +25,22 @@
       </el-form>
     </el-header>
     <el-main>
-      <el-table border ref="deviceListTable" v-loading.body="listLoading" :data="deviceListData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" :reserve-selection="true">
+      <el-table border ref="deviceListTable" v-loading.body="listLoading" :data="messageListData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" :reserve-selection="true">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="machineId" label="创建时间" width="180">
+        <el-table-column prop="createTime" label="创建时间" width="180">
         </el-table-column>
-        <el-table-column prop="machineFunction" label="修改时间" show-overflow-tooltip>
+        <el-table-column prop="editTime" label="修改时间" >
         </el-table-column>
-        <el-table-column prop="appName" label="消息ID" show-overflow-tooltip>
+        <el-table-column prop="messageId" label="消息ID" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="deviceType" label="消费队列" show-overflow-tooltip>
+        <el-table-column prop="consumerQueue" label="消费队列" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="createdAt" label="状态" show-overflow-tooltip>
+        <el-table-column prop="status" label="状态" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="statusText" label="重发次数" show-overflow-tooltip>
+        <el-table-column prop="messageSendTimes" label="重发次数" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="statusText" label="是否死亡" show-overflow-tooltip>
+        <el-table-column prop="areadlyDead" label="是否死亡" show-overflow-tooltip>
         </el-table-column>
         <el-table-column label="操作" width="400">
           <template slot-scope="scope">
@@ -56,7 +56,7 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
-  // import {formatTimeStr} from '../../utils/index'
+  import {formatTimeStr} from '../../utils/index'
   export default {
     name: 'device',
     computed: {
@@ -74,6 +74,7 @@
           excel: false,
           transferDevice: false
         },
+        messageListData:[],
         messageInfo:{
           messageStatus : '',
           consumerQueue : '',
@@ -81,7 +82,16 @@
           page : 1,
           size : 12,
         },
+        queues : [],
+        messageStatus : [],
+        queues : [],
         fileList: [],
+        getDeviceListParams: {
+          word: '',
+          appId: '',
+          page: 1,
+          size: 15
+        },
         multipleSelectionDevices: [],
         deviceListData: [],
         paginationOption: {
@@ -102,9 +112,9 @@
       }
     },
     mounted() {
-      this.getUserPermission()
-      this.getDeviceListData()
-      this.getAppList()
+
+      this.getMessageListData()
+
     },
     methods: {
       ...mapMutations({
@@ -115,17 +125,6 @@
         this.$refs.deviceListTable.toggleRowSelection(data, row+1)
       },
       // 上传excel成功回调
-      onUploadExcelSuccessCallback() {
-        // this.multipleSelectionDevices = []
-        this.resetMutileDeviceList()
-        this.getDeviceListData()
-      },
-      // 转移设备成功回调
-      onTransferDeviceSuccessCallback() {
-        //this.multipleSelectionDevices = []
-        this.resetMutileDeviceList()
-        this.getDeviceListData()
-      },
       // 显示设备转移对话框
       showTransferDeviceModel() {
         if (this.count) {
@@ -186,26 +185,6 @@
           }
         })
       },
-      // 上传Excel前对文件进行判断
-      beforeUploadExcel(file) {
-        const { name } = file
-        if (name == '') {
-          this.$message({
-            type: 'error',
-            message: '上传的文件不能为空!'
-          })
-          return false
-        }
-        let lastPath = name.substring(name.lastIndexOf('.') + 1).toLowerCase()
-        let reg = /(xls|xlsx)$/i
-        if (!reg.test(lastPath)) {
-          this.$message({
-            type: 'error',
-            message: '上传文件格式错误，支持格式：xls,xlsx!'
-          })
-          return false
-        }
-      },
       // 切换设备状态  正常使用/未测试
       upDateDeviceStatus(machineId, status) {
         let that = this
@@ -247,6 +226,23 @@
         this.getDeviceListParams.page = page
         this.getDeviceListData()
       },
+
+      // 获取设备列表
+      getMessageListData() {
+        this.listLoading = true;
+        this.api({
+          url: '/message/list',
+          method: 'get',
+        }).then(data => {
+          this.listLoading = false;
+
+          this.handleMessageListData(data.data)
+          // this.showSelectRowSelection()
+        })
+      },
+
+
+
       // 获取设备列表
       getDeviceListData() {
         // this.listLoading = true
@@ -268,17 +264,28 @@
         this.getDeviceListData()
       },
       // 设备列表数据处理
-      handleDeviceListData(data) {
-        for (let i = 0, len = data.length; i < len; i++) {
-          console.log(data[i].status)
-          if(data[i].status ==1) {
-            data[i].statusText = '正常使用'
-          }else if(data[i].status ==0){
-            data[i].statusText = '测试中'
-          }
-          data[i].createdAt = formatTimeStr(data[i].createdAt)
+      handleMessageListData(data) {
+
+
+
+        // for (let i = 0, len = data.length; i < len; i++) {
+        //   console.log(data[i].status)
+        //   if(data[i].status ==1) {
+        //     data[i].statusText = '正常使用'
+        //   }else if(data[i].status ==0){
+        //     data[i].statusText = '测试中'
+        //   }
+        //   data[i].createdAt = formatTimeStr(data[i].createdAt)
+        // }
+
+        var messageList = data.pageBean.list;
+        for (let i = 0, len = messageList.length; i < len; i++) {
+          messageList[i].createTime = formatTimeStr(messageList[i].createTime);
+          messageList[i].editTime = formatTimeStr(messageList[i].editTime);
         }
-        this.deviceListData = data
+
+
+        this.messageListData = messageList;
       },
       // 批量生成二维码
       getPrintQRcode() {

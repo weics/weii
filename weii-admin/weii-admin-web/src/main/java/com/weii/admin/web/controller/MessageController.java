@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
-import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.message.api.TransactionMessageService;
 import com.weii.pay.service.message.entity.TransactionMessage;
@@ -37,14 +36,14 @@ public class MessageController {
     private TransactionMessageService transactionMessageService;
 
     @RequestMapping(value = "/list")
-    public Object list(HttpServletRequest request, PageParam pageParam, TransactionMessage message) {
+    public Object list(HttpServletRequest request) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("areadlyDead", message.getAreadlyDead());
-        paramMap.put("messageId", message.getMessageId());
-        paramMap.put("consumerQueue", message.getConsumerQueue());
-        paramMap.put("status", message.getStatus());
+//        paramMap.put("areadlyDead", message.getAreadlyDead());
+//        paramMap.put("messageId", message.getMessageId());
+//        paramMap.put("consumerQueue", message.getConsumerQueue());
+//        paramMap.put("status", message.getStatus());
 
-        final PageInfo<TransactionMessage> pageInfo = transactionMessageService.listPage(pageParam, paramMap);
+        final PageInfo<TransactionMessage> pageInfo = transactionMessageService.listPage(null, paramMap);
 
         Map<String,Object> map = new HashMap<>(3);
         map.put("pageBean", pageInfo);
