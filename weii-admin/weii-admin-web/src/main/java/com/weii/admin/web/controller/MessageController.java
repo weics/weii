@@ -11,6 +11,7 @@ import com.weii.pay.service.message.enums.MessageStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +43,26 @@ public class MessageController {
 //        paramMap.put("messageId", message.getMessageId());
 //        paramMap.put("consumerQueue", message.getConsumerQueue());
 //        paramMap.put("status", message.getStatus());
+
+        final PageInfo<TransactionMessage> pageInfo = transactionMessageService.listPage(null, paramMap);
+
+        Map<String,Object> map = new HashMap<>(3);
+        map.put("pageBean", pageInfo);
+        map.put("messageStatus", MessageStatusEnum.toList());
+        map.put("queues", NotifyDestinationNameEnum.toList());
+        return WeiiResult.ok(map);
+    }
+
+
+
+    @RequestMapping(value = "/search")
+    public Object searchList(HttpServletRequest request , TransactionMessage message) {
+        System.out.println("获取的参数信息是:"+message.toString());
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("areadlyDead", message.getAreadlyDead());
+        paramMap.put("messageId", message.getMessageId());
+        paramMap.put("consumerQueue", message.getConsumerQueue());
+        paramMap.put("status", message.getStatus());
 
         final PageInfo<TransactionMessage> pageInfo = transactionMessageService.listPage(null, paramMap);
 

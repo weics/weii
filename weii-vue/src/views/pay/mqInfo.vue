@@ -3,24 +3,31 @@
     <el-header class="header-option-pannel">
       <el-form :inline="true" :model="getDeviceListParams">
         <el-form-item label="消息ID">
-          <el-input v-model="messageInfo.messageId" placeholder="请输入消息ID" :size="`small`"></el-input>
+          <el-input v-model="messageInfoParam.messageId" placeholder="请输入消息ID" :size="`small`"></el-input>
         </el-form-item>
         <el-form-item label="消息状态">
-          <el-select v-model="messageInfo.messageStatus" placeholder="请选择状态" size="small">
-            <el-option v-for="item in appIdList" :key="item.appId" :label="item.appName" :value="item.appId">
+          <el-select v-model="messageInfoParam.status" placeholder="请选择状态" size="small">
+            <el-option v-for="item in messageInfo.messageStatus" :key="item.name" :label="item.desc" :value="item.name">
             </el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item label="消费队列">
-          <el-select v-model="messageInfo.consumerQueue" placeholder="请选择" size="small">
-            <el-option v-for="item in queues" :key="item.name" :label="item.desc" :value="item.desc">
+          <el-select v-model="messageInfoParam.consumerQueue" placeholder="请选择" size="small">
+            <el-option v-for="item in messageInfo.consumerQueue" :key="item.name" :label="item.desc" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="是否死亡">
+          <el-select v-model="messageInfoParam.areadlyDead" placeholder="请选择" size="small">
+            <el-option v-for="item in messageInfo.areadlyDead" :key="item.name" :label="item.desc" :value="item.desc">
             </el-option>
           </el-select>
         </el-form-item>
 
 
-        <el-button type="primary" size="mini" plain >查询</el-button>
+        <el-button type="primary" size="mini" @click="getMessageListDataBySearch()" plain >查询</el-button>
         <el-button type="primary" size="mini" plain >重置查询条件</el-button>
       </el-form>
     </el-header>
@@ -28,11 +35,11 @@
       <el-table border ref="deviceListTable" v-loading.body="listLoading" :data="messageListData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange" :reserve-selection="true">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180">
+        <el-table-column prop="createTime" label="创建时间" width="160">
         </el-table-column>
-        <el-table-column prop="editTime" label="修改时间" >
+        <el-table-column prop="editTime" label="修改时间" width="160" >
         </el-table-column>
-        <el-table-column prop="messageId" label="消息ID" show-overflow-tooltip>
+        <el-table-column prop="messageId" label="消息ID" >
         </el-table-column>
         <el-table-column prop="consumerQueue" label="消费队列" show-overflow-tooltip>
         </el-table-column>
@@ -41,11 +48,6 @@
         <el-table-column prop="messageSendTimes" label="重发次数" show-overflow-tooltip>
         </el-table-column>
         <el-table-column prop="areadlyDead" label="是否死亡" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column label="操作" width="400">
-          <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="handleDeleteDevice(scope.row.machineId)" v-if="deletePermission">删除</el-button>
-          </template>
         </el-table-column>
       </el-table>
       <el-pagination @current-change="handleCurrentTablePageChange" :current-page.sync="messageInfo.page" :page-size="messageInfo.size" layout="total, prev, pager, next,jumper" :total="paginationOption.total" style="text-align:center;">
@@ -76,33 +78,28 @@
         },
         messageListData:[],
         messageInfo:{
-          messageStatus : '',
-          consumerQueue : '',
+          messageStatus : [],
+          consumerQueue : [],
+          areadlyDead :[{name:'0',desc:"存活"},{name:'1',desc:"死亡"}],
           messageId : 1,
           page : 1,
           size : 12,
         },
-        queues : [],
+
+        messageInfoParam:{
+          status : '',
+          consumerQueue : '',
+          areadlyDead :'',
+          messageId : '',
+        },
+
         messageStatus : [],
         queues : [],
         fileList: [],
-        getDeviceListParams: {
-          word: '',
-          appId: '',
-          page: 1,
-          size: 15
-        },
         multipleSelectionDevices: [],
-        deviceListData: [],
         paginationOption: {
           total: 0
         },
-        appIdList: [
-          {
-            appId: '',
-            appName: '请选择'
-          }
-        ],
         flag: true,
         uploadExcelHeaders: {
           'Access-Control-Allow-Origin': '*'
@@ -126,101 +123,15 @@
       },
       // 上传excel成功回调
       // 显示设备转移对话框
-      showTransferDeviceModel() {
-        if (this.count) {
-          this.modelVisible.transferDevice = true
-        } else {
-          this.$message({
-            type: 'error',
-            message: '请选择要转移的设备'
-          })
-        }
-      },
-      // 显示excel导入对话框
-      showImportExcelModel() {
-        this.modelVisible.excel = true
-      },
-      /**
-       * @param {Object} payload 回调返回参数
-       *
-       */
-      onModelVisibleChange(payload) {
-        const { type, visible } = payload
-        switch (type) {
-          case 'QRcode':
-            this.modelVisible.Qrcode = visible
-            break
-          case 'excel':
-            this.modelVisible.excel = visible
-            break
-          case 'transferDevice':
-            this.modelVisible.transferDevice = visible
-            break
-          default:
-            break
-        }
-      },
-      // 获取appId(厂商列表)
-      getAppList() {
-        this.api({
-          url: '',
-          method: 'get'
-        }).then(data => {
-          this.handleApplistData(data)
-        })
-      },
+
       // 处理appId 列表数据
       handleApplistData(data) {
         this.appIdList = this.appIdList.concat(data)
       },
       // 判断用户权限
-      getUserPermission() {
-        const { permissions } = this.user
-        permissions.map(permission => {
-          if (permission === 'device:add') {
-            this.uploadExcelPermission = true
-          }
-          if (permission === 'device:delete') {
-            this.deletePermission = true
-          }
-        })
-      },
-      // 切换设备状态  正常使用/未测试
-      upDateDeviceStatus(machineId, status) {
-        let that = this
-        this.api({
-          url: '/device/update',
-          method: 'post',
-          params: {
-            machineId: machineId,
-            status: status
-          }
-        }).then(data => {
-          this.$message({
-            type: 'success',
-            message: '更改成功!'
-          })
-          setTimeout(function() {
-            that.getDeviceListData()
-          }, 500)
-        })
-      },
-      onUploadExcelError(err) {
-        this.$message({
-          type: 'error',
-          message: '上传失败!'
-        })
-      },
-      // 测量数据
-      deviceTestData(machineId, uid, machineFunction) {
-        this.$router.push({
-          path: '/measure-device-data',
-          query: {
-            machineId: machineId,
-            machineFunction
-          }
-        })
-      },
+
+
+
       // 分页改变
       handleCurrentTablePageChange(page) {
         this.getDeviceListParams.page = page
@@ -242,21 +153,20 @@
       },
 
 
+      getMessageListDataBySearch(){
+        this.listLoading = true;
+        this.api({
+          url: '/message/search',
+          method: 'post',
+          params: this.messageInfoParam,
+        }).then(data => {
+          this.listLoading = false;
 
-      // 获取设备列表
-      getDeviceListData() {
-        // this.listLoading = true
-        // this.api({
-        //   url: '/device/search',
-        //   method: 'get',
-        //   params: this.getDeviceListParams
-        // }).then(data => {
-        //   // this.listLoading = false
-        //   // this.paginationOption.total = data.total
-        //   // this.handleDeviceListData(data.list)
-        //   // this.showSelectRowSelection()
-        // })
+          this.handleMessageListData(data.data)
+        })
       },
+
+
       // 重置查询
       resetQuery() {
         this.getDeviceListParams.word = ''
@@ -266,87 +176,21 @@
       // 设备列表数据处理
       handleMessageListData(data) {
 
-
-
-        // for (let i = 0, len = data.length; i < len; i++) {
-        //   console.log(data[i].status)
-        //   if(data[i].status ==1) {
-        //     data[i].statusText = '正常使用'
-        //   }else if(data[i].status ==0){
-        //     data[i].statusText = '测试中'
-        //   }
-        //   data[i].createdAt = formatTimeStr(data[i].createdAt)
-        // }
-
         var messageList = data.pageBean.list;
+
         for (let i = 0, len = messageList.length; i < len; i++) {
           messageList[i].createTime = formatTimeStr(messageList[i].createTime);
           messageList[i].editTime = formatTimeStr(messageList[i].editTime);
         }
 
-
         this.messageListData = messageList;
+        this.messageInfo.messageStatus = data.messageStatus;
+        this.messageInfo.consumerQueue = data.queues;
       },
-      // 批量生成二维码
-      getPrintQRcode() {
-        let len = this.multipleSelectionDevices.length,
-          devices = []
-        this.modelVisible.Qrcode = true
-      },
-      // 校验二维码设置回调
-      handleSubmitQRcodeSuccess() {
 
-        this.resetMutileDeviceList()
-        // this.modelVisible.Qrcode = false
-        this.getDeviceListData()
-      },
-      // 显示单个设备二维码
-      // 删除设备
-      handleDeleteDevice(machineId) {
-        this.$confirm('此操作将删除该设备, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            this.api({
-              url: '/device/del',
-              method: 'get',
-              params: {
-                machineId
-              }
-            }).then(data => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-              this.getDeviceListData()
-            })
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            })
-          })
-      },
-      handleRemove(file, fileList) {
-        //console.log(file, fileList)
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`一次只能上传一个excel文件`)
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${file.name}？`)
-      },
-      // 选择批量生成二维码的设备
-      handleSelectionChange(val, row) {
-        //this.multipleSelectionDevices = val
-        this.setMutileDeviceList({
-          selectDevice: val,
-          page: this.getDeviceListParams.page
-        })
-      },
+
+
+
       uniqueArray(arr, name) {
         var arrItem = {}
         arr = arr.reduce(function(item, next) {
