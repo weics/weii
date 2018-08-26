@@ -1,5 +1,6 @@
 package com.weii.pay.service.trade.api;
 
+import com.github.pagehelper.PageInfo;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.trade.entity.TradePaymentOrder;
@@ -59,7 +60,7 @@ public interface TradePaymentQueryService {
      * @param paymentOrderQueryVo
      * @return
      */
-    public PageBean<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
+    public PageInfo<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
 
     /**
      * 分页查询支付记录

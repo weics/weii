@@ -1,19 +1,17 @@
-package com.weii.pay.service.trade.aip.impl;
+package com.weii.pay.service.trade.api.impl;
 
-import com.weii.pay.common.core.enums.PublicEnum;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.trade.api.TradePaymentQueryService;
-import com.weii.pay.service.trade.dao.RpTradePaymentOrderDao;
-import com.weii.pay.service.trade.dao.RpTradePaymentRecordDao;
+import com.weii.pay.service.trade.dao.TradePaymentOrderMapper;
+import com.weii.pay.service.trade.dao.TradePaymentRecordMapper;
 import com.weii.pay.service.trade.entity.TradePaymentOrder;
 import com.weii.pay.service.trade.entity.TradePaymentRecord;
-import com.weii.pay.service.trade.enums.TradeStatusEnum;
 import com.weii.pay.service.trade.vo.OrderPayResultVo;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
-import com.weii.pay.service.user.api.UserPayConfigService;
-import com.weii.pay.service.user.entity.UserPayConfig;
-import com.weii.pay.service.user.exceptions.UserBizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +25,22 @@ import java.util.Map;
  * @date Created in 19:14 2018/5/12
  * @Description:
  */
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Service
 public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
     @Autowired
-    private RpTradePaymentRecordDao rpTradePaymentRecordDao;
+    private TradePaymentRecordMapper tradePaymentRecordMapper;
 
     @Autowired
-    private RpTradePaymentOrderDao rpTradePaymentOrderDao;
+    private TradePaymentOrderMapper tradePaymentOrderMapper;
 
-    @Autowired
-    private UserPayConfigService userPayConfigService;
+//    @Autowired
+//    private UserPayConfigService userPayConfigService;
 
     /**
      * 根据参数查询交易记录List
@@ -46,7 +49,7 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
      * @return
      */
     public List<TradePaymentRecord> listPaymentRecord(Map<String, Object> paramMap) {
-        return rpTradePaymentRecordDao.listByColumn(paramMap);
+        return tradePaymentRecordMapper.listByColumn(paramMap);
     }
 
     /**
@@ -61,23 +64,24 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
     @Override
     public OrderPayResultVo getPayResult(String payKey, String orderNo) {
 
-        UserPayConfig userPayConfig = userPayConfigService.getByPayKey(payKey);
-        if (userPayConfig == null) {
-            throw new UserBizException(UserBizException.USER_PAY_CONFIG_ERRPR, "用户支付配置有误");
-        }
-
-        String merchantNo = userPayConfig.getUserNo();// 商户编号
-        TradePaymentOrder tradePaymentOrder = rpTradePaymentOrderDao.selectByMerchantNoAndMerchantOrderNo(merchantNo, orderNo);
-
-        OrderPayResultVo orderPayResultVo = new OrderPayResultVo();// 返回结果
-        if (tradePaymentOrder != null && TradeStatusEnum.SUCCESS.name().equals(tradePaymentOrder.getStatus())) {// 支付记录为空,或者支付状态非成功
-            orderPayResultVo.setStatus(PublicEnum.YES.name());// 设置支付状态
-            orderPayResultVo.setOrderPrice(tradePaymentOrder.getOrderAmount());// 设置支付订单
-            orderPayResultVo.setProductName(tradePaymentOrder.getProductName());// 设置产品名称
-            orderPayResultVo.setReturnUrl(tradePaymentOrder.getReturnUrl());
-        }
-
-        return orderPayResultVo;
+//        UserPayConfig userPayConfig = userPayConfigService.getByPayKey(payKey);
+//        if (userPayConfig == null) {
+//            throw new UserBizException(UserBizException.USER_PAY_CONFIG_ERRPR, "用户支付配置有误");
+//        }
+//
+//        String merchantNo = userPayConfig.getUserNo();// 商户编号
+//        TradePaymentOrder tradePaymentOrder = tradePaymentOrderMapper.selectByMerchantNoAndMerchantOrderNo(merchantNo, orderNo);
+//
+//        OrderPayResultVo orderPayResultVo = new OrderPayResultVo();// 返回结果
+//        if (tradePaymentOrder != null && TradeStatusEnum.SUCCESS.name().equals(tradePaymentOrder.getStatus())) {// 支付记录为空,或者支付状态非成功
+//            orderPayResultVo.setStatus(PublicEnum.YES.name());// 设置支付状态
+//            orderPayResultVo.setOrderPrice(tradePaymentOrder.getOrderAmount());// 设置支付订单
+//            orderPayResultVo.setProductName(tradePaymentOrder.getProductName());// 设置产品名称
+//            orderPayResultVo.setReturnUrl(tradePaymentOrder.getReturnUrl());
+//        }
+//
+//        return orderPayResultVo;
+        return null;
     }
 
     /**
@@ -87,7 +91,7 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
      * @return
      */
     public TradePaymentRecord getRecordByBankOrderNo(String bankOrderNo) {
-        return rpTradePaymentRecordDao.getByBankOrderNo(bankOrderNo);
+        return tradePaymentRecordMapper.getByBankOrderNo(bankOrderNo);
     }
 
     /**
@@ -97,7 +101,7 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
      * @return
      */
     public TradePaymentRecord getRecordByTrxNo(String trxNo){
-        return rpTradePaymentRecordDao.getByTrxNo(trxNo);
+        return tradePaymentRecordMapper.getByTrxNo(trxNo);
     }
 
     /**
@@ -108,18 +112,27 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
      * @return
      */
     @Override
-    public PageBean<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
+    public PageInfo<TradePaymentOrder> listPaymentOrderPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
 
         Map<String , Object> paramMap = new HashMap<String , Object>();
-        paramMap.put("merchantNo",paymentOrderQueryVo.getMerchantNo());//商户编号
-        paramMap.put("merchantName",paymentOrderQueryVo.getMerchantName());//商户名称
-        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getMerchantOrderNo());//商户订单号
-        paramMap.put("fundIntoType",paymentOrderQueryVo.getFundIntoType());//资金流入类型
-        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getOrderDateBegin());//订单开始时间
-        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getOrderDateEnd());//订单结束时间
-        paramMap.put("payTypeName",paymentOrderQueryVo.getPayTypeName());//支付类型
-        paramMap.put("payWayName",paymentOrderQueryVo.getPayWayName());//支付类型
-        paramMap.put("status",paymentOrderQueryVo.getStatus());//支付状态
+        //商户编号
+        paramMap.put("merchantNo",paymentOrderQueryVo.getMerchantNo());
+        //商户名称
+        paramMap.put("merchantName",paymentOrderQueryVo.getMerchantName());
+        //商户订单号
+        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getMerchantOrderNo());
+        //资金流入类型
+        paramMap.put("fundIntoType",paymentOrderQueryVo.getFundIntoType());
+        //订单开始时间
+        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getOrderDateBegin());
+        //订单结束时间
+        paramMap.put("merchantOrderNo",paymentOrderQueryVo.getOrderDateEnd());
+        //支付类型
+        paramMap.put("payTypeName",paymentOrderQueryVo.getPayTypeName());
+        //支付类型
+        paramMap.put("payWayName",paymentOrderQueryVo.getPayWayName());
+        //支付状态
+        paramMap.put("status",paymentOrderQueryVo.getStatus());
 
         if (paymentOrderQueryVo.getOrderDateBegin() != null){
             paramMap.put("orderDateBegin", paymentOrderQueryVo.getOrderDateBegin());//支付状态
@@ -129,7 +142,14 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
             paramMap.put("orderDateEnd", paymentOrderQueryVo.getOrderDateEnd());//支付状态
         }
 
-        return rpTradePaymentOrderDao.listPage(pageParam,paramMap);
+
+        paramMap.put("pageFirst",1);
+        paramMap.put("pageSize",10);
+        PageHelper.startPage(1, 10);
+        final List<TradePaymentOrder> tradePaymentOrders = tradePaymentOrderMapper.listPage(paramMap);
+        PageInfo<TradePaymentOrder> result = new PageInfo<>(tradePaymentOrders);
+        return result;
+
     }
 
     /**
@@ -160,6 +180,9 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
             paramMap.put("orderDateEnd", paymentOrderQueryVo.getOrderDateEnd());//支付状态
         }
 
-        return rpTradePaymentRecordDao.listPage(pageParam,paramMap);
+        PageHelper.startPage(0,10);
+        tradePaymentRecordMapper.listPage(pageParam,paramMap);
+
+        return null;
     }
 }

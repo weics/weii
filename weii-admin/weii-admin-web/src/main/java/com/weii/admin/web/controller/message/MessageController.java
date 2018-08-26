@@ -1,23 +1,20 @@
-package com.weii.admin.web.controller;
+package com.weii.admin.web.controller.message;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.weii.common.pojo.WeiiResult;
 import com.weii.pay.common.core.enums.NotifyDestinationNameEnum;
-import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.message.api.TransactionMessageService;
 import com.weii.pay.service.message.entity.TransactionMessage;
 import com.weii.pay.service.message.enums.MessageStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

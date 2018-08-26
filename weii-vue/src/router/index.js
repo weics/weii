@@ -65,6 +65,30 @@ export const asyncRouterMap = [
       },
     ]
   },
+
+  {
+    path: '/trade',
+    component: Layout,
+    redirect: '/trade/',
+    name: '订单管理',
+    meta: {title: '订单管理', icon: 'tree'},
+    children: [
+      {
+        path: 'paymentorder',
+        name: '支付订单管理',
+        component: _import('trade/paymentorder'),
+        meta: {title: '支付订单管理', icon: 'example'},
+        menu: 'role'
+      },
+      {
+        path: 'paymentrecord',
+        name: '支付记录管理',
+        component: _import('trade/paymentrecord'),
+        meta: {title: '支付记录管理', icon: 'example'},
+        menu: 'role'
+      },
+    ]
+  },
   {
     path: '/user',
     component: Layout,

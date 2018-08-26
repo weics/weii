@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.roncoo.pay.service.trade.dao.impl.RpTradePaymentOrderDaoImpl" >
+<mapper namespace="com.weii.pay.service.trade.dao.TradePaymentOrderMapper" >
 
 
   <resultMap id="BaseResultMap" type="com.weii.pay.service.trade.entity.TradePaymentOrder" >
@@ -84,7 +84,6 @@
     <where>
       <include refid="condition_sql" />
     </where>
-    <![CDATA[ order by create_time desc limit #{pageFirst}, #{pageSize}]]>
   </select>
 
   <select id="listPageCount" parameterType="java.util.Map" resultType="long">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.roncoo.pay.service.trade.dao.impl.RpTradePaymentRecordDaoImpl">
+<mapper namespace="com.weii.pay.service.trade.dao.TradePaymentRecordMapper">
 
 	<resultMap id="BaseResultMap" type="com.weii.pay.service.trade.entity.TradePaymentRecord">
 		<id column="id" property="id" jdbcType="VARCHAR" />
@@ -719,12 +719,12 @@
 	</select>
 	
 	<!-- 生成支付流水号序列 -->
-	<select id="buildTrxNoSeq" resultType="java.lang.String">
+	<select id="buildTrxNo" resultType="java.lang.String">
     	select FUN_SEQ('TRX_NO_SEQ')
     </select>
     
     <!-- 生成支付流水号序列 -->
-	<select id="buildBankOrderNoSeq" resultType="java.lang.String">
+	<select id="buildBankOrderNo" resultType="java.lang.String">
     	select FUN_SEQ('BANK_ORDER_NO_SEQ')
     </select>
     

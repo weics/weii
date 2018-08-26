@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Repository("rpTradePaymentRecordDao")
 public class RpTradePaymentRecordDaoImpl extends BaseDaoImpl<TradePaymentRecord> implements RpTradePaymentRecordDao {
 	
 	/** 银行订单号 **/

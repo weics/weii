@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Repository("rpTradePaymentOrderDao")
+
 public class RpTradePaymentOrderDaoImpl extends BaseDaoImpl<TradePaymentOrder> implements RpTradePaymentOrderDao {
 	
 
