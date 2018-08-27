@@ -68,6 +68,6 @@ public interface TradePaymentQueryService {
      * @param paymentOrderQueryVo
      * @return
      */
-    public PageBean<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
+    public PageInfo<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam , PaymentOrderQueryVo paymentOrderQueryVo);
 
 }

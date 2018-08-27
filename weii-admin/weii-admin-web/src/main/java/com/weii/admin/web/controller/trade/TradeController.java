@@ -10,6 +10,7 @@ import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.trade.api.TradePaymentQueryService;
 import com.weii.pay.service.trade.entity.TradePaymentOrder;
+import com.weii.pay.service.trade.entity.TradePaymentRecord;
 import com.weii.pay.service.trade.enums.TradeStatusEnum;
 import com.weii.pay.service.trade.vo.PaymentOrderQueryVo;
 import com.weii.pay.service.user.enums.FundInfoTypeEnum;
@@ -54,18 +55,17 @@ public class TradeController {
 
 
     @RequestMapping(value = "/listPaymentRecord", method ={RequestMethod.POST,RequestMethod.GET})
-    public String listPaymentRecord(HttpServletRequest request,PaymentOrderQueryVo paymentOrderQueryVo,PageParam pageParam, Model model) {
-        PageBean pageBean = tradePaymentQueryService.listPaymentRecordPage(pageParam, paymentOrderQueryVo);
-        model.addAttribute("pageBean", pageBean);
-        model.addAttribute("pageParam", pageParam);
-        model.addAttribute("rpUserInfo",paymentOrderQueryVo);
+    public Object listPaymentRecord(HttpServletRequest request,PaymentOrderQueryVo paymentOrderQueryVo) {
+        final PageInfo<TradePaymentRecord> tradePaymentRecordPageInfo = tradePaymentQueryService.listPaymentRecordPage(null, paymentOrderQueryVo);
+        Map<String,Object> result = new HashMap<>(10);
+        result.put("pageBean", tradePaymentRecordPageInfo);
 
-        model.addAttribute("statusEnums", TradeStatusEnum.toMap());//状态
-        model.addAttribute("payWayNameEnums", PayWayEnum.toMap());//支付方式
-        model.addAttribute("payTypeNameEnums", PayTypeEnum.toMap());//支付类型
-        model.addAttribute("fundIntoTypeEnums", FundInfoTypeEnum.toMap());//支付类型
-        model.addAttribute("trxTypeEnums", TrxTypeEnum.toMap());//支付类型
-        return "trade/listPaymentRecord";
+        result.put("statusEnums", TradeStatusEnum.toList());//状态
+        result.put("payWayNameEnums", PayWayEnum.toList());//支付方式
+        result.put("payTypeNameEnums", PayTypeEnum.toList());//支付类型
+        result.put("fundIntoTypeEnums", FundInfoTypeEnum.toList());//支付类型
+        result.put("trxTypeEnums", TrxTypeEnum.toList());//支付类型
+        return  WeiiResult.ok(result);
     }
 
 }

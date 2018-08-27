@@ -1,7 +1,6 @@
 package com.weii.pay.service.trade.dao;
 
 import com.weii.pay.common.core.page.PageBean;
-import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.trade.entity.TradePaymentRecord;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +29,5 @@ public interface TradePaymentRecordMapper {
 
     TradePaymentRecord getByTrxNo(String trxNo);
 
-    PageBean<TradePaymentRecord> listPage(PageParam pageParam, Map<String,Object> paramMap);
+    List<TradePaymentRecord> listPage(Map<String,Object> paramMap);
 }

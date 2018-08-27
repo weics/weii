@@ -51,7 +51,7 @@
         </el-form-item>
 
 
-        <el-button type="primary" size="mini" @click="getMessageListDataBySearch()" plain >查询</el-button>
+        <el-button type="primary" size="mini" @click="getPayOrderSearchData()" plain >查询</el-button>
         <el-button type="primary" size="mini" plain >重置查询条件</el-button>
       </el-form>
     </el-header>
@@ -88,22 +88,10 @@
   import { mapState, mapMutations } from 'vuex'
   import {formatTimeStr} from '../../utils/index'
   export default {
-    name: 'device',
-    computed: {
-      ...mapState({
-        user: state => state.user,
-        count:state =>state.deviceList.count,
-        tempMutileDeviceList: state => state.deviceList.tempMutileDeviceList
-      })
-    },
+    name: 'payorder',
     data() {
       return {
         listLoading: false,
-        modelVisible: {
-          Qrcode: false,
-          excel: false,
-          transferDevice: false
-        },
         payOrderListData:[],
         payOrderInfo:{
           statusEnums : {},
@@ -126,11 +114,7 @@
           payTypeName : '',
           fundIntoType :'',
         },
-
-        messageStatus : [],
         queues : [],
-        fileList: [],
-        multipleSelectionDevices: [],
         paginationOption: {
           total: 0
         },
@@ -138,8 +122,6 @@
         uploadExcelHeaders: {
           'Access-Control-Allow-Origin': '*'
         },
-        deletePermission: false,
-        uploadExcelPermission: false
       }
     },
     mounted() {
@@ -148,29 +130,6 @@
 
     },
     methods: {
-      ...mapMutations({
-        setMutileDeviceList: 'SET_MUTILE_DEVICE_LIST',
-        resetMutileDeviceList: 'RESET_SET_MUTILE_DEVICE_LIST'
-      }),
-      toggleRowSelection(row, data) {
-        this.$refs.deviceListTable.toggleRowSelection(data, row+1)
-      },
-      // 上传excel成功回调
-      // 显示设备转移对话框
-
-      // 处理appId 列表数据
-      handleApplistData(data) {
-        this.appIdList = this.appIdList.concat(data)
-      },
-      // 判断用户权限
-
-
-
-      // 分页改变
-      handleCurrentTablePageChange(page) {
-        this.getDeviceListParams.page = page
-        this.getDeviceListData()
-      },
 
       // 获取设备列表
       getPayOrderListData() {
@@ -180,23 +139,21 @@
           method: 'get',
         }).then(data => {
           this.listLoading = false;
-
           this.handlePayOrderListData(data.data)
-
         })
       },
 
 
-      getMListDataBySearch(){
+      getPayOrderSearchData(){
         this.listLoading = true;
         this.api({
-          url: '/message/search',
+          url: '/trade/search',
           method: 'post',
           params: this.messageInfoParam,
         }).then(data => {
           this.listLoading = false;
 
-          this.handleMessageListData(data.data)
+          this.handlePayOrderListData(data.data)
         })
       },
 
@@ -216,65 +173,23 @@
         this.payOrderInfo.fundIntoTypeEnums = data.fundIntoTypeEnums;
         this.payOrderInfo.payTypeNameEnums = data.payTypeNameEnums;
         this.payOrderInfo.payWayNameEnums = data.payWayNameEnums;
-
         var temp = this.payOrderInfo.payWayNameEnums;
-
         var status = [];
-
         for(let i = 0, len = temp.length; i < len; i++){
           status[temp[i].name] = temp[i].desc;
         }
-
-
         for (let i = 0, len = payOrderList.length; i < len; i++) {
-
           payOrderList[i].orderTime = formatTimeStr(payOrderList[i].orderTime);
           payOrderList[i].orderDate = formatTimeStr(payOrderList[i].orderDate);
           payOrderList[i].editTime = formatTimeStr(payOrderList[i].editTime);
           payOrderList[i].createTime = formatTimeStr(payOrderList[i].createTime);
           payOrderList[i].editTime = formatTimeStr(payOrderList[i].editTime);
-
-
           payOrderList[i].payWayName = status[payOrderList[i].payWayName];
         }
-
-
-
         this.payOrderListData = payOrderList;
 
       },
 
-
-
-
-      uniqueArray(arr, name) {
-        var arrItem = {}
-        arr = arr.reduce(function(item, next) {
-          arrItem[next[name]]
-            ? ''
-            : (arrItem[next[name]] = true && item.push(next))
-          return item
-        }, [])
-        return arr
-      },
-      // 显示选择的表格行
-      showSelectRowSelection() {
-        let { deviceListData, tempMutileDeviceList } = this
-        // const len = deviceListData.length,
-        //   l = multipleSelectionDevices.length;
-        tempMutileDeviceList = tempMutileDeviceList[this.getDeviceListParams.page]
-        if (tempMutileDeviceList) {
-          deviceListData.forEach((element, index) => {
-            tempMutileDeviceList.forEach(device => {
-              if (device.machineId === element.machineId) {
-                this.$nextTick(function() {
-                  this.toggleRowSelection(index, element)
-                })
-              }
-            })
-          })
-        }
-      }
     }
   }
 </script>

@@ -708,7 +708,6 @@
 		<where>
 			<include refid="condition_sql" />
 		</where>
-		<![CDATA[ order by create_time desc  limit #{pageFirst}, #{pageSize}]]>
 	</select>
 
 	<select id="listPageCount" parameterType="java.util.Map" resultType="long">

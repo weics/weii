@@ -160,7 +160,7 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
      * @return
      */
     @Override
-    public PageBean<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
+    public PageInfo<TradePaymentRecord> listPaymentRecordPage(PageParam pageParam, PaymentOrderQueryVo paymentOrderQueryVo) {
         Map<String , Object> paramMap = new HashMap<String , Object>();
         paramMap.put("merchantNo",paymentOrderQueryVo.getMerchantNo());//商户编号
         paramMap.put("merchantName",paymentOrderQueryVo.getMerchantName());//商户名称
@@ -180,9 +180,11 @@ public class TradePaymentQueryServiceImpl implements TradePaymentQueryService {
             paramMap.put("orderDateEnd", paymentOrderQueryVo.getOrderDateEnd());//支付状态
         }
 
-        PageHelper.startPage(0,10);
-        tradePaymentRecordMapper.listPage(pageParam,paramMap);
-
-        return null;
+        paramMap.put("pageFirst",1);
+        paramMap.put("pageSize",10);
+        PageHelper.startPage(1, 10);
+        final List<TradePaymentRecord> tradePaymentRecords = tradePaymentRecordMapper.listPage(paramMap);
+        PageInfo<TradePaymentRecord> result = new PageInfo<>(tradePaymentRecords);
+        return result;
     }
 }
