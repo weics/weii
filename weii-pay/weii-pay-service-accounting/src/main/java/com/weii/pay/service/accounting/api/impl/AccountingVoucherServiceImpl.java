@@ -5,6 +5,7 @@ package com.weii.pay.service.accounting.api.impl;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.accounting.api.AccountingVoucherService;
+import com.weii.pay.service.accounting.dao.AccountingVoucherMapper;
 import com.weii.pay.service.accounting.dao.RpAccountingVoucherDao;
 import com.weii.pay.service.accounting.entity.AccountingVoucher;
 import org.apache.commons.lang.StringUtils;
@@ -20,14 +21,18 @@ import java.util.Map;
  * @author WuShuicheng.
  *
  */
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@Service("rpAccountingVoucherService")
+@com.alibaba.dubbo.config.annotation.Service(
+		application = "${dubbo.application.id}",
+		protocol = "${dubbo.protocol.id}",
+		registry = "${dubbo.registry.id}"
+)
+@Service("accountingVoucherService")
 public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	
 	private static final Log LOG = LogFactory.getLog(AccountingVoucherServiceImpl.class);
 	
 	@Autowired
-	private RpAccountingVoucherDao rpAccountingVoucherDao;
+	private AccountingVoucherMapper accountingVoucherMapper;
 	
 
 	/**
@@ -59,7 +64,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 			String requestNo, String bankChannelCode, String bankAccount, int fromSystem, String remark, String bankOrderNo,
 			int payerAccountType, double payAmount, int receiverAccountType, double payerFee, double receiverFee) {
 		
-		AccountingVoucher accountingVoucher = rpAccountingVoucherDao.getDataByVoucherNoFromSystem(entryType, voucherNo, fromSystem);
+		AccountingVoucher accountingVoucher = accountingVoucherMapper.getDataByVoucherNoFromSystem(entryType, voucherNo, fromSystem);
 		if(accountingVoucher != null){
 			LOG.info("data is exist,voucherNo="+voucherNo);
 			return ;
@@ -69,7 +74,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 			requestNo = getRequestNo(entryType);
 		}
 
-		rpAccountingVoucherDao.createAccountingVoucher(entryType, voucherNo, payerAccountNo, receiverAccountNo, payerChangeAmount,
+		accountingVoucherMapper.createAccountingVoucher(entryType, voucherNo, payerAccountNo, receiverAccountNo, payerChangeAmount,
 				receiverChangeAmount, income, cost, profit, bankChangeAmount, requestNo, bankChannelCode, bankAccount, fromSystem, remark,
 				bankOrderNo, payerAccountType, payAmount, receiverAccountType, payerFee, receiverFee);
 	}
@@ -80,7 +85,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	 * @return requestNo.
 	 */
 	public String getRequestNo(int entryType) {
-		String requestNo = rpAccountingVoucherDao.buildAccountingVoucherNo(entryType);
+		String requestNo = accountingVoucherMapper.buildAccountingVoucherNo(entryType);
 		return requestNo;
 	}
 	
@@ -90,7 +95,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	 * @return
 	 */
 	public AccountingVoucher getBy(Map<String, Object> map) {
-		AccountingVoucher note = rpAccountingVoucherDao.getBy(map);
+		AccountingVoucher note = accountingVoucherMapper.getBy(map);
 
 		return note;
 	}
@@ -102,13 +107,13 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	 */
 	@SuppressWarnings("rawtypes")
 	public Map getMapBy(Map<String, Object> searchMap) {
-		return rpAccountingVoucherDao.getMapBy(searchMap);
+		return accountingVoucherMapper.getMapBy(searchMap);
 	}
 
 	@Override
 	public PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) {
 
-		return rpAccountingVoucherDao.listPage(pageParam, paramMap);
+		return accountingVoucherMapper.listPage(pageParam, paramMap);
 	}
 	
 	/**
@@ -116,7 +121,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	 * @param requestNo
 	 */
 	public AccountingVoucher getAccountingVoucherByRequestNo(String requestNo){
-		AccountingVoucher entity = rpAccountingVoucherDao.findByRequestNo(requestNo);
+		AccountingVoucher entity = accountingVoucherMapper.findByRequestNo(requestNo);
 
 		return entity;
 	}
@@ -126,7 +131,7 @@ public class AccountingVoucherServiceImpl implements AccountingVoucherService {
 	 * @param entity
 	 */
 	public void updateAccountingVoucher(AccountingVoucher entity){
-		rpAccountingVoucherDao.update(entity);
+		accountingVoucherMapper.update(entity);
 	}
 	
 	

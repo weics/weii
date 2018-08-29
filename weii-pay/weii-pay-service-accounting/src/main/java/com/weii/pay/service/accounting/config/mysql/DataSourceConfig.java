@@ -1,4 +1,4 @@
-package com.weii.pay.service.account.config.mysql;
+package com.weii.pay.service.accounting.config.mysql;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -20,8 +20,9 @@ import javax.sql.DataSource;
  * @Description:
  * @Modified By:
  */
+
 @Configuration
-@MapperScan(basePackages = "com.weii.pay.service.account.dao" ,sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.weii.pay.service.accounting.dao" ,sqlSessionTemplateRef = "sqlSessionTemplate")
 public class DataSourceConfig {
 
     @Bean("dataSource")
@@ -36,7 +37,7 @@ public class DataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources("classpath:mybatis/mapper/account/*.xml"));
+                .getResources("classpath:mybatis/mapper/accounting/*.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
@@ -53,3 +54,4 @@ public class DataSourceConfig {
 
 
 }
+

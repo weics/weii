@@ -16,7 +16,7 @@ import java.util.Map;
  * @date Created in 11:58 2018/5/12
  * @Description:
  */
-public class RpAccountingVoucherDaoImpl extends BaseDaoImpl<AccountingVoucher> implements RpAccountingVoucherDao {
+public class AccountingVoucherDaoImpl extends BaseDaoImpl<AccountingVoucher> implements RpAccountingVoucherDao {
 
     /**
      * 创建会计分录原始凭证信息.

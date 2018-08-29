@@ -8,6 +8,8 @@ import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.service.account.api.AccountQueryService;
 
+import com.weii.pay.service.account.dao.AccountHistoryMapper;
+import com.weii.pay.service.account.dao.AccountMapper;
 import com.weii.pay.service.account.dao.RpAccountDao;
 import com.weii.pay.service.account.dao.RpAccountHistoryDao;
 import com.weii.pay.service.account.entity.RpAccount;
@@ -25,13 +27,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@Service("rpAccountQueryService")
+@com.alibaba.dubbo.config.annotation.Service(
+		application = "${dubbo.application.id}",
+		protocol = "${dubbo.protocol.id}",
+		registry = "${dubbo.registry.id}"
+)
+@Service("accountQueryService")
 public class AccountQueryServiceImpl implements AccountQueryService {
 	@Autowired
-	private RpAccountDao rpAccountDao;
+	private AccountMapper accountMapper;
 	@Autowired
-	private RpAccountHistoryDao rpAccountHistoryDao;
+	private AccountHistoryMapper accountHistoryMapper;
 
 	private static final Logger LOG = LoggerFactory.getLogger(AccountQueryServiceImpl.class);
 
@@ -44,13 +50,13 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 	 */
 	public RpAccount getAccountByAccountNo(String accountNo) {
 		LOG.info("根据账户编号查询账户信息");
-		RpAccount account = this.rpAccountDao.getByAccountNo(accountNo);
+		RpAccount account = this.accountMapper.getByAccountNo(accountNo);
 		// 不是同一天直接清0
 		if (!DateUtils.isSameDayWithToday(account.getEditTime())) {
 			account.setTodayExpend(BigDecimal.ZERO);
 			account.setTodayIncome(BigDecimal.ZERO);
 			account.setEditTime(new Date());
-			rpAccountDao.update(account);
+			accountMapper.update(account);
 		}
 		return account;
 	}
@@ -66,7 +72,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userNo", userNo);
 		LOG.info("根据用户编号查询账户信息");
-		RpAccount account = this.rpAccountDao.getBy(map);
+		RpAccount account = this.accountMapper.getBy(map);
 		if (account == null) {
 			throw AccountBizException.ACCOUNT_NOT_EXIT;
 		}
@@ -75,7 +81,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 			account.setTodayExpend(BigDecimal.ZERO);
 			account.setTodayIncome(BigDecimal.ZERO);
 			account.setEditTime(new Date());
-			rpAccountDao.update(account);
+			accountMapper.update(account);
 		}
 		return account;
 	}
@@ -86,7 +92,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 	public PageBean queryAccountHistoryListPage(PageParam pageParam, String accountNo){
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("accountNo", accountNo);
-		return rpAccountDao.listPage(pageParam, params);
+		return accountMapper.listPage(pageParam, params);
 	}
 
 	/**
@@ -97,7 +103,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 		if (StringUtils.isBlank(accountType)) {
 			throw AccountBizException.ACCOUNT_TYPE_IS_NULL;
 		}
-		return rpAccountDao.listPage(pageParam, params);
+		return accountMapper.listPage(pageParam, params);
 
 	}
 
@@ -117,7 +123,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 		map.put("accountNo", accountNo);
 		map.put("requestNo", requestNo);
 		map.put("trxType", trxType);
-		return rpAccountHistoryDao.getBy(map);
+		return accountHistoryMapper.getBy(map);
 	}
 
 	/**
@@ -140,7 +146,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 		params.put("statDate", statDate);
 		params.put("riskDay", riskDay);
 		params.put("fundDirection", fundDirection);
-		return rpAccountHistoryDao.listDailyCollectAccountHistoryVo(params);
+		return accountHistoryMapper.listDailyCollectAccountHistoryVo(params);
 
 	}
 
@@ -152,11 +158,10 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 	 * @param params
 	 *            查询参数，可以为null.
 	 * @return AccountList.
-	 * @throws BizException
 	 */
 	public PageBean queryAccountListPage(PageParam pageParam, Map<String, Object> params) {
 
-		return rpAccountDao.listPage(pageParam, params);
+		return accountMapper.listPage(pageParam, params);
 	}
 
 	/**
@@ -170,7 +175,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 	 */
 	public PageBean queryAccountHistoryListPage(PageParam pageParam, Map<String, Object> params) {
 
-		return rpAccountHistoryDao.listPage(pageParam, params);
+		return accountHistoryMapper.listPage(pageParam, params);
 	}
 	
     /**
@@ -181,7 +186,7 @@ public class AccountQueryServiceImpl implements AccountQueryService {
     public List<RpAccount> listAll(){
     	Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("status", PublicStatusEnum.ACTIVE.name());
-		return rpAccountDao.listBy(paramMap);
+		return accountMapper.listBy(paramMap);
 	}
 
 }

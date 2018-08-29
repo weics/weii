@@ -6,8 +6,8 @@ import com.weii.pay.common.core.enums.TrxTypeEnum;
 import com.weii.pay.common.core.utils.DateUtils;
 import com.weii.pay.common.core.utils.StringUtil;
 import com.weii.pay.service.account.api.AccountTransactionService;
-import com.weii.pay.service.account.dao.RpAccountDao;
-import com.weii.pay.service.account.dao.RpAccountHistoryDao;
+import com.weii.pay.service.account.dao.AccountHistoryMapper;
+import com.weii.pay.service.account.dao.AccountMapper;
 import com.weii.pay.service.account.entity.RpAccount;
 import com.weii.pay.service.account.entity.RpAccountHistory;
 import com.weii.pay.service.account.enums.AccountFundDirectionEnum;
@@ -23,16 +23,21 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@Service("rpAccountTransactionService")
+
+@com.alibaba.dubbo.config.annotation.Service(
+		application = "${dubbo.application.id}",
+		protocol = "${dubbo.protocol.id}",
+		registry = "${dubbo.registry.id}"
+)
+@Service("accountTransactionService")
 public class AccountTransactionServiceImpl implements AccountTransactionService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AccountTransactionServiceImpl.class);
 
 	@Autowired
-	private RpAccountDao rpAccountDao;
+	private AccountMapper accountMapper;
 	@Autowired
-	private RpAccountHistoryDao rpAccountHistoryDao;
+	private AccountHistoryMapper accountHistoryMapper;
 	
 	
 
@@ -49,7 +54,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userNo", userNo);
 		map.put("isPessimist", isPessimist);
-		return rpAccountDao.getByUserNo(map);
+		return accountMapper.getByUserNo(map);
 	}
 
 	/**
@@ -140,8 +145,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		accountHistoryEntity.setUserNo(userNo);
 		accountHistoryEntity.setStatus(AccountHistoryStatusEnum.CONFORM.name());
 
-		this.rpAccountHistoryDao.insert(accountHistoryEntity);
-		this.rpAccountDao.update(account);
+		this.accountHistoryMapper.insert(accountHistoryEntity);
+		this.accountMapper.update(account);
 		LOG.info("账户加款成功，并记录了账户历史");
 		return account;
 	}
@@ -226,8 +231,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		accountHistoryEntity.setTrxType(trxType);
 		accountHistoryEntity.setId(StringUtil.get32UUID());
 		accountHistoryEntity.setUserNo(userNo);
-		this.rpAccountHistoryDao.insert(accountHistoryEntity);
-		this.rpAccountDao.update(account);
+		this.accountHistoryMapper.insert(accountHistoryEntity);
+		this.accountMapper.update(account);
 		return account;
 	}
 
@@ -253,7 +258,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 			throw AccountBizException.ACCOUNT_FROZEN_AMOUNT_OUTLIMIT;
 		}
 		account.setUnbalance(account.getUnbalance().add(freezeAmount));
-		this.rpAccountDao.update(account);
+		this.accountMapper.update(account);
 		return account;
 	}
 
@@ -316,8 +321,8 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		accountHistoryEntity.setAccountNo(account.getAccountNo());
 		accountHistoryEntity.setTrxType(trxType);
 		accountHistoryEntity.setUserNo(userNo);
-		this.rpAccountHistoryDao.insert(accountHistoryEntity);
-		this.rpAccountDao.update(account);
+		this.accountHistoryMapper.insert(accountHistoryEntity);
+		this.accountMapper.update(account);
 		return account;
 	}
 
@@ -352,7 +357,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		account.setEditTime(new Date());
 		account.setUnbalance(account.getUnbalance().subtract(amount));// 解冻
 
-		this.rpAccountDao.update(account);
+		this.accountMapper.update(account);
 		return account;
 	}
 
@@ -384,11 +389,11 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 		params.put("accountNo", account.getAccountNo());
 		params.put("statDate", collectDate);
 		params.put("riskDay", riskDay);
-		rpAccountHistoryDao.updateCompleteSettTo100(params);
+		accountHistoryMapper.updateCompleteSettTo100(params);
 
 		// 账户可结算金额的累加
 		account.setSettAmount(account.getSettAmount().add(totalAmount));
-		rpAccountDao.update(account);
+		accountMapper.update(account);
 		LOG.info("==>settCollectSuccess<==");
 	}
 }

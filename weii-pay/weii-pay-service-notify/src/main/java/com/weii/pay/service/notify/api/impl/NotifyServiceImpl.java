@@ -4,6 +4,8 @@ package com.weii.pay.service.notify.api.impl;
 import com.weii.pay.common.core.page.PageBean;
 import com.weii.pay.common.core.page.PageParam;
 import com.weii.pay.service.notify.api.NotifyService;
+import com.weii.pay.service.notify.dao.NotifyRecordLogMapper;
+import com.weii.pay.service.notify.dao.NotifyRecordMapper;
 import com.weii.pay.service.notify.dao.RpNotifyRecordDao;
 import com.weii.pay.service.notify.dao.RpNotifyRecordLogDao;
 import com.weii.pay.service.notify.entity.NotifyRecord;
@@ -15,17 +17,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@Service("rpNotifyService")
+@com.alibaba.dubbo.config.annotation.Service(
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
+@Service("notifyService")
 public class NotifyServiceImpl implements NotifyService {
 
 
 
     @Autowired
-    private RpNotifyRecordDao rpNotifyRecordDao;
+    private NotifyRecordMapper notifyRecordMapper;
 
     @Autowired
-    private RpNotifyRecordLogDao rpNotifyRecordLogDao;
+    private NotifyRecordLogMapper notifyRecordLogMapper;
     /**
      * 发送消息通知
      *
@@ -63,7 +69,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public NotifyRecord getNotifyRecordById(String id) {
-        return rpNotifyRecordDao.getById(id);
+        return notifyRecordMapper.getById(id);
     }
 
     /**
@@ -76,12 +82,12 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public NotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyType) {
-        return rpNotifyRecordDao.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(merchantNo,merchantOrderNo,notifyType);
+        return notifyRecordMapper.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(merchantNo,merchantOrderNo,notifyType);
     }
 
     @Override
     public PageBean<NotifyRecord> queryNotifyRecordListPage(PageParam pageParam, Map<String, Object> paramMap) {
-        return rpNotifyRecordDao.listPage(pageParam,paramMap);
+        return notifyRecordMapper.listPage(pageParam,paramMap);
     }
 
     /**
@@ -91,7 +97,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public long createNotifyRecord(NotifyRecord notifyRecord) {
-        return rpNotifyRecordDao.insert(notifyRecord);
+        return notifyRecordMapper.insert(notifyRecord);
     }
 
     /**
@@ -101,7 +107,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public void updateNotifyRecord(NotifyRecord notifyRecord) {
-        rpNotifyRecordDao.update(notifyRecord);
+        notifyRecordMapper.update(notifyRecord);
     }
 
     /**
@@ -112,7 +118,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public long createNotifyRecordLog(NotifyRecordLog notifyRecordLog) {
-        return rpNotifyRecordLogDao.insert(notifyRecordLog);
+        return notifyRecordLogMapper.insert(notifyRecordLog);
     }
 
 
