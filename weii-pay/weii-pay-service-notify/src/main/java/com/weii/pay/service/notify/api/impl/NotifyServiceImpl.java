@@ -22,6 +22,7 @@ import java.util.Map;
         protocol = "${dubbo.protocol.id}",
         registry = "${dubbo.registry.id}"
 )
+
 @Service("notifyService")
 public class NotifyServiceImpl implements NotifyService {
 
